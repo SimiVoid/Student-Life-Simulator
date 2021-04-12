@@ -1,9 +1,12 @@
-#include <iostream>
-#include <iomanip>
+#ifndef _DEBUG
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+#endif
 
 #include <TGUI/TGUI.hpp>
 
 #include "Simulation.h"
+
+void setupMenu(tgui::GuiSFML& gui);
 
 int main(int argc, char* argv[]) {
 	Simulation* simulation = nullptr;
@@ -12,13 +15,15 @@ int main(int argc, char* argv[]) {
 	window.setFramerateLimit(60);
 	
 	tgui::GuiSFML gui(window);
+
+	setupMenu(gui);
 	
 	//TODO: make gui menu
 
 	//TODO: async window drawing and simulation working
 
 	while(window.isOpen()) {
-		sf::Event event;
+		sf::Event event{};
 
 		while(window.pollEvent(event)) {
 			gui.handleEvent(event);
@@ -37,4 +42,11 @@ int main(int argc, char* argv[]) {
 	delete simulation;
 	
 	return 0;
+}
+
+void setupMenu(tgui::GuiSFML& gui) {
+	auto exitButton = tgui::Button::create("Exit");
+	exitButton->setSize(tgui::Layout2d(180, 40));
+	exitButton->setPosition(tgui::Layout2d(5, 555));
+	gui.add(exitButton);
 }
