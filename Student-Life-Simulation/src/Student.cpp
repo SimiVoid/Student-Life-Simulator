@@ -7,7 +7,7 @@ bool Student::isSleeping() const {
 	return m_isSleeping;
 }
 
-uint16_t Student::getIntoxcination() const {
+uint16_t Student::getIntoxication() const {
 	return m_intoxcination;
 }
 

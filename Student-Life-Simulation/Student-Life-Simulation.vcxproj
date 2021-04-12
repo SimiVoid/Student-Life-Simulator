@@ -167,6 +167,7 @@
     <ClCompile Include="src\Simulation.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Student.cpp" />
+    <ClCompile Include="src\StudentStatus.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BoardStatus.h" />
@@ -175,7 +176,6 @@
     <ClInclude Include="src\BoardField.h" />
     <ClInclude Include="src\Board.h" />
     <ClInclude Include="src\Simulation.h" />
-    <ClInclude Include="src\StudentStatus.h" />
     <ClInclude Include="src\Student.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

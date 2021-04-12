@@ -2,13 +2,10 @@
 
 #include <cstdint>
 
-enum class StudentStatus {
-	OnStudies,
-	Failed,
-	Passed
-};
+#include "Agent.h"
+#include "StudentStatus.h"
 
-class Student
+class Student : protected Agent
 {
 	bool m_isSleeping;
 	uint16_t m_intoxcination;
@@ -19,19 +16,21 @@ class Student
 	uint16_t m_sleepingRounds;
 	StudentStatus m_status;
 
-	public:
-		Student();
-		[[nodiscard]] bool isSleeping() const;
-		[[nodiscard]] uint16_t getIntoxcination() const;
-		[[nodiscard]] uint16_t getKnowledge() const;
-		[[nodiscard]] uint16_t getFailedExams() const;
-		[[nodiscard]] uint16_t getPassedExams() const;
-		[[nodiscard]] uint16_t getAlcoholResistance() const;
-		[[nodiscard]] uint16_t getSleepingRounds() const;
-		[[nodiscard]] StudentStatus getStatus() const;
-		void failExam();
-		void passExam();
-		void sleepNextRound();
-		void soberUp();
+public:
+	Student();
+	~Student() = default;
+	
+	[[nodiscard]] bool isSleeping() const;
+	[[nodiscard]] uint16_t getIntoxication() const;
+	[[nodiscard]] uint16_t getKnowledge() const;
+	[[nodiscard]] uint16_t getFailedExams() const;
+	[[nodiscard]] uint16_t getPassedExams() const;
+	[[nodiscard]] uint16_t getAlcoholResistance() const;
+	[[nodiscard]] uint16_t getSleepingRounds() const;
+	[[nodiscard]] StudentStatus getStatus() const;
+	void failExam();
+	void passExam();
+	void sleepNextRound();
+	void soberUp();
 };
 
