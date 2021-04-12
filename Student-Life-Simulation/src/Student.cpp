@@ -8,7 +8,7 @@ bool Student::isSleeping() const {
 }
 
 uint16_t Student::getIntoxication() const {
-	return m_intoxcination;
+	return m_intoxication;
 }
 
 uint16_t Student::getKnowledge() const {
@@ -31,7 +31,7 @@ uint16_t Student::getSleepingRounds() const {
 	return m_sleepingRounds;
 }
 
-StudentStatus Student::getStatus() const {
+Student::Status Student::getStatus() const {
 	return m_status;
 }
 
