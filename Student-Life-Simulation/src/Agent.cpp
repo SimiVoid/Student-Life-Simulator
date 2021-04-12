@@ -13,5 +13,5 @@ uint16_t Agent::getId() const {
 void Agent::draw(sf::RenderWindow windows, bool isSingle) {
 }
 
-void Agent::move(Board board) {
+void Agent::move(uint16_t boardSize) {
 }

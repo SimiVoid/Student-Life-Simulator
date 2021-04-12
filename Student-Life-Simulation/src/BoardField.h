@@ -2,7 +2,6 @@
 
 #include <SFML/Graphics.hpp>
 #include <list>
-#include <cstdint>
 
 #include "Agent.h"
 
