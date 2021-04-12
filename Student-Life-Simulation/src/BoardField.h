@@ -1,5 +1,20 @@
 #pragma once
 
-class BoardField
-{
+#include <SFML/Graphics.hpp>
+#include <list>
+
+#include "Agent.h"
+
+class BoardField {
+	std::list<uint16_t> m_agentIds;
+	sf::Vector2i m_position;
+
+public:
+	explicit BoardField(sf::Vector2i position);
+	~BoardField() = default;
+
+	[[no_discard]] std::list<uint16_t> getAgentIds() const;
+	[[no_discard]] sf::Vector2i getPosition() const;
+	void setAgentIds(std::list<uint16_t> agentIds);
+	void draw(sf::RenderWindow& window, std::list<Agent> agents);
 };
