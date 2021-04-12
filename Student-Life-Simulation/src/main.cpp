@@ -1,11 +1,12 @@
-#ifndef _DEBUG
-#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
-#endif
+#include <iostream>
+#include <iomanip>
 
 #include "Simulation.h"
 
 int main(int argc, char* argv[]) {
-	
+	//TODO: make console 
+
+	//TODO: async window drawing and simulation working
 	
 	return 0;
 }
