@@ -20,4 +20,3 @@ public:
 	void draw(sf::RenderWindow windows, bool isSingle = true);
 	void move(Board board);
 };
-
