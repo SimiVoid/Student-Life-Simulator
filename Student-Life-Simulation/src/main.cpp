@@ -11,8 +11,6 @@
 int main(int argc, char* argv[]) {
 	Simulation* simulation = nullptr;
 
-	srand(time(NULL));
-
 	sf::RenderWindow window(sf::VideoMode(1200, 1000), "Student Life Simulator", sf::Style::Close);
 	window.setFramerateLimit(60);
 	
