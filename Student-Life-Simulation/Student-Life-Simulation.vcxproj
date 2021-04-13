@@ -168,7 +168,6 @@
     <ClCompile Include="src\Simulation.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Student.cpp" />
-    <ClCompile Include="src\Util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\BoardStatus.h" />
