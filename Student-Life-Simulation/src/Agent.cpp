@@ -2,9 +2,9 @@
 
 uint16_t Agent::idCounter;
 
-Agent::Agent() {
-	m_id = idCounter;
-	idCounter++;
+Agent::Agent()
+	:m_id(idCounter++) {
+
 }
 
 sf::Vector2i Agent::getPosition() const {

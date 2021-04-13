@@ -1,8 +1,7 @@
 #pragma once
 
-#include <cstdint>
-
 #include "Agent.h"
+#include "Util.h"
 
 class Student : protected Agent
 {
@@ -14,17 +13,17 @@ public:
 	};
 
 private:
-	bool m_isSleeping;
-	uint16_t m_intoxication;
+	bool m_isSleeping{};
+	uint16_t m_intoxication{};
 	uint16_t m_knowledge;
-	uint16_t m_failedExams;
-	uint16_t m_passedExams;
+	uint16_t m_failedExams{};
+	uint16_t m_passedExams{};
 	uint16_t m_alcoholResistance;
-	uint16_t m_sleepingRounds;
+	uint16_t m_sleepingRounds{};
 	Status m_status;
 
 public:
-	Student(std::pair<uint16_t, uint16_t> knowledgeRange, std::pair<uint16_t, uint16_t> alcoholResistanceRange);
+	explicit Student(std::pair<uint16_t, uint16_t> knowledgeRange, std::pair<uint16_t, uint16_t> alcoholResistanceRange);
 	~Student() = default;
 	
 	[[nodiscard]] bool isSleeping() const;
