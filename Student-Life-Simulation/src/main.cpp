@@ -10,7 +10,7 @@
 int main(int argc, char* argv[]) {
 	Simulation* simulation = nullptr;
 
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Student Life Simulator", sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode(1200, 1000), "Student Life Simulator", sf::Style::Close);
 	window.setFramerateLimit(60);
 	
 	tgui::GuiSFML gui(window);
@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	sf::RectangleShape menuBackground(sf::Vector2f(200, 600));
+	sf::RectangleShape menuBackground(sf::Vector2f(200, 1000));
 	menuBackground.setFillColor(sf::Color::White);
 	menuBackground.setPosition(0, 0);
 	
