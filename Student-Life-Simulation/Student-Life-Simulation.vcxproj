@@ -164,6 +164,7 @@
     <ClCompile Include="src\Agent.cpp" />
     <ClCompile Include="src\BoardField.cpp" />
     <ClCompile Include="src\Board.cpp" />
+    <ClCompile Include="src\Menu.cpp" />
     <ClCompile Include="src\Simulation.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Student.cpp" />
@@ -174,6 +175,7 @@
     <ClInclude Include="src\Agent.h" />
     <ClInclude Include="src\BoardField.h" />
     <ClInclude Include="src\Board.h" />
+    <ClInclude Include="src\Menu.h" />
     <ClInclude Include="src\Simulation.h" />
     <ClInclude Include="src\Student.h" />
   </ItemGroup>
