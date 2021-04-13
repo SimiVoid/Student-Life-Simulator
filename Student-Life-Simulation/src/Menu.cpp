@@ -95,6 +95,7 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation& simulat
 	studentKnowledgeRangeSlider->setPosition((tgui::Layout2d(15, 425)));
 	studentKnowledgeRangeSlider->setStep(1);
 	studentKnowledgeRangeSlider->setSelectionEnd(100);
+	studentKnowledgeRangeSlider->onRangeChange(rangeSliderOnRangeChange, studentKnowledgeRangeSlider, studentKnowledgeRangeSliderText, "Students knowledge:\n");
 	gui.add(studentKnowledgeRangeSlider);
 
 	auto studentAlcoholResistanceRangeSliderText = tgui::Label::create("Alcohol resistance:\n1 - 100");
@@ -109,6 +110,7 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation& simulat
 	studentAlcoholResistanceRangeSlider->setPosition((tgui::Layout2d(15, 525)));
 	studentAlcoholResistanceRangeSlider->setStep(1);
 	studentAlcoholResistanceRangeSlider->setSelectionEnd(100);
+	studentAlcoholResistanceRangeSlider->onRangeChange(rangeSliderOnRangeChange, studentAlcoholResistanceRangeSlider, studentAlcoholResistanceRangeSliderText, "Alcohol resistance:\n");
 	gui.add(studentAlcoholResistanceRangeSlider);
 	
 	auto examinerSuspicionRangeSliderText = tgui::Label::create("Examiner suspicion:\n1 - 100");
@@ -123,6 +125,7 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation& simulat
 	examinerSuspicionRangeSlider->setPosition((tgui::Layout2d(15, 625)));
 	examinerSuspicionRangeSlider->setStep(1);
 	examinerSuspicionRangeSlider->setSelectionEnd(100);
+	examinerSuspicionRangeSlider->onRangeChange(rangeSliderOnRangeChange, examinerSuspicionRangeSlider, examinerSuspicionRangeSliderText, "Examiner suspicion:\n");
 	gui.add(examinerSuspicionRangeSlider);
 }
 
@@ -150,4 +153,9 @@ void startStopButtonOnMousePress() {
 
 void sliderOnValueChange(std::shared_ptr<tgui::Slider> slider, std::shared_ptr<tgui::Label> sliderText, const std::string& text) {
 	sliderText->setText(text + std::to_string(static_cast<uint16_t>(slider->getValue())));
+}
+
+void rangeSliderOnRangeChange(std::shared_ptr<tgui::RangeSlider> rangeSlider, std::shared_ptr<tgui::Label> rangeSliderText, const std::string& text) {
+	rangeSliderText->setText(text + std::to_string(static_cast<int>(rangeSlider->getSelectionStart()))
+		+ " - " + std::to_string(static_cast<int>(rangeSlider->getSelectionEnd())));
 }
