@@ -83,8 +83,8 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation& simulat
 	drunkStudentsCountSlider->onValueChange(sliderOnValueChange, drunkStudentsCountSlider, drunkStudentsCountSliderText, "Drunk students: ");
 	gui.add(drunkStudentsCountSlider);
 
-	auto studentKnowledgeRangeSliderText = tgui::Label::create("Students knowledge: 1");
-	studentKnowledgeRangeSliderText->setSize(tgui::Layout2d(190, 20));
+	auto studentKnowledgeRangeSliderText = tgui::Label::create("Students knowledge:\n1 - 100");
+	studentKnowledgeRangeSliderText->setSize(tgui::Layout2d(190, 40));
 	studentKnowledgeRangeSliderText->setPosition(tgui::Layout2d(5, 375));
 	studentKnowledgeRangeSliderText->setVerticalAlignment(tgui::Label::VerticalAlignment::Center);
 	studentKnowledgeRangeSliderText->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
@@ -92,34 +92,35 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation& simulat
 
 	auto studentKnowledgeRangeSlider = tgui::RangeSlider::create(1, 100);
 	studentKnowledgeRangeSlider->setSize(tgui::Layout2d(170, 20));
-	studentKnowledgeRangeSlider->setPosition((tgui::Layout2d(15, 405)));
+	studentKnowledgeRangeSlider->setPosition((tgui::Layout2d(15, 425)));
 	studentKnowledgeRangeSlider->setStep(1);
 	studentKnowledgeRangeSlider->setSelectionEnd(100);
 	gui.add(studentKnowledgeRangeSlider);
 
-	auto studentAlcoholResistanceRangeSliderText = tgui::Label::create("Alcohol resistance: 1");
-	studentAlcoholResistanceRangeSliderText->setSize(tgui::Layout2d(190, 20));
-	studentAlcoholResistanceRangeSliderText->setPosition(tgui::Layout2d(5, 455));
+	auto studentAlcoholResistanceRangeSliderText = tgui::Label::create("Alcohol resistance:\n1 - 100");
+	studentAlcoholResistanceRangeSliderText->setSize(tgui::Layout2d(190, 40));
+	studentAlcoholResistanceRangeSliderText->setPosition(tgui::Layout2d(5, 475));
 	studentAlcoholResistanceRangeSliderText->setVerticalAlignment(tgui::Label::VerticalAlignment::Center);
+	studentAlcoholResistanceRangeSliderText->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
 	gui.add(studentAlcoholResistanceRangeSliderText);
 
 	auto studentAlcoholResistanceRangeSlider = tgui::RangeSlider::create(1, 100);
 	studentAlcoholResistanceRangeSlider->setSize(tgui::Layout2d(170, 20));
-	studentAlcoholResistanceRangeSlider->setPosition((tgui::Layout2d(15, 485)));
+	studentAlcoholResistanceRangeSlider->setPosition((tgui::Layout2d(15, 525)));
 	studentAlcoholResistanceRangeSlider->setStep(1);
 	studentAlcoholResistanceRangeSlider->setSelectionEnd(100);
 	gui.add(studentAlcoholResistanceRangeSlider);
 	
-	auto examinerSuspicionRangeSliderText = tgui::Label::create("Examiner suspicion: 1");
-	examinerSuspicionRangeSliderText->setSize(tgui::Layout2d(190, 20));
-	examinerSuspicionRangeSliderText->setPosition(tgui::Layout2d(5, 535));
+	auto examinerSuspicionRangeSliderText = tgui::Label::create("Examiner suspicion:\n1 - 100");
+	examinerSuspicionRangeSliderText->setSize(tgui::Layout2d(190, 40));
+	examinerSuspicionRangeSliderText->setPosition(tgui::Layout2d(5, 575));
 	examinerSuspicionRangeSliderText->setVerticalAlignment(tgui::Label::VerticalAlignment::Center);
 	examinerSuspicionRangeSliderText->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
 	gui.add(examinerSuspicionRangeSliderText);
 
 	auto examinerSuspicionRangeSlider = tgui::RangeSlider::create(1, 100);
 	examinerSuspicionRangeSlider->setSize(tgui::Layout2d(170, 20));
-	examinerSuspicionRangeSlider->setPosition((tgui::Layout2d(15, 565)));
+	examinerSuspicionRangeSlider->setPosition((tgui::Layout2d(15, 625)));
 	examinerSuspicionRangeSlider->setStep(1);
 	examinerSuspicionRangeSlider->setSelectionEnd(100);
 	gui.add(examinerSuspicionRangeSlider);
