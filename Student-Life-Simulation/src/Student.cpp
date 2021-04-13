@@ -1,6 +1,8 @@
 #include "Student.h"
 
-Student::Student(){
+Student::Student(std::pair<uint16_t, uint16_t> knowledgeRange, std::pair<uint16_t, uint16_t> alcoholResistanceRange) : Agent(){
+	m_knowledge = randomNumberWithinRange(knowledgeRange);
+	m_alcoholResistance = randomNumberWithinRange(alcoholResistanceRange);
 }
 
 bool Student::isSleeping() const {

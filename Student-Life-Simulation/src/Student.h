@@ -12,7 +12,7 @@ public:
 		Failed,
 		Passed
 	};
-	
+
 private:
 	bool m_isSleeping;
 	uint16_t m_intoxication;
@@ -24,7 +24,7 @@ private:
 	Status m_status;
 
 public:
-	Student();
+	Student(std::pair<uint16_t, uint16_t> knowledgeRange, std::pair<uint16_t, uint16_t> alcoholResistanceRange);
 	~Student() = default;
 	
 	[[nodiscard]] bool isSleeping() const;

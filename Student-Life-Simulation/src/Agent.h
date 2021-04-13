@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <cstdint>
 
+#define randomNumberWithinRange(pair) (rand() % pair.second) + pair.first
+
 class Agent {
 protected:
 	uint16_t m_id;
