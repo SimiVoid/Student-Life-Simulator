@@ -5,13 +5,13 @@
 
 class Agent {
 protected:
-	uint16_t m_id{};
+	uint16_t m_id;
 	sf::Vector2i m_position;
 	sf::RectangleShape m_singleView;
 	sf::ConvexShape m_multipleView;
 
 public:
-	Agent() = default;
+	Agent();
 	~Agent() = default;
 
 	static uint16_t idCounter;

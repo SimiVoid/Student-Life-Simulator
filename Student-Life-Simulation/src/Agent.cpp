@@ -1,6 +1,11 @@
 #include "Agent.h"
 
-uint16_t Agent::idCounter = 0;
+uint16_t Agent::idCounter;
+
+Agent::Agent() {
+	m_id = idCounter;
+	idCounter++;
+}
 
 sf::Vector2i Agent::getPosition() const {
 	return m_position;
