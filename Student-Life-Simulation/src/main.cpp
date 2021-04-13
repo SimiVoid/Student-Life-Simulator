@@ -31,8 +31,6 @@ int main(int argc, char* argv[]) {
 	menuBackground.setFillColor(sf::Color::White);
 	menuBackground.setPosition(0, 0);
 	
-	//TODO: make gui menu
-
 	//TODO: async window drawing and simulation working
 
 	while(window.isOpen()) {
