@@ -1,6 +1,7 @@
 #include "Examiner.h"
 
-Examiner::Examiner(std::pair<uint16_t, uint16_t> suspicionRange) {
+Examiner::Examiner(const std::pair<uint16_t, uint16_t> suspicionRange)
+	: Agent() {
 	m_suspicion = randomNumberWithinRange(suspicionRange);
 }
 
