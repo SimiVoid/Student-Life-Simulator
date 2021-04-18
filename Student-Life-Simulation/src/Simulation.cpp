@@ -1,7 +1,7 @@
 #include "Simulation.h"
 
 #include <fstream>
-#include <ctime>
+#include <chrono>
 #include <typeinfo>
 #include <filesystem>
 #include <exception>
@@ -98,11 +98,12 @@ void Simulation::exportData() {
 	if(!std::filesystem::is_directory("./output"))
 		std::filesystem::create_directories("./output");
 
-	auto t = std::time(nullptr);
-	auto tm = *std::localtime(&t);
+	auto now = std::chrono::system_clock::now();
+	auto in_time_t = std::chrono::system_clock::to_time_t(now);
+
 
 	std::stringstream ss;
-	ss << std::put_time(&tm, "%Y-%m-%d_%H-%M-%S_data.csv");
+	ss << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d_%H-%M-%S_data.csv");
 	std::ofstream csvFile("./output/" + ss.str());
 
 	if (csvFile.good() && csvFile.is_open()) {
