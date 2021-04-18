@@ -18,6 +18,6 @@ public:
 
 	[[nodiscard]] sf::Vector2i getPosition() const;
 	[[nodiscard]] uint16_t getId() const;
-	void draw(sf::RenderWindow windows, bool isSingle = true);
+	void draw(sf::RenderWindow& window, bool isSingle = true);
 	void move(uint16_t boardSize);
 };

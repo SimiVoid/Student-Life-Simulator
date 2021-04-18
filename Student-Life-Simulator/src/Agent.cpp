@@ -17,7 +17,7 @@ uint16_t Agent::getId() const {
 	return m_id;
 }
 
-void Agent::draw(sf::RenderWindow windows, bool isSingle) {
+void Agent::draw(sf::RenderWindow& window, bool isSingle) {
 	
 }
 
