@@ -18,6 +18,6 @@ void BoardField::setAgentIds(std::list<uint16_t> agentIds) {
 	m_agentIds = std::move(agentIds);
 }
 
-void BoardField::draw(sf::RenderWindow& window, std::list<std::unique_ptr<Agent>> agents) {
+void BoardField::draw(sf::RenderWindow& window, std::list<Agent>& agents) {
 	//TODO: draw agents on this field
 }

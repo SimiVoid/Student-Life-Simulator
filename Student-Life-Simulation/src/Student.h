@@ -38,7 +38,5 @@ public:
 	void passExam();
 	void sleepNextRound();
 	void soberUp();
-
-	friend class Agent;
 };
 

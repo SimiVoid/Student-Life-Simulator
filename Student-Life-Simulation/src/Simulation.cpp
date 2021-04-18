@@ -17,11 +17,9 @@ void Simulation::updateBoardStatusList() {
 	uint16_t studentsFailedCount = 0;
 	uint16_t studentsPassedCount = 0;
 
-	for(const auto& agent : m_agents)
-		if (typeid(agent.get()).name() == typeid(Student*).name()) {
-			const auto student = dynamic_cast<Student*>(agent.get());
-
-			switch(student->getStatus()) {
+	for(auto& agent : m_agents)
+		if (typeid(agent).name() == typeid(Student).name())
+			switch(dynamic_cast<Student*>(&agent)->getStatus()) {
 				case Student::Status::OnStudies:
 					studentsOnStudiesCount++;
 					break;
@@ -32,7 +30,8 @@ void Simulation::updateBoardStatusList() {
 					studentsPassedCount++;
 					break;
 			}
-		}
+
+	m_boardStatusList.emplace_back(BoardStatus(studentsOnStudiesCount, studentsFailedCount, studentsPassedCount));
 }
 
 Simulation::Simulation(const uint16_t boardSize, const uint16_t studentsCount, const uint16_t examinersCount,
@@ -50,23 +49,23 @@ Simulation::~Simulation() {
 
 void Simulation::updateBoard() {
 	for (auto& agent : m_agents)
-		agent->move(m_board->getBoardSize());
+		agent.move(m_board->getBoardSize());
 
 	for (auto& agent : m_agents)
-		if (typeid(agent.get()).name() == typeid(Examiner*).name()) {
-			auto* examiner = dynamic_cast<Examiner*>(agent.get());
+		if (typeid(agent).name() == typeid(Examiner).name()) {
+			auto* examiner = dynamic_cast<Examiner*>(&agent);
 			const auto position = examiner->getPosition();
 			auto agentOnFieldList = m_board->getField(position).getAgentIds();
 			
-			std::vector<std::unique_ptr<Agent>> studentsHandler;
+			std::vector<Agent> studentsHandler;
 
-			for(auto& agentHandler : m_agents)
-				if (typeid(agent.get()).name() == typeid(Student*).name()
-					&& dynamic_cast<Student*>(agentHandler.get())->getPosition() == position)
-					studentsHandler.push_back(agent);
+			for (auto& agentHandler : m_agents)
+				if (typeid(agent).name() == typeid(Student*).name()
+					&& dynamic_cast<Student*>(&agentHandler)->getPosition() == position)
+					studentsHandler.emplace_back(agent);
 
-			for (const auto& student : studentsHandler)
-				examiner->examinateStudent(dynamic_cast<Student*>(student.get()));
+			for (auto& student : studentsHandler)
+				examiner->examinateStudent(dynamic_cast<Student*>(&student));
 		}
 
 	// TODO: Add students simulation algorithm
@@ -74,22 +73,24 @@ void Simulation::updateBoard() {
 	updateBoardStatusList();
 }
 
-void Simulation::drawBoard(sf::RenderWindow& window) const {
+void Simulation::drawBoard(sf::RenderWindow& window) {
 	if (m_board != nullptr)
 		m_board->draw(window, m_agents);
 }
 
 bool Simulation::checkStatus() {
-	for (const auto& agent : m_agents)
-		if (typeid(agent.get()).name() == typeid(Student*).name() 
-			&& dynamic_cast<Student*>(agent.get())->getStatus() == Student::Status::OnStudies)
+	for (auto& agent : m_agents)
+		if (typeid(agent).name() == typeid(Student).name() 
+			&& dynamic_cast<Student*>(&agent)->getStatus() == Student::Status::OnStudies)
 			return true;
 
 	return false;
 }
 
 void Simulation::exportData() {
+	// TODO: Add exporting data to csv file
 }
 
 void Simulation::generatePlot() {
+	// TODO: generating plot using
 }

@@ -13,7 +13,7 @@ protected:
 public:
 	Agent();
 	virtual ~Agent() = default;
-
+		
 	static uint16_t idCounter;
 
 	[[nodiscard]] sf::Vector2i getPosition() const;
