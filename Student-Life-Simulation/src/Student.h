@@ -3,7 +3,7 @@
 #include "Agent.h"
 #include "Util.h"
 
-class Student : protected Agent
+class Student : public Agent
 {
 public:
 	enum class Status {
@@ -38,5 +38,7 @@ public:
 	void passExam();
 	void sleepNextRound();
 	void soberUp();
+
+	friend class Agent;
 };
 

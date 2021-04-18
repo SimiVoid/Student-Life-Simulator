@@ -5,7 +5,7 @@
 #include "Student.h"
 #include "Agent.h"
 
-class Examiner : protected Agent {
+class Examiner : public Agent {
 	uint16_t m_suspicion;
 
 public:

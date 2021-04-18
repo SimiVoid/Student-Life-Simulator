@@ -1,12 +1,13 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 #include "BoardStatus.h"
 #include "Board.h"
 
 class Simulation {
-	std::list<Agent> m_agents;
+	std::list<std::unique_ptr<Agent>> m_agents;
 	std::vector<BoardStatus> m_boardStatusList;
 
 	Board* m_board;

@@ -1,5 +1,7 @@
 #include "Agent.h"
 
+#include <random>
+
 uint16_t Agent::idCounter;
 
 Agent::Agent()
@@ -19,4 +21,5 @@ void Agent::draw(sf::RenderWindow windows, bool isSingle) {
 }
 
 void Agent::move(uint16_t boardSize) {
+	
 }

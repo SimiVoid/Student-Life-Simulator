@@ -12,7 +12,7 @@ protected:
 
 public:
 	Agent();
-	~Agent() = default;
+	virtual ~Agent() = default;
 
 	static uint16_t idCounter;
 

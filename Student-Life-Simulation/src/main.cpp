@@ -2,7 +2,6 @@
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 #endif
 
-#include <time.h>
 #include <iostream>
 
 #include "Simulation.h"
@@ -10,7 +9,7 @@
 
 int main(int argc, char* argv[]) {
 	Simulation* simulation = nullptr;
-
+	
 	sf::RenderWindow window(sf::VideoMode(1200, 1000), "Student Life Simulator", sf::Style::Close);
 	window.setFramerateLimit(60);
 	

@@ -1,9 +1,13 @@
 #include "Simulation.h"
 
+#include <typeinfo>
+
+#include "Student.h"
+
 void Simulation::generateAgents(uint16_t studentsCount, uint16_t examinersCount,
-	std::pair<uint16_t, uint16_t> examinerSuspicionRange,
-	std::pair<uint16_t, uint16_t> studentKnowledgeRange,
-	std::pair<uint16_t, uint16_t> studentAlcoholResistanceRange) {
+                                std::pair<uint16_t, uint16_t> examinerSuspicionRange,
+                                std::pair<uint16_t, uint16_t> studentKnowledgeRange,
+                                std::pair<uint16_t, uint16_t> studentAlcoholResistanceRange) {
 	//TODO: generate agents
 }
 
@@ -27,8 +31,11 @@ void Simulation::drawBoard(sf::RenderWindow& window) {
 }
 
 bool Simulation::checkStatus() {
-	//TODO: check true simulation status algorithm 
-	
+	for (const auto& agent : m_agents)
+		if (typeid(agent.get()).name() == typeid(Student*).name() 
+			&& dynamic_cast<Student*>(agent.get())->getStatus() == Student::Status::OnStudies)
+			return true;
+
 	return false;
 }
 
