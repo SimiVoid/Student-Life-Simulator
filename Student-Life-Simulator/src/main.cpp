@@ -33,14 +33,16 @@ int main(int argc, char* argv[]) {
 	menuBackground.setPosition(0, 0);
 	
 	std::thread simulationLoopThread([=]() {
-			const auto start = std::chrono::system_clock::now();
+			while(true) {
+				const auto start = std::chrono::system_clock::now();
 
-			if (simulation != nullptr && simulation->checkStatus())
-				simulation->updateBoard();
-			
-			const auto end = std::chrono::system_clock::now();
-			
-			std::this_thread::sleep_for(1s - (end - start));
+				if (simulation != nullptr && simulation->checkStatus())
+					simulation->updateBoard();
+
+				const auto end = std::chrono::system_clock::now();
+
+				std::this_thread::sleep_for(1s - (end - start));
+			}
 		});
 	
 	while(window.isOpen()) {
