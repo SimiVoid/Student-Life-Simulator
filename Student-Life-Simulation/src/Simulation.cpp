@@ -1,6 +1,11 @@
 #include "Simulation.h"
 
+#include <fstream>
+#include <ctime>
 #include <typeinfo>
+#include <filesystem>
+#include <exception>
+#include <sstream>
 
 #include "Examiner.h"
 #include "Student.h"
@@ -89,8 +94,25 @@ bool Simulation::checkStatus() {
 
 void Simulation::exportData() {
 	// TODO: Add exporting data to csv file
+	
+	if(!std::filesystem::is_directory("./output"))
+		std::filesystem::create_directories("./output");
+
+	auto t = std::time(nullptr);
+	auto tm = *std::localtime(&t);
+
+	std::stringstream ss;
+	ss << std::put_time(&tm, "%Y-%m-%d_%H-%M-%S_data.csv");
+	std::ofstream csvFile("./output/" + ss.str());
+
+	if (csvFile.good() && csvFile.is_open()) {
+		for (auto& record : m_boardStatusList)
+			csvFile << record.getStudentsOnStudiesCount() << "," << record.getStudentsFailedCount() << "," << record.getStudentsPassedCount() << std::endl;
+		csvFile.close();
+	}
+	else throw std::exception("Error!!! Cannot save data file!!!");
 }
 
 void Simulation::generatePlot() {
-	// TODO: generating plot using
+	// TODO: generating plot 
 }
