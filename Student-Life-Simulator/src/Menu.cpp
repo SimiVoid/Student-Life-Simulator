@@ -141,9 +141,15 @@ void generatePlotButtonOnMousePress(Simulation* simulation) {
 }
 
 void exportDataButtonOnMousePress(Simulation* simulation) {
-	if (simulation != nullptr)
-		simulation->exportData();
-
+	if (simulation != nullptr) {
+		try {
+			simulation->exportData();
+		}
+		catch(const std::exception& exception) {
+			std::cerr << exception.what() << std::endl;
+		}
+	}
+	
 	//TODO: on error msg
 }
 

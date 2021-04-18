@@ -46,8 +46,10 @@ void Student::passExam() {
 	m_passedExams++;
 }
 
-void Student::sleepNextRound() { 
+void Student::sleepNextRound() {
+	
 }
 
 void Student::soberUp() {
+	
 }

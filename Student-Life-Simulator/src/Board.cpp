@@ -17,7 +17,7 @@ uint16_t Board::getBoardSize() const {
 }
 
 void Board::draw(sf::RenderWindow& window, std::list<Agent>& agents) {
-	
+	//TODO: Add drawing agents algorithm
 }
 
 void Board::updateField(const sf::Vector2i position, const std::list<uint16_t>& agentIds) {

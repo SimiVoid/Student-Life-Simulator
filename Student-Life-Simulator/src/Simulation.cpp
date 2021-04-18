@@ -93,8 +93,6 @@ bool Simulation::checkStatus() {
 }
 
 void Simulation::exportData() {
-	// TODO: Add exporting data to csv file
-	
 	if(!std::filesystem::is_directory("./output"))
 		std::filesystem::create_directories("./output");
 
@@ -115,5 +113,5 @@ void Simulation::exportData() {
 }
 
 void Simulation::generatePlot() {
-	// TODO: generating plot 
+	// TODO: generating plot algorithm
 }

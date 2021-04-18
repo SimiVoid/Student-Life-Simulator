@@ -18,8 +18,9 @@ uint16_t Agent::getId() const {
 }
 
 void Agent::draw(sf::RenderWindow windows, bool isSingle) {
+	
 }
 
 void Agent::move(uint16_t boardSize) {
-	
+	// TODO: Add moving algorithm
 }

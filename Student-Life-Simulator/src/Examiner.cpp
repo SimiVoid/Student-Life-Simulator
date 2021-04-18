@@ -10,5 +10,5 @@ uint16_t Examiner::getSuspicion() const {
 }
 
 void Examiner::examinateStudent(Student* student) {
-	
+	// TODO: examinate student alorithm
 }
