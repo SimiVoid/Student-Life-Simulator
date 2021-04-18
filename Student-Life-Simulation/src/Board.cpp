@@ -16,7 +16,7 @@ uint16_t Board::getBoardSize() const {
 	return m_size;
 }
 
-void Board::draw(sf::RenderWindow& window, std::list<Agent> agents) {
+void Board::draw(sf::RenderWindow& window, std::list<std::unique_ptr<Agent>> agents) {
 }
 
 void Board::updateField(const sf::Vector2i position, const std::list<uint16_t>& agentIds) {

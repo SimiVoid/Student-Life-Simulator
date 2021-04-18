@@ -16,5 +16,5 @@ public:
 	[[nodiscard]] std::list<uint16_t> getAgentIds() const;
 	[[nodiscard]] sf::Vector2i getPosition() const;
 	void setAgentIds(std::list<uint16_t> agentIds);
-	void draw(sf::RenderWindow& window, std::list<Agent> agents);
+	void draw(sf::RenderWindow& window, std::list<std::unique_ptr<Agent>> agents);
 };

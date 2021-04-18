@@ -13,5 +13,5 @@ public:
 	~Examiner() = default;
 	
 	[[nodiscard]] uint16_t getSuspicion() const;
-	void examinateStudent(Student &student);
+	void examinateStudent(Student* student);
 };

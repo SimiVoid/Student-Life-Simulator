@@ -12,6 +12,6 @@ public:
 
 	[[nodiscard]] BoardField getField(sf::Vector2i position) const;
 	[[nodiscard]] uint16_t getBoardSize() const;
-	void draw(sf::RenderWindow& window, std::list<Agent> agents);
+	void draw(sf::RenderWindow& window, std::list<std::unique_ptr<Agent>> agents);
 	void updateField(sf::Vector2i position, const std::list<uint16_t>& agentIds);
 };
