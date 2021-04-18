@@ -3,9 +3,13 @@
 #endif
 
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 #include "Simulation.h"
 #include "Menu.h"
+
+using namespace  std::chrono_literals;
 
 int main(int argc, char* argv[]) {
 	Simulation* simulation = nullptr;
@@ -28,8 +32,17 @@ int main(int argc, char* argv[]) {
 	menuBackground.setFillColor(sf::Color::White);
 	menuBackground.setPosition(0, 0);
 	
-	//TODO: async window drawing and simulation working
+	std::thread simulationLoopThread([=]() {
+			const auto start = std::chrono::system_clock::now();
 
+			if (simulation != nullptr && simulation->checkStatus())
+				simulation->updateBoard();
+			
+			const auto end = std::chrono::system_clock::now();
+			
+			std::this_thread::sleep_for(1s - (end - start));
+		});
+	
 	while(window.isOpen()) {
 		sf::Event event{};
 
@@ -39,7 +52,7 @@ int main(int argc, char* argv[]) {
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-
+		
 		window.clear();
 
 		window.draw(menuBackground);
@@ -47,6 +60,8 @@ int main(int argc, char* argv[]) {
 
 		window.display();
 	}
+
+	simulationLoopThread.detach();
 	
 	delete simulation;
 	
