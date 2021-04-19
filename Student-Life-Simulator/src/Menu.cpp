@@ -1,131 +1,245 @@
 #include "Menu.h"
 
 void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation& simulation) {
+	using namespace tgui;
+
 	gui.setTextSize(15);
 
-	auto exitButton = tgui::Button::create("Exit");
-	exitButton->setSize(tgui::Layout2d(190, 40));
-	exitButton->setPosition(tgui::Layout2d(5, 955));
+	auto exitButton = Button::create("Exit");
+	exitButton->setSize(Layout2d(190, 40));
+	exitButton->setPosition(Layout2d(5, 955));
 	exitButton->onMousePress(exitButtonOnMousePress, std::ref(window));
 	gui.add(exitButton);
 
-	auto generatePlotButton = tgui::Button::create("Generate plot");
-	generatePlotButton->setSize(tgui::Layout2d(190, 40));
-	generatePlotButton->setPosition(tgui::Layout2d(5, 905));
+	auto generatePlotButton = Button::create("Generate plot");
+	generatePlotButton->setSize(Layout2d(190, 40));
+	generatePlotButton->setPosition(Layout2d(5, 905));
 	generatePlotButton->onMousePress(generatePlotButtonOnMousePress, &simulation);
 	gui.add(generatePlotButton);
 
-	auto exportDataButton = tgui::Button::create("Export Data");
-	exportDataButton->setSize(tgui::Layout2d(190, 40));
-	exportDataButton->setPosition(tgui::Layout2d(5, 855));
+	auto exportDataButton = Button::create("Export Data");
+	exportDataButton->setSize(Layout2d(190, 40));
+	exportDataButton->setPosition(Layout2d(5, 855));
 	exportDataButton->onMousePress(exportDataButtonOnMousePress, &simulation);
 	gui.add(exportDataButton);
 
-	auto startStopButton = tgui::Button::create("Start");
-	startStopButton->setSize(tgui::Layout2d(190, 40));
-	startStopButton->setPosition(tgui::Layout2d(5, 5));
+	auto startStopButton = Button::create("Start");
+	startStopButton->setSize(Layout2d(190, 40));
+	startStopButton->setPosition(Layout2d(5, 5));
 	startStopButton->onMousePress(startStopButtonOnMousePress);
 	gui.add(startStopButton);
 
-	auto boardSizeSliderText = tgui::Label::create("Size: 10");
-	boardSizeSliderText->setSize(tgui::Layout2d(190, 20));
-	boardSizeSliderText->setPosition(tgui::Layout2d(5, 55));
-	boardSizeSliderText->setVerticalAlignment(tgui::Label::VerticalAlignment::Center);
-	boardSizeSliderText->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
+
+	// Board size
+	auto boardSizeSliderText = Label::create("Size:");
+	boardSizeSliderText->setSize(Layout2d(190, 20));
+	boardSizeSliderText->setPosition(Layout2d(5, 55));
+	boardSizeSliderText->setVerticalAlignment(Label::VerticalAlignment::Center);
+	boardSizeSliderText->setHorizontalAlignment(Label::HorizontalAlignment::Left);
 	gui.add(boardSizeSliderText);
 
-	auto boardSizeSlider = tgui::Slider::create(10, 100);
-	boardSizeSlider->setSize(tgui::Layout2d(170, 20));
-	boardSizeSlider->setPosition((tgui::Layout2d(15, 85)));
+	auto boardSizeEditBox = EditBox::create();
+	auto boardSizeSlider = Slider::create(10, 100);
+	boardSizeEditBox->setText("10");
+	boardSizeEditBox->setSize(Layout2d(35, 25));
+	boardSizeEditBox->setPosition(Layout2d(150, 55));
+	boardSizeEditBox->setInputValidator("^(100|[1-9]0)$");
+	boardSizeEditBox->onReturnOrUnfocus(editBoxOnReturnOrUnfocus, boardSizeEditBox, boardSizeSlider);
+	gui.add(boardSizeEditBox);
+
+	boardSizeSlider->setSize(Layout2d(170, 20));
+	boardSizeSlider->setPosition((Layout2d(15, 85)));
 	boardSizeSlider->setStep(10);
-	boardSizeSlider->onValueChange(sliderOnValueChange, boardSizeSlider, boardSizeSliderText, "Size: ");
+	boardSizeSlider->onValueChange(sliderOnValueChange, boardSizeSlider, boardSizeEditBox);
 	gui.add(boardSizeSlider);
 
-	auto studentsCountSliderText = tgui::Label::create("Students: 1");
-	studentsCountSliderText->setSize(tgui::Layout2d(190, 20));
-	studentsCountSliderText->setPosition(tgui::Layout2d(5, 135));
-	studentsCountSliderText->setVerticalAlignment(tgui::Label::VerticalAlignment::Center);
-	studentsCountSliderText->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
+	// Students
+	auto studentsCountSliderText = Label::create("Students:");
+	studentsCountSliderText->setSize(Layout2d(190, 20));
+	studentsCountSliderText->setPosition(Layout2d(5, 135));
+	studentsCountSliderText->setVerticalAlignment(Label::VerticalAlignment::Center);
+	studentsCountSliderText->setHorizontalAlignment(Label::HorizontalAlignment::Left);
 	gui.add(studentsCountSliderText);
 
-	auto studentsCountSlider = tgui::Slider::create(1, 100);
-	studentsCountSlider->setSize(tgui::Layout2d(170, 20));
-	studentsCountSlider->setPosition((tgui::Layout2d(15, 165)));
+	auto studentsCountEditBox = EditBox::create();
+	auto studentsCountSlider = Slider::create(1, 100);
+	studentsCountEditBox->setText("1");
+	studentsCountEditBox->setSize(Layout2d(35, 25));
+	studentsCountEditBox->setPosition(Layout2d(150, 135));
+	studentsCountEditBox->setInputValidator("^(100|[1-9][0-9]|[1-9])$");
+	studentsCountEditBox->onReturnOrUnfocus(editBoxOnReturnOrUnfocus, studentsCountEditBox, studentsCountSlider);
+	gui.add(studentsCountEditBox);
+
+	studentsCountSlider->setSize(Layout2d(170, 20));
+	studentsCountSlider->setPosition((Layout2d(15, 165)));
 	studentsCountSlider->setStep(1);
-	studentsCountSlider->onValueChange(sliderOnValueChange, studentsCountSlider, studentsCountSliderText, "Students: ");
+	studentsCountSlider->onValueChange(sliderOnValueChange, studentsCountSlider, studentsCountEditBox);
 	gui.add(studentsCountSlider);
 
-	auto examinersCountSliderText = tgui::Label::create("Examiners: 1");
-	examinersCountSliderText->setSize(tgui::Layout2d(190, 20));
-	examinersCountSliderText->setPosition(tgui::Layout2d(5, 215));
-	examinersCountSliderText->setVerticalAlignment(tgui::Label::VerticalAlignment::Center);
-	examinersCountSliderText->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
+	// Examiners
+	auto examinersCountSliderText = Label::create("Examiners:");
+	examinersCountSliderText->setSize(Layout2d(190, 20));
+	examinersCountSliderText->setPosition(Layout2d(5, 215));
+	examinersCountSliderText->setVerticalAlignment(Label::VerticalAlignment::Center);
+	examinersCountSliderText->setHorizontalAlignment(Label::HorizontalAlignment::Left);
 	gui.add(examinersCountSliderText);
 
-	auto examinersCountSlider = tgui::Slider::create(1, 100);
-	examinersCountSlider->setSize(tgui::Layout2d(170, 20));
-	examinersCountSlider->setPosition((tgui::Layout2d(15, 245)));
+	auto examinersCountEditBox = EditBox::create();
+	auto examinersCountSlider = Slider::create(1, 100);
+	examinersCountEditBox->setText("1");
+	examinersCountEditBox->setSize(Layout2d(35, 25));
+	examinersCountEditBox->setPosition(Layout2d(150, 215));
+	examinersCountEditBox->setInputValidator("^(100|[1-9][0-9]|[1-9])$");
+	examinersCountEditBox->onReturnOrUnfocus(editBoxOnReturnOrUnfocus, examinersCountEditBox, examinersCountSlider);
+	gui.add(examinersCountEditBox);
+
+	examinersCountSlider->setSize(Layout2d(170, 20));
+	examinersCountSlider->setPosition((Layout2d(15, 245)));
 	examinersCountSlider->setStep(1);
-	examinersCountSlider->onValueChange(sliderOnValueChange, examinersCountSlider, examinersCountSliderText, "Examiners: ");
+	examinersCountSlider->onValueChange(sliderOnValueChange, examinersCountSlider, examinersCountEditBox);
 	gui.add(examinersCountSlider);
 
-	auto drunkStudentsCountSliderText = tgui::Label::create("Drunk students: 1");
-	drunkStudentsCountSliderText->setSize(tgui::Layout2d(190, 20));
-	drunkStudentsCountSliderText->setPosition(tgui::Layout2d(5, 295));
-	drunkStudentsCountSliderText->setVerticalAlignment(tgui::Label::VerticalAlignment::Center);
-	drunkStudentsCountSliderText->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
+	// Drunk students
+	auto drunkStudentsCountSliderText = Label::create("Drunk students:");
+	drunkStudentsCountSliderText->setSize(Layout2d(190, 20));
+	drunkStudentsCountSliderText->setPosition(Layout2d(5, 295));
+	drunkStudentsCountSliderText->setVerticalAlignment(Label::VerticalAlignment::Center);
+	drunkStudentsCountSliderText->setHorizontalAlignment(Label::HorizontalAlignment::Left);
 	gui.add(drunkStudentsCountSliderText);
 
-	auto drunkStudentsCountSlider = tgui::Slider::create(1, 100);
-	drunkStudentsCountSlider->setSize(tgui::Layout2d(170, 20));
-	drunkStudentsCountSlider->setPosition((tgui::Layout2d(15, 325)));
+	auto drunkStudentsCountEditBox = EditBox::create();
+	auto drunkStudentsCountSlider = Slider::create(1, 100);
+	drunkStudentsCountEditBox->setText("1");
+	drunkStudentsCountEditBox->setSize(Layout2d(35, 25));
+	drunkStudentsCountEditBox->setPosition(Layout2d(150, 295));
+	drunkStudentsCountEditBox->setInputValidator("^(100|[1-9][0-9]|[1-9])$");
+	drunkStudentsCountEditBox->onReturnOrUnfocus(editBoxOnReturnOrUnfocus, drunkStudentsCountEditBox, drunkStudentsCountSlider);
+	gui.add(drunkStudentsCountEditBox);
+
+	drunkStudentsCountSlider->setSize(Layout2d(170, 20));
+	drunkStudentsCountSlider->setPosition((Layout2d(15, 325)));
 	drunkStudentsCountSlider->setStep(1);
-	drunkStudentsCountSlider->onValueChange(sliderOnValueChange, drunkStudentsCountSlider, drunkStudentsCountSliderText, "Drunk students: ");
+	drunkStudentsCountSlider->onValueChange(sliderOnValueChange, drunkStudentsCountSlider, drunkStudentsCountEditBox);
 	gui.add(drunkStudentsCountSlider);
 
-	auto studentKnowledgeRangeSliderText = tgui::Label::create("Students knowledge:\n1 - 100");
-	studentKnowledgeRangeSliderText->setSize(tgui::Layout2d(190, 40));
-	studentKnowledgeRangeSliderText->setPosition(tgui::Layout2d(5, 375));
-	studentKnowledgeRangeSliderText->setVerticalAlignment(tgui::Label::VerticalAlignment::Center);
-	studentKnowledgeRangeSliderText->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
+	// Student knowledge
+	auto studentKnowledgeRangeSliderText = Label::create("Students knowledge:");
+	studentKnowledgeRangeSliderText->setSize(Layout2d(190, 20));
+	studentKnowledgeRangeSliderText->setPosition(Layout2d(5, 375));
+	studentKnowledgeRangeSliderText->setVerticalAlignment(Label::VerticalAlignment::Center);
+	studentKnowledgeRangeSliderText->setHorizontalAlignment(Label::HorizontalAlignment::Center);
 	gui.add(studentKnowledgeRangeSliderText);
 
-	auto studentKnowledgeRangeSlider = tgui::RangeSlider::create(1, 100);
-	studentKnowledgeRangeSlider->setSize(tgui::Layout2d(170, 20));
-	studentKnowledgeRangeSlider->setPosition((tgui::Layout2d(15, 425)));
+	auto studentKnowledgeRangeSlider = RangeSlider::create(1, 100);
+	auto studentKnowledgeRangeEditBoxStart = EditBox::create();
+	auto studentKnowledgeRangeEditBoxEnd = EditBox::create();
+
+	studentKnowledgeRangeEditBoxStart->setText("1");
+	studentKnowledgeRangeEditBoxStart->setSize(Layout2d(35, 25));
+	studentKnowledgeRangeEditBoxStart->setPosition(Layout2d(30, 395));
+	studentKnowledgeRangeEditBoxStart->setInputValidator("^(100|[1-9][0-9]|[1-9])$");
+	studentKnowledgeRangeEditBoxStart->onReturnOrUnfocus(editBoxOnReturnOrUnfocusRange, studentKnowledgeRangeEditBoxStart,
+		studentKnowledgeRangeEditBoxEnd, studentKnowledgeRangeSlider);
+	gui.add(studentKnowledgeRangeEditBoxStart);
+
+	auto studentKnowledgeRangeSeparator = Label::create("-");
+	studentKnowledgeRangeSeparator->setPosition(Layout2d(95, 395));
+	gui.add(studentKnowledgeRangeSeparator);
+
+	studentKnowledgeRangeEditBoxEnd->setText("100");
+	studentKnowledgeRangeEditBoxEnd->setSize(Layout2d(35, 25));
+	studentKnowledgeRangeEditBoxEnd->setPosition(Layout2d(135, 395));
+	studentKnowledgeRangeEditBoxEnd->setInputValidator("^(100|[1-9][0-9]|[1-9])$");
+	studentKnowledgeRangeEditBoxEnd->onReturnOrUnfocus(editBoxOnReturnOrUnfocusRange, studentKnowledgeRangeEditBoxStart,
+		studentKnowledgeRangeEditBoxEnd, studentKnowledgeRangeSlider);
+	gui.add(studentKnowledgeRangeEditBoxEnd);
+
+	studentKnowledgeRangeSlider->setSize(Layout2d(170, 20));
+	studentKnowledgeRangeSlider->setPosition((Layout2d(15, 425)));
 	studentKnowledgeRangeSlider->setStep(1);
 	studentKnowledgeRangeSlider->setSelectionEnd(100);
-	studentKnowledgeRangeSlider->onRangeChange(rangeSliderOnRangeChange, studentKnowledgeRangeSlider, studentKnowledgeRangeSliderText, "Students knowledge:\n");
+	studentKnowledgeRangeSlider->onRangeChange(rangeSliderOnRangeChange, studentKnowledgeRangeSlider,
+		studentKnowledgeRangeEditBoxStart, studentKnowledgeRangeEditBoxEnd);
 	gui.add(studentKnowledgeRangeSlider);
 
-	auto studentAlcoholResistanceRangeSliderText = tgui::Label::create("Alcohol resistance:\n1 - 100");
-	studentAlcoholResistanceRangeSliderText->setSize(tgui::Layout2d(190, 40));
-	studentAlcoholResistanceRangeSliderText->setPosition(tgui::Layout2d(5, 475));
-	studentAlcoholResistanceRangeSliderText->setVerticalAlignment(tgui::Label::VerticalAlignment::Center);
-	studentAlcoholResistanceRangeSliderText->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
+	// Alcohol resistance
+	auto studentAlcoholResistanceRangeSliderText = Label::create("Alcohol resistance:");
+	studentAlcoholResistanceRangeSliderText->setSize(Layout2d(190, 40));
+	studentAlcoholResistanceRangeSliderText->setPosition(Layout2d(5, 460));
+	studentAlcoholResistanceRangeSliderText->setVerticalAlignment(Label::VerticalAlignment::Center);
+	studentAlcoholResistanceRangeSliderText->setHorizontalAlignment(Label::HorizontalAlignment::Center);
 	gui.add(studentAlcoholResistanceRangeSliderText);
 
-	auto studentAlcoholResistanceRangeSlider = tgui::RangeSlider::create(1, 100);
-	studentAlcoholResistanceRangeSlider->setSize(tgui::Layout2d(170, 20));
-	studentAlcoholResistanceRangeSlider->setPosition((tgui::Layout2d(15, 525)));
+	auto studentAlcoholResistanceRangeSlider = RangeSlider::create(1, 100);
+	auto studentAlcoholResistanceRangeEditBoxStart = EditBox::create();
+	auto studentAlcoholResistanceRangeEditBoxEnd = EditBox::create();
+
+	studentAlcoholResistanceRangeEditBoxStart->setText("1");
+	studentAlcoholResistanceRangeEditBoxStart->setSize(Layout2d(35, 25));
+	studentAlcoholResistanceRangeEditBoxStart->setPosition(Layout2d(30, 495));
+	studentAlcoholResistanceRangeEditBoxStart->setInputValidator("^(100|[1-9][0-9]|[1-9])$");
+	studentAlcoholResistanceRangeEditBoxStart->onReturnOrUnfocus(editBoxOnReturnOrUnfocusRange, studentAlcoholResistanceRangeEditBoxStart,
+		studentAlcoholResistanceRangeEditBoxEnd, studentAlcoholResistanceRangeSlider);
+	gui.add(studentAlcoholResistanceRangeEditBoxStart);
+
+	auto studentAlcoholResistanceRangeSeparator = Label::create("-");
+	studentAlcoholResistanceRangeSeparator->setPosition(Layout2d(95, 495));
+	gui.add(studentAlcoholResistanceRangeSeparator);
+
+	studentAlcoholResistanceRangeEditBoxEnd->setText("100");
+	studentAlcoholResistanceRangeEditBoxEnd->setSize(Layout2d(35, 25));
+	studentAlcoholResistanceRangeEditBoxEnd->setPosition(Layout2d(135, 495));
+	studentAlcoholResistanceRangeEditBoxEnd->setInputValidator("^(100|[1-9][0-9]|[1-9])$");
+	studentAlcoholResistanceRangeEditBoxEnd->onReturnOrUnfocus(editBoxOnReturnOrUnfocusRange, studentAlcoholResistanceRangeEditBoxStart,
+		studentAlcoholResistanceRangeEditBoxEnd, studentAlcoholResistanceRangeSlider);
+	gui.add(studentAlcoholResistanceRangeEditBoxEnd);
+
+	studentAlcoholResistanceRangeSlider->setSize(Layout2d(170, 20));
+	studentAlcoholResistanceRangeSlider->setPosition((Layout2d(15, 525)));
 	studentAlcoholResistanceRangeSlider->setStep(1);
 	studentAlcoholResistanceRangeSlider->setSelectionEnd(100);
-	studentAlcoholResistanceRangeSlider->onRangeChange(rangeSliderOnRangeChange, studentAlcoholResistanceRangeSlider, studentAlcoholResistanceRangeSliderText, "Alcohol resistance:\n");
+	studentAlcoholResistanceRangeSlider->onRangeChange(rangeSliderOnRangeChange, studentAlcoholResistanceRangeSlider,
+		studentAlcoholResistanceRangeEditBoxStart, studentAlcoholResistanceRangeEditBoxEnd);
 	gui.add(studentAlcoholResistanceRangeSlider);
-	
-	auto examinerSuspicionRangeSliderText = tgui::Label::create("Examiner suspicion:\n1 - 100");
-	examinerSuspicionRangeSliderText->setSize(tgui::Layout2d(190, 40));
-	examinerSuspicionRangeSliderText->setPosition(tgui::Layout2d(5, 575));
-	examinerSuspicionRangeSliderText->setVerticalAlignment(tgui::Label::VerticalAlignment::Center);
-	examinerSuspicionRangeSliderText->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
+
+	// Examiner suspicion
+	auto examinerSuspicionRangeSliderText = Label::create("Examiner suspicion:");
+	examinerSuspicionRangeSliderText->setSize(Layout2d(190, 40));
+	examinerSuspicionRangeSliderText->setPosition(Layout2d(5, 560));
+	examinerSuspicionRangeSliderText->setVerticalAlignment(Label::VerticalAlignment::Center);
+	examinerSuspicionRangeSliderText->setHorizontalAlignment(Label::HorizontalAlignment::Center);
 	gui.add(examinerSuspicionRangeSliderText);
 
-	auto examinerSuspicionRangeSlider = tgui::RangeSlider::create(1, 100);
-	examinerSuspicionRangeSlider->setSize(tgui::Layout2d(170, 20));
-	examinerSuspicionRangeSlider->setPosition((tgui::Layout2d(15, 625)));
+	auto examinerSuspicionRangeSlider = RangeSlider::create(1, 100);
+	auto examinerSuspicionRangeEditBoxStart = EditBox::create();
+	auto examinerSuspicionRangeEditBoxEnd = EditBox::create();
+
+	examinerSuspicionRangeEditBoxStart->setText("1");
+	examinerSuspicionRangeEditBoxStart->setSize(Layout2d(35, 25));
+	examinerSuspicionRangeEditBoxStart->setPosition(Layout2d(30, 595));
+	examinerSuspicionRangeEditBoxStart->setInputValidator("^(100|[1-9][0-9]|[1-9])$");
+	examinerSuspicionRangeEditBoxStart->onReturnOrUnfocus(editBoxOnReturnOrUnfocusRange, examinerSuspicionRangeEditBoxStart,
+		examinerSuspicionRangeEditBoxEnd, examinerSuspicionRangeSlider);
+	gui.add(examinerSuspicionRangeEditBoxStart);
+
+	auto examinerSuspicionRangeSeparator = Label::create("-");
+	examinerSuspicionRangeSeparator->setPosition(Layout2d(95, 595));
+	gui.add(examinerSuspicionRangeSeparator);
+
+	examinerSuspicionRangeEditBoxEnd->setText("100");
+	examinerSuspicionRangeEditBoxEnd->setSize(Layout2d(35, 25));
+	examinerSuspicionRangeEditBoxEnd->setPosition(Layout2d(135, 595));
+	examinerSuspicionRangeEditBoxEnd->setInputValidator("^(100|[1-9][0-9]|[1-9])$");
+	examinerSuspicionRangeEditBoxEnd->onReturnOrUnfocus(editBoxOnReturnOrUnfocusRange, examinerSuspicionRangeEditBoxStart,
+		examinerSuspicionRangeEditBoxEnd, examinerSuspicionRangeSlider);
+	gui.add(examinerSuspicionRangeEditBoxEnd);
+
+	examinerSuspicionRangeSlider->setSize(Layout2d(170, 20));
+	examinerSuspicionRangeSlider->setPosition((Layout2d(15, 625)));
 	examinerSuspicionRangeSlider->setStep(1);
 	examinerSuspicionRangeSlider->setSelectionEnd(100);
-	examinerSuspicionRangeSlider->onRangeChange(rangeSliderOnRangeChange, examinerSuspicionRangeSlider, examinerSuspicionRangeSliderText, "Examiner suspicion:\n");
+	examinerSuspicionRangeSlider->onRangeChange(rangeSliderOnRangeChange, examinerSuspicionRangeSlider,
+		examinerSuspicionRangeEditBoxStart, examinerSuspicionRangeEditBoxEnd);
 	gui.add(examinerSuspicionRangeSlider);
 }
 
@@ -157,11 +271,47 @@ void startStopButtonOnMousePress() {
 	
 }
 
-void sliderOnValueChange(std::shared_ptr<tgui::Slider> slider, std::shared_ptr<tgui::Label> sliderText, const std::string& text) {
-	sliderText->setText(text + std::to_string(static_cast<uint16_t>(slider->getValue())));
+void sliderOnValueChange(std::shared_ptr<tgui::Slider> slider, std::shared_ptr<tgui::EditBox> editBox) {
+	editBox->setText(std::to_string(static_cast<uint16_t>(slider->getValue())));
 }
 
-void rangeSliderOnRangeChange(std::shared_ptr<tgui::RangeSlider> rangeSlider, std::shared_ptr<tgui::Label> rangeSliderText, const std::string& text) {
-	rangeSliderText->setText(text + std::to_string(static_cast<int>(rangeSlider->getSelectionStart()))
-		+ " - " + std::to_string(static_cast<int>(rangeSlider->getSelectionEnd())));
+void rangeSliderOnRangeChange(std::shared_ptr<tgui::RangeSlider> rangeSlider, std::shared_ptr<tgui::EditBox> editBoxStart,
+	std::shared_ptr<tgui::EditBox> editBoxEnd) {
+	editBoxStart->setText(std::to_string(static_cast<int>(rangeSlider->getSelectionStart())));
+	editBoxEnd->setText(std::to_string(static_cast<int>(rangeSlider->getSelectionEnd())));
+}
+
+void editBoxOnReturnOrUnfocus(std::shared_ptr<tgui::EditBox> editBox, std::shared_ptr<tgui::Slider> slider) {
+	auto &editBoxText = editBox->getText();
+	if (editBoxText == "")
+		editBox->setText(std::to_string(static_cast<int>(slider->getValue())));
+	else
+		slider->setValue(editBoxText.toFloat());
+}
+
+void editBoxOnReturnOrUnfocusRange(std::shared_ptr<tgui::EditBox> editBoxStart, std::shared_ptr<tgui::EditBox> editBoxEnd,
+	std::shared_ptr<tgui::RangeSlider> rangeSlider) {
+	auto& editBoxTextStart = editBoxStart->getText();
+	auto& editBoxTextEnd = editBoxEnd->getText();
+
+	// This block can safetly return because no other changes could be made if statement is true
+	if (editBoxTextStart == "") {
+		editBoxStart->setText(std::to_string(static_cast<int>(rangeSlider->getSelectionStart())));
+		return;
+	}
+	if (editBoxTextEnd == "") {
+		editBoxEnd->setText(std::to_string(static_cast<int>(rangeSlider->getSelectionEnd())));
+		return;
+	}
+
+	if (editBoxTextStart.toInt() > editBoxTextEnd.toInt()) {
+		auto swap = editBoxTextEnd;
+		editBoxEnd->setText(editBoxTextStart);
+		editBoxStart->setText(swap);
+	}
+
+	rangeSlider->onRangeChange.setEnabled(0);
+	rangeSlider->setSelectionStart(editBoxTextStart.toFloat());
+	rangeSlider->setSelectionEnd(editBoxTextEnd.toFloat());
+	rangeSlider->onRangeChange.setEnabled(1);
 }

@@ -12,5 +12,9 @@ void exitButtonOnMousePress(sf::RenderWindow& window);
 void startStopButtonOnMousePress();
 void generatePlotButtonOnMousePress(Simulation* simulation);
 void exportDataButtonOnMousePress(Simulation* simulation);
-void sliderOnValueChange(std::shared_ptr<tgui::Slider> slider, std::shared_ptr<tgui::Label> sliderText, const std::string& text);
-void rangeSliderOnRangeChange(std::shared_ptr<tgui::RangeSlider> rangeSlider, std::shared_ptr<tgui::Label> rangeSliderText, const std::string& text);
+void sliderOnValueChange(std::shared_ptr<tgui::Slider> slider, std::shared_ptr<tgui::EditBox> editBox);
+void rangeSliderOnRangeChange(std::shared_ptr<tgui::RangeSlider> rangeSlider, std::shared_ptr<tgui::EditBox> editBoxStart,
+	std::shared_ptr<tgui::EditBox> editBoxEnd);
+void editBoxOnReturnOrUnfocusRange(std::shared_ptr<tgui::EditBox> editBoxStart, std::shared_ptr<tgui::EditBox> editBoxEnd,
+	std::shared_ptr<tgui::RangeSlider> rangeSlider);
+void editBoxOnReturnOrUnfocus(std::shared_ptr<tgui::EditBox> editBox, std::shared_ptr<tgui::Slider> slider);
