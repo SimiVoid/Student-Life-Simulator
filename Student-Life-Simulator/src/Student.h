@@ -34,8 +34,7 @@ public:
 	[[nodiscard]] uint16_t getAlcoholResistance() const;
 	[[nodiscard]] uint16_t getSleepingRounds() const;
 	[[nodiscard]] Status getStatus() const;
-	void failExam();
-	void passExam();
+	void acceptExamResult(bool isPassed);
 	void drinkBeer();
 	void sleepNextRound();
 	void soberUp();

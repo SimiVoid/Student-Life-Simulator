@@ -38,12 +38,11 @@ Student::Status Student::getStatus() const {
 	return m_status;
 }
 
-void Student::failExam() {
-	m_failedExams++;
-}
-
-void Student::passExam() {
-	m_passedExams++;
+void Student::acceptExamResult(bool isPassed) {
+	if (isPassed)
+		m_passedExams++;
+	else
+		m_failedExams++;
 }
 
 void Student::drinkBeer() {
