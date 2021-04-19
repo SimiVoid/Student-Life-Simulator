@@ -15,7 +15,7 @@ void Simulation::generateAgents(uint16_t studentsCount, uint16_t examinersCount,
                                 std::pair<uint16_t, uint16_t> examinerSuspicionRange,
                                 std::pair<uint16_t, uint16_t> studentKnowledgeRange,
                                 std::pair<uint16_t, uint16_t> studentAlcoholResistanceRange) {
-	//TODO: generate agents
+	// TODO: generate agents
 }
 
 void Simulation::updateBoardStatusList() {
@@ -44,9 +44,11 @@ Simulation::Simulation(const uint16_t boardSize, const uint16_t studentsCount, c
                        const std::pair<uint16_t, uint16_t> examinerSuspicionRange, 
                        const std::pair<uint16_t, uint16_t> studentKnowledgeRange,
                        const std::pair<uint16_t, uint16_t> studentAlcoholResistanceRange) {
+
 	m_board = new Board(boardSize);
 
 	generateAgents(studentsCount, examinersCount, drunkStudentsCount, examinerSuspicionRange, studentKnowledgeRange, studentAlcoholResistanceRange);
+
 }
 
 Simulation::~Simulation() {
@@ -75,7 +77,7 @@ void Simulation::updateBoard() {
 		}
 
 	// TODO: Add students simulation algorithm
-	
+
 	updateBoardStatusList();
 }
 
@@ -84,7 +86,7 @@ void Simulation::drawBoard(sf::RenderWindow& window) {
 		m_board->draw(window, m_agents);
 }
 
-bool Simulation::checkStatus() {
+bool Simulation::checkStatus() {	
 	for (auto& agent : m_agents)
 		if (typeid(agent).name() == typeid(Student).name() 
 			&& dynamic_cast<Student*>(&agent)->getStatus() == Student::Status::OnStudies)

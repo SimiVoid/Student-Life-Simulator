@@ -5,7 +5,6 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
-#include <memory>
 
 #include "Simulation.h"
 #include "Menu.h"
@@ -13,7 +12,7 @@
 using namespace std::chrono_literals;
 
 int main(int argc, char* argv[]) {
-	std::shared_ptr<Simulation> simulation;
+	Simulation* simulation = nullptr;
 	
 	sf::RenderWindow window(sf::VideoMode(1200, 1000), "Student Life Simulator", sf::Style::Close);
 	window.setFramerateLimit(60);
@@ -33,13 +32,13 @@ int main(int argc, char* argv[]) {
 	menuBackground.setFillColor(sf::Color::White);
 	menuBackground.setPosition(0, 0);
 	
-	std::thread simulationLoopThread([=]() {
-			while(true) {
+	std::thread simulationLoopThread([&simulation, &window]() {
+			while(window.isOpen()) {
 				const auto start = std::chrono::system_clock::now();
 
 				if (simulation != nullptr && simulation->checkStatus())
 					simulation->updateBoard();
-
+				
 				const auto end = std::chrono::system_clock::now();
 
 				std::this_thread::sleep_for(1s - (end - start));
@@ -61,10 +60,13 @@ int main(int argc, char* argv[]) {
 		window.draw(menuBackground);
 		gui.draw();
 
+		if (simulation != nullptr && simulation->checkStatus())
+			simulation->drawBoard(window);
+		
 		window.display();
 	}
 
 	simulationLoopThread.detach();
-
+	
 	return 0;
 }

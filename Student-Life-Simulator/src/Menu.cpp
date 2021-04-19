@@ -1,8 +1,6 @@
 #include "Menu.h"
 
-#include <any>
-
-void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::shared_ptr<Simulation>& simulation) {
+void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation* simulation) {
 	using namespace tgui;
 
 	gui.setTextSize(15);
@@ -240,7 +238,7 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::shared_ptr<Sim
 	auto startButton = Button::create("Start");
 	startButton->setSize(Layout2d(190, 40));
 	startButton->setPosition(Layout2d(5, 5));
-	startButton->onMousePress(startButtonOnMousePress, std::ref(simulation),
+	startButton->onMousePress(startButtonOnMousePress, simulation,
 		std::map<std::string, std::any> {
 		std::make_pair("board_size", static_cast<uint16_t>(boardSizeSlider->getValue())),
 		std::make_pair("students_count", static_cast<uint16_t>(studentsCountSlider->getValue())),
@@ -263,14 +261,14 @@ void exitButtonOnMousePress(sf::RenderWindow& window) {
 	window.close();
 }
 
-void generatePlotButtonOnMousePress(const std::shared_ptr<Simulation>& simulation) {
+void generatePlotButtonOnMousePress(Simulation* simulation) {
 	if (simulation != nullptr)
 		simulation->generatePlot();
 
 	// TODO: on error msg
 }
 
-void exportDataButtonOnMousePress(const std::shared_ptr<Simulation>& simulation) {
+void exportDataButtonOnMousePress(Simulation* simulation) {
 	if (simulation != nullptr) {
 		try {
 			simulation->exportData();
@@ -283,14 +281,14 @@ void exportDataButtonOnMousePress(const std::shared_ptr<Simulation>& simulation)
 	// TODO: on error msg
 }
 
-void startButtonOnMousePress(std::shared_ptr<Simulation>& simulation, std::map<std::string, std::any> initParametersList) {
-	simulation = std::make_shared<Simulation>(Simulation(std::any_cast<uint16_t>(initParametersList["board_size"]),
+void startButtonOnMousePress(Simulation* simulation, std::map<std::string, std::any> initParametersList) {
+	simulation = new Simulation(std::any_cast<uint16_t>(initParametersList["board_size"]),
 		std::any_cast<uint16_t>(initParametersList["students_count"]),
 		std::any_cast<uint16_t>(initParametersList["examiners_count"]),
 		std::any_cast<uint16_t>(initParametersList["drunk_students_count"]),
 		std::any_cast<std::pair<uint16_t, uint16_t>>(initParametersList["examiners_suspicion"]),
 		std::any_cast<std::pair<uint16_t, uint16_t>>(initParametersList["student_knowledge"]),
-		std::any_cast<std::pair<uint16_t, uint16_t>>(initParametersList["student_resistance"])));
+		std::any_cast<std::pair<uint16_t, uint16_t>>(initParametersList["student_resistance"]));
 }
 
 void sliderOnValueChange(const std::shared_ptr<tgui::Slider>& slider, const std::shared_ptr<tgui::EditBox>& editBox) {
