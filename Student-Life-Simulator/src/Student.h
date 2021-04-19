@@ -36,6 +36,7 @@ public:
 	[[nodiscard]] Status getStatus() const;
 	void failExam();
 	void passExam();
+	void drinkBeer();
 	void sleepNextRound();
 	void soberUp();
 };

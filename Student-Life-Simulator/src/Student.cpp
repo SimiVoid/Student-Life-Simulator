@@ -46,6 +46,16 @@ void Student::passExam() {
 	m_passedExams++;
 }
 
+void Student::drinkBeer() {
+	// If drunk beers count exceeds alcohol resistance student goes to sleep
+	if (m_intoxication == m_alcoholResistance) {
+		m_isSleeping = true;
+		m_intoxication = 0;
+	}
+	else
+		m_intoxication++;
+}
+
 void Student::sleepNextRound() {
 	
 }
