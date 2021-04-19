@@ -2,7 +2,7 @@
 
 #include <any>
 
-void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation& simulation) {
+void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::shared_ptr<Simulation>& simulation) {
 	using namespace tgui;
 
 	gui.setTextSize(15);
@@ -16,13 +16,13 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation& simulat
 	auto generatePlotButton = Button::create("Generate plot");
 	generatePlotButton->setSize(Layout2d(190, 40));
 	generatePlotButton->setPosition(Layout2d(5, 905));
-	generatePlotButton->onMousePress(generatePlotButtonOnMousePress, &simulation);
+	generatePlotButton->onMousePress(generatePlotButtonOnMousePress, simulation);
 	gui.add(generatePlotButton);
 
 	auto exportDataButton = Button::create("Export Data");
 	exportDataButton->setSize(Layout2d(190, 40));
 	exportDataButton->setPosition(Layout2d(5, 855));
-	exportDataButton->onMousePress(exportDataButtonOnMousePress, &simulation);
+	exportDataButton->onMousePress(exportDataButtonOnMousePress, simulation);
 	gui.add(exportDataButton);
 
 	// Board size
@@ -240,15 +240,21 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation& simulat
 	auto startStopButton = Button::create("Start");
 	startStopButton->setSize(Layout2d(190, 40));
 	startStopButton->setPosition(Layout2d(5, 5));
-	startStopButton->onMousePress(startStopButtonOnMousePress, &simulation,
-		std::unordered_map<std::string, std::any> {
-		std::make_pair("board_size", boardSizeSlider->getValue()),
-			std::make_pair("students_count", studentsCountSlider->getValue()),
-			std::make_pair("drunk_students_count", drunkStudentsCountSlider->getValue()),
-			std::make_pair("examiners_count", examinersCountSlider->getValue()),
-			std::make_pair("examiners_suspicion", std::make_pair(examinerSuspicionRangeSlider->getSelectionStart(), examinerSuspicionRangeSlider->getSelectionEnd())),
-			std::make_pair("student_knowledge", std::make_pair(studentKnowledgeRangeSlider->getSelectionStart(), studentKnowledgeRangeSlider->getSelectionEnd())),
-			std::make_pair("student_resistance", std::make_pair(studentAlcoholResistanceRangeSlider->getSelectionStart(), studentAlcoholResistanceRangeSlider->getSelectionEnd()))
+	startStopButton->onMousePress(startStopButtonOnMousePress, std::ref(simulation),
+		std::map<std::string, std::any> {
+		std::make_pair("board_size", static_cast<uint16_t>(boardSizeSlider->getValue())),
+		std::make_pair("students_count", static_cast<uint16_t>(studentsCountSlider->getValue())),
+		std::make_pair("drunk_students_count", static_cast<uint16_t>(drunkStudentsCountSlider->getValue())),
+		std::make_pair("examiners_count", static_cast<uint16_t>(examinersCountSlider->getValue())),
+		std::make_pair("examiners_suspicion", 
+			std::make_pair(static_cast<uint16_t>(examinerSuspicionRangeSlider->getSelectionStart()), 
+				static_cast<uint16_t>(examinerSuspicionRangeSlider->getSelectionEnd()))),
+		std::make_pair("student_knowledge", 
+			std::make_pair(static_cast<uint16_t>(studentKnowledgeRangeSlider->getSelectionStart()), 
+				static_cast<uint16_t>(studentKnowledgeRangeSlider->getSelectionEnd()))),
+		std::make_pair("student_resistance", 
+			std::make_pair(static_cast<uint16_t>(studentAlcoholResistanceRangeSlider->getSelectionStart()), 
+				static_cast<uint16_t>(studentAlcoholResistanceRangeSlider->getSelectionEnd())))
 	});
 	gui.add(startStopButton);
 }
@@ -257,14 +263,14 @@ void exitButtonOnMousePress(sf::RenderWindow& window) {
 	window.close();
 }
 
-void generatePlotButtonOnMousePress(Simulation* simulation) {
+void generatePlotButtonOnMousePress(const std::shared_ptr<Simulation>& simulation) {
 	if (simulation != nullptr)
 		simulation->generatePlot();
 
 	// TODO: on error msg
 }
 
-void exportDataButtonOnMousePress(Simulation* simulation) {
+void exportDataButtonOnMousePress(const std::shared_ptr<Simulation>& simulation) {
 	if (simulation != nullptr) {
 		try {
 			simulation->exportData();
@@ -277,14 +283,14 @@ void exportDataButtonOnMousePress(Simulation* simulation) {
 	// TODO: on error msg
 }
 
-void startStopButtonOnMousePress(Simulation* simulation, std::unordered_map<std::string, std::any>& initParametersList) {
-	simulation = new Simulation(std::any_cast<uint16_t>(initParametersList["board_size"]),
+void startStopButtonOnMousePress(std::shared_ptr<Simulation>& simulation, std::map<std::string, std::any> initParametersList) {
+	simulation = std::make_shared<Simulation>(Simulation(std::any_cast<uint16_t>(initParametersList["board_size"]),
 		std::any_cast<uint16_t>(initParametersList["students_count"]),
 		std::any_cast<uint16_t>(initParametersList["examiners_count"]),
 		std::any_cast<uint16_t>(initParametersList["drunk_students_count"]),
 		std::any_cast<std::pair<uint16_t, uint16_t>>(initParametersList["examiners_suspicion"]),
 		std::any_cast<std::pair<uint16_t, uint16_t>>(initParametersList["student_knowledge"]),
-		std::any_cast<std::pair<uint16_t, uint16_t>>(initParametersList["student_resistance"]));
+		std::any_cast<std::pair<uint16_t, uint16_t>>(initParametersList["student_resistance"])));
 }
 
 void sliderOnValueChange(const std::shared_ptr<tgui::Slider>& slider, const std::shared_ptr<tgui::EditBox>& editBox) {

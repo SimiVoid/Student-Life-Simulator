@@ -5,6 +5,7 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <memory>
 
 #include "Simulation.h"
 #include "Menu.h"
@@ -12,7 +13,7 @@
 using namespace  std::chrono_literals;
 
 int main(int argc, char* argv[]) {
-	Simulation* simulation = nullptr;
+	std::shared_ptr<Simulation> simulation(new Simulation);
 	
 	sf::RenderWindow window(sf::VideoMode(1200, 1000), "Student Life Simulator", sf::Style::Close);
 	window.setFramerateLimit(60);
@@ -20,7 +21,7 @@ int main(int argc, char* argv[]) {
 	tgui::GuiSFML gui(window);
 
 	try {
-		setupMenu(gui, window, *simulation);
+		setupMenu(gui, window, simulation);
 	}
 	catch (const tgui::Exception& e) {
 		std::cerr << "Failed to load TGUI widgets: " << e.what() << std::endl;
@@ -64,8 +65,6 @@ int main(int argc, char* argv[]) {
 	}
 
 	simulationLoopThread.detach();
-	
-	delete simulation;
-	
+
 	return 0;
 }
