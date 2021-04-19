@@ -1,4 +1,5 @@
 #include "Agent.h"
+#include "Util.h"
 
 #include <random>
 
@@ -25,12 +26,6 @@ void Agent::draw(sf::RenderWindow& window, const bool isSingle) const {
 }
 
 void Agent::move(const uint16_t boardSize) {
-	// TODO: Add moving algorithm
-
-	std::random_device randomDevice;
-	std::mt19937 generator(randomDevice());
-	const std::uniform_int<> distribution(1, 8);
-
 	/**
 	 * Movment statemant
 	 * 1 - Up
@@ -47,7 +42,7 @@ void Agent::move(const uint16_t boardSize) {
 	auto tempPosition = m_position;
 	
 	do {
-		switch (distribution(generator)) {
+		switch (randomNumberWithinRange(std::make_pair<int, int>(1, 8))) {
 		case 1:
 			tempPosition.y--;
 			break;
