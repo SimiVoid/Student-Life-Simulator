@@ -15,7 +15,25 @@ void Simulation::generateAgents(uint16_t studentsCount, uint16_t examinersCount,
                                 std::pair<uint16_t, uint16_t> examinerSuspicionRange,
                                 std::pair<uint16_t, uint16_t> studentKnowledgeRange,
                                 std::pair<uint16_t, uint16_t> studentAlcoholResistanceRange) {
-	// TODO: generate agents
+	Agent* agent;
+
+	studentsCount -= drunkStudentsCount;
+
+	for (; drunkStudentsCount > 0; drunkStudentsCount--) {
+		agent = new Student(studentKnowledgeRange, studentAlcoholResistanceRange);
+		dynamic_cast<Student*>(agent)->drinkBeer();
+		m_agents.push_back(*agent);
+	}
+
+	for (; studentsCount > 0; studentsCount--) {
+		agent = new Student(studentKnowledgeRange, studentAlcoholResistanceRange);
+		m_agents.push_back(*agent);
+	}
+
+	for (; examinersCount > 0; examinersCount--) {
+		agent = new Examiner(examinerSuspicionRange);
+		m_agents.push_back(*agent);
+	}
 }
 
 void Simulation::updateBoardStatusList() {
