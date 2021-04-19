@@ -5,6 +5,7 @@
 #include <typeinfo>
 #include <filesystem>
 #include <exception>
+#include <iostream>
 #include <sstream>
 
 #include "Examiner.h"
@@ -95,13 +96,12 @@ bool Simulation::checkStatus() {
 void Simulation::exportData() {
 	if(!std::filesystem::is_directory("./output"))
 		std::filesystem::create_directories("./output");
-
-	auto now = std::chrono::system_clock::now();
-	auto in_time_t = std::chrono::system_clock::to_time_t(now);
-
+	
+	const auto now = std::chrono::system_clock::now();
+	auto inTimeT = std::chrono::system_clock::to_time_t(now);
 
 	std::stringstream ss;
-	ss << std::put_time(std::localtime(&in_time_t), "%Y-%m-%d_%H-%M-%S_data.csv");
+	ss << std::put_time(std::localtime(&inTimeT), "%Y-%m-%d_%H-%M-%S_data.csv");
 	std::ofstream csvFile("./output/" + ss.str());
 
 	if (csvFile.good() && csvFile.is_open()) {
@@ -110,6 +110,8 @@ void Simulation::exportData() {
 		csvFile.close();
 	}
 	else throw std::exception("Error!!! Cannot save data file!!!");
+
+	std::clog << "File: " << ss.str() << " save" << std::endl;
 }
 
 void Simulation::generatePlot() {

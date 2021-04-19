@@ -29,7 +29,6 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation& simulat
 	startStopButton->onMousePress(startStopButtonOnMousePress);
 	gui.add(startStopButton);
 
-
 	// Board size
 	auto boardSizeSliderText = Label::create("Size:");
 	boardSizeSliderText->setSize(Layout2d(190, 20));
@@ -251,7 +250,7 @@ void generatePlotButtonOnMousePress(Simulation* simulation) {
 	if (simulation != nullptr)
 		simulation->generatePlot();
 
-	//TODO: on error msg
+	// TODO: on error msg
 }
 
 void exportDataButtonOnMousePress(Simulation* simulation) {
@@ -264,35 +263,36 @@ void exportDataButtonOnMousePress(Simulation* simulation) {
 		}
 	}
 	
-	//TODO: on error msg
+	// TODO: on error msg
 }
 
 void startStopButtonOnMousePress() {
 	
 }
 
-void sliderOnValueChange(std::shared_ptr<tgui::Slider> slider, std::shared_ptr<tgui::EditBox> editBox) {
+void sliderOnValueChange(const std::shared_ptr<tgui::Slider>& slider, const std::shared_ptr<tgui::EditBox>& editBox) {
 	editBox->setText(std::to_string(static_cast<uint16_t>(slider->getValue())));
 }
 
-void rangeSliderOnRangeChange(std::shared_ptr<tgui::RangeSlider> rangeSlider, std::shared_ptr<tgui::EditBox> editBoxStart,
-	std::shared_ptr<tgui::EditBox> editBoxEnd) {
+void rangeSliderOnRangeChange(const std::shared_ptr<tgui::RangeSlider>& rangeSlider, const std::shared_ptr<tgui::EditBox>& editBoxStart,
+	const std::shared_ptr<tgui::EditBox>& editBoxEnd) {
 	editBoxStart->setText(std::to_string(static_cast<int>(rangeSlider->getSelectionStart())));
 	editBoxEnd->setText(std::to_string(static_cast<int>(rangeSlider->getSelectionEnd())));
 }
 
-void editBoxOnReturnOrUnfocus(std::shared_ptr<tgui::EditBox> editBox, std::shared_ptr<tgui::Slider> slider) {
-	auto &editBoxText = editBox->getText();
+void editBoxOnReturnOrUnfocus(const std::shared_ptr<tgui::EditBox>& editBox, const std::shared_ptr<tgui::Slider>& slider) {
+	const auto& editBoxText = editBox->getText();
 	if (editBoxText == "")
 		editBox->setText(std::to_string(static_cast<int>(slider->getValue())));
 	else
 		slider->setValue(editBoxText.toFloat());
 }
 
-void editBoxOnReturnOrUnfocusRange(std::shared_ptr<tgui::EditBox> editBoxStart, std::shared_ptr<tgui::EditBox> editBoxEnd,
-	std::shared_ptr<tgui::RangeSlider> rangeSlider) {
-	auto& editBoxTextStart = editBoxStart->getText();
-	auto& editBoxTextEnd = editBoxEnd->getText();
+void editBoxOnReturnOrUnfocusRange(const std::shared_ptr<tgui::EditBox>& editBoxStart,
+                                   const std::shared_ptr<tgui::EditBox>&  editBoxEnd,
+                                   const std::shared_ptr<tgui::RangeSlider>& rangeSlider) {
+	const auto& editBoxTextStart = editBoxStart->getText();
+	const auto& editBoxTextEnd = editBoxEnd->getText();
 
 	// This block can safetly return because no other changes could be made if statement is true
 	if (editBoxTextStart == "") {
@@ -305,13 +305,13 @@ void editBoxOnReturnOrUnfocusRange(std::shared_ptr<tgui::EditBox> editBoxStart, 
 	}
 
 	if (editBoxTextStart.toInt() > editBoxTextEnd.toInt()) {
-		auto swap = editBoxTextEnd;
+		const auto& swap = editBoxTextEnd;
 		editBoxEnd->setText(editBoxTextStart);
 		editBoxStart->setText(swap);
 	}
 
-	rangeSlider->onRangeChange.setEnabled(0);
+	rangeSlider->onRangeChange.setEnabled(false);
 	rangeSlider->setSelectionStart(editBoxTextStart.toFloat());
 	rangeSlider->setSelectionEnd(editBoxTextEnd.toFloat());
-	rangeSlider->onRangeChange.setEnabled(1);
+	rangeSlider->onRangeChange.setEnabled(true);
 }
