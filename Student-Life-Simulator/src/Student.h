@@ -15,6 +15,7 @@ public:
 private:
 	bool m_isSleeping{};
 	uint16_t m_intoxication{};
+	uint16_t m_roundsWithoutDrinking{};
 	uint16_t m_knowledge;
 	uint16_t m_failedExams{};
 	uint16_t m_passedExams{};
@@ -32,11 +33,9 @@ public:
 	[[nodiscard]] uint16_t getFailedExams() const;
 	[[nodiscard]] uint16_t getPassedExams() const;
 	[[nodiscard]] uint16_t getAlcoholResistance() const;
-	[[nodiscard]] uint16_t getSleepingRounds() const;
 	[[nodiscard]] Status getStatus() const;
 	void acceptExamResult(bool isPassed);
 	void drinkBeer();
-	void sleepNextRound();
-	void soberUp();
+	void nextRound();
 };
 

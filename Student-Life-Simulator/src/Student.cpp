@@ -30,10 +30,6 @@ uint16_t Student::getAlcoholResistance() const {
 	return m_alcoholResistance;
 }
 
-uint16_t Student::getSleepingRounds() const {
-	return m_sleepingRounds;
-}
-
 Student::Status Student::getStatus() const {
 	return m_status;
 }
@@ -50,15 +46,31 @@ void Student::drinkBeer() {
 	if (m_intoxication == m_alcoholResistance) {
 		m_isSleeping = true;
 		m_intoxication = 0;
+		m_roundsWithoutDrinking = 0;
+	}
+	else {
+		m_intoxication++;
+		m_roundsWithoutDrinking = 0;
+	}
+}
+
+void Student::nextRound() {
+	if (m_isSleeping) {
+		if (m_sleepingRounds == 4) {
+			m_isSleeping = false;
+			m_sleepingRounds = 0;
+		}
+		else
+			m_sleepingRounds++;
+
+		return;
+	}
+
+	if (m_roundsWithoutDrinking == 4) {
+		m_roundsWithoutDrinking = 0;
+		if (m_intoxication != 0)
+			m_intoxication--;
 	}
 	else
-		m_intoxication++;
-}
-
-void Student::sleepNextRound() {
-	
-}
-
-void Student::soberUp() {
-	
+		m_roundsWithoutDrinking++;
 }
