@@ -39,46 +39,48 @@ void Agent::move(const uint16_t boardSize) {
 	 */
 
 	auto inCollision = false;
-	auto tempPosition = m_position;
+	auto newPosition = m_position;
 	
 	do {
 		switch (randomNumberWithinRange(std::make_pair<int, int>(1, 8))) {
 		case 1:
-			tempPosition.y--;
+			newPosition.y--;
 			break;
 		case 2:
-			tempPosition.y--;
-			tempPosition.x++;
+			newPosition.y--;
+			newPosition.x++;
 			break;
 		case 3:
-			tempPosition.x++;
+			newPosition.x++;
 			break;
 		case 4:
-			tempPosition.y++;
-			tempPosition.x++;
+			newPosition.y++;
+			newPosition.x++;
 			break;
 		case 5:
-			tempPosition.y++;
+			newPosition.y++;
 			break;
 		case 6:
-			tempPosition.y++;
-			tempPosition.x--;
+			newPosition.y++;
+			newPosition.x--;
 			break;
 		case 7:
-			tempPosition.x--;
+			newPosition.x--;
 			break;
 		case 8:
-			tempPosition.x--;
-			tempPosition.y--;
+			newPosition.x--;
+			newPosition.y--;
 			break;
 		default:
 			break;
 		}
 
-		if (tempPosition.x < 0 || tempPosition.x >= boardSize || tempPosition.y < 0 || tempPosition.y >= boardSize)
+		if (newPosition.x < 0 || newPosition.x >= boardSize || newPosition.y < 0 || newPosition.y >= boardSize) {
 			inCollision = true;
+			newPosition = m_position;
+		}
 		
 	} while (inCollision);
 
-	m_position = tempPosition;
+	m_position = newPosition;
 }
