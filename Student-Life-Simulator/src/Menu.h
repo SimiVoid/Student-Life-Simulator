@@ -3,13 +3,15 @@
 #include <TGUI/TGUI.hpp>
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <map>
+#include <any>
 
 #include "Simulation.h"
 
 void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation& simulation);
 
 void exitButtonOnMousePress(sf::RenderWindow& window);
-void startStopButtonOnMousePress();
+void startStopButtonOnMousePress(Simulation* simulation, std::unordered_map<std::string, std::any>& initParametersList);
 void generatePlotButtonOnMousePress(Simulation* simulation);
 void exportDataButtonOnMousePress(Simulation* simulation);
 void sliderOnValueChange(const std::shared_ptr<tgui::Slider>& slider, const std::shared_ptr<tgui::EditBox>& editBox);
