@@ -285,6 +285,13 @@ void exportDataButtonOnMousePress(Simulation* simulation) {
 void startButtonOnMousePress(Simulation* simulation, std::function<std::map<std::string, std::any> ()> initParametersListFunc) {
 	auto initParametersList = initParametersListFunc();
 
+	if (std::any_cast<uint16_t>(initParametersList["drunk_students_count"]) > std::any_cast<uint16_t>(initParametersList["students_count"]))
+	{
+		MessageBoxA(0, "Drunk students count exceeds all students count!\n\
+						Students count should be more or equal to drunk students count.", "Error!", MB_OK);
+		return;
+	}
+
 	simulation = new Simulation(std::any_cast<uint16_t>(initParametersList["board_size"]),
 		std::any_cast<uint16_t>(initParametersList["students_count"]),
 		std::any_cast<uint16_t>(initParametersList["examiners_count"]),
