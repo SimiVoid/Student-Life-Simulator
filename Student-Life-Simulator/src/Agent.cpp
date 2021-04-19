@@ -2,7 +2,7 @@
 
 #include <random>
 
-uint16_t Agent::idCounter;
+uint16_t Agent::idCounter = 0;
 
 Agent::Agent()
 	:m_id(idCounter++) {
@@ -17,8 +17,11 @@ uint16_t Agent::getId() const {
 	return m_id;
 }
 
-void Agent::draw(sf::RenderWindow& window, bool isSingle) {
-	
+void Agent::draw(sf::RenderWindow& window, const bool isSingle) {
+	if (isSingle)
+		window.draw(m_singleView);
+	else
+		window.draw(m_multipleView);
 }
 
 void Agent::move(uint16_t boardSize) {
