@@ -25,7 +25,6 @@ public:
 		std::pair<uint16_t, uint16_t> examinerSuspicionRange, 
 		std::pair<uint16_t, uint16_t> studentKnowledgeRange,
 		std::pair<uint16_t, uint16_t> studentAlcoholResistanceRange);
-	Simulation() = default;
 	~Simulation();
 
 	void updateBoard();

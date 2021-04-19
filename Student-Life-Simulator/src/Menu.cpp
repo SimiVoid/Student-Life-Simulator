@@ -237,10 +237,10 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::shared_ptr<Sim
 		examinerSuspicionRangeEditBoxStart, examinerSuspicionRangeEditBoxEnd);
 	gui.add(examinerSuspicionRangeSlider);
 
-	auto startStopButton = Button::create("Start");
-	startStopButton->setSize(Layout2d(190, 40));
-	startStopButton->setPosition(Layout2d(5, 5));
-	startStopButton->onMousePress(startStopButtonOnMousePress, std::ref(simulation),
+	auto startButton = Button::create("Start");
+	startButton->setSize(Layout2d(190, 40));
+	startButton->setPosition(Layout2d(5, 5));
+	startButton->onMousePress(startButtonOnMousePress, std::ref(simulation),
 		std::map<std::string, std::any> {
 		std::make_pair("board_size", static_cast<uint16_t>(boardSizeSlider->getValue())),
 		std::make_pair("students_count", static_cast<uint16_t>(studentsCountSlider->getValue())),
@@ -256,7 +256,7 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::shared_ptr<Sim
 			std::make_pair(static_cast<uint16_t>(studentAlcoholResistanceRangeSlider->getSelectionStart()), 
 				static_cast<uint16_t>(studentAlcoholResistanceRangeSlider->getSelectionEnd())))
 	});
-	gui.add(startStopButton);
+	gui.add(startButton);
 }
 
 void exitButtonOnMousePress(sf::RenderWindow& window) {
@@ -283,7 +283,7 @@ void exportDataButtonOnMousePress(const std::shared_ptr<Simulation>& simulation)
 	// TODO: on error msg
 }
 
-void startStopButtonOnMousePress(std::shared_ptr<Simulation>& simulation, std::map<std::string, std::any> initParametersList) {
+void startButtonOnMousePress(std::shared_ptr<Simulation>& simulation, std::map<std::string, std::any> initParametersList) {
 	simulation = std::make_shared<Simulation>(Simulation(std::any_cast<uint16_t>(initParametersList["board_size"]),
 		std::any_cast<uint16_t>(initParametersList["students_count"]),
 		std::any_cast<uint16_t>(initParametersList["examiners_count"]),

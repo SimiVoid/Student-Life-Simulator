@@ -8,10 +8,10 @@
 
 #include "Simulation.h"
 
-void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::shared_ptr<Simulation>& simulation);
+void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window,  std::shared_ptr<Simulation>& simulation);
 
 void exitButtonOnMousePress(sf::RenderWindow& window);
-void startStopButtonOnMousePress(std::shared_ptr<Simulation>& simulation, std::map<std::string, std::any> initParametersList);
+void startButtonOnMousePress(std::shared_ptr<Simulation>& simulation, std::map<std::string, std::any> initParametersList);
 void generatePlotButtonOnMousePress(const std::shared_ptr<Simulation>& simulation);
 void exportDataButtonOnMousePress(const std::shared_ptr<Simulation>& simulation);
 void sliderOnValueChange(const std::shared_ptr<tgui::Slider>& slider, const std::shared_ptr<tgui::EditBox>& editBox);
