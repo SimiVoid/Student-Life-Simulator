@@ -238,22 +238,23 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation* simulat
 	auto startButton = Button::create("Start");
 	startButton->setSize(Layout2d(190, 40));
 	startButton->setPosition(Layout2d(5, 5));
-	startButton->onMousePress(startButtonOnMousePress, simulation,
-		std::map<std::string, std::any> {
-		std::make_pair("board_size", static_cast<uint16_t>(boardSizeSlider->getValue())),
-		std::make_pair("students_count", static_cast<uint16_t>(studentsCountSlider->getValue())),
-		std::make_pair("drunk_students_count", static_cast<uint16_t>(drunkStudentsCountSlider->getValue())),
-		std::make_pair("examiners_count", static_cast<uint16_t>(examinersCountSlider->getValue())),
-		std::make_pair("examiners_suspicion", 
-			std::make_pair(static_cast<uint16_t>(examinerSuspicionRangeSlider->getSelectionStart()), 
-				static_cast<uint16_t>(examinerSuspicionRangeSlider->getSelectionEnd()))),
-		std::make_pair("student_knowledge", 
-			std::make_pair(static_cast<uint16_t>(studentKnowledgeRangeSlider->getSelectionStart()), 
-				static_cast<uint16_t>(studentKnowledgeRangeSlider->getSelectionEnd()))),
-		std::make_pair("student_resistance", 
-			std::make_pair(static_cast<uint16_t>(studentAlcoholResistanceRangeSlider->getSelectionStart()), 
-				static_cast<uint16_t>(studentAlcoholResistanceRangeSlider->getSelectionEnd())))
-	});
+	startButton->onMousePress(startButtonOnMousePress, simulation, [=]() -> std::map<std::string, std::any> {
+		std::map<std::string, std::any> mapa{
+			std::make_pair("board_size", static_cast<uint16_t>(boardSizeSlider->getValue())),
+			std::make_pair("students_count", static_cast<uint16_t>(studentsCountSlider->getValue())),
+			std::make_pair("drunk_students_count", static_cast<uint16_t>(drunkStudentsCountSlider->getValue())),
+			std::make_pair("examiners_count", static_cast<uint16_t>(examinersCountSlider->getValue())),
+			std::make_pair("examiners_suspicion",
+				std::make_pair(static_cast<uint16_t>(examinerSuspicionRangeSlider->getSelectionStart()),
+					static_cast<uint16_t>(examinerSuspicionRangeSlider->getSelectionEnd()))),
+			std::make_pair("student_knowledge",
+				std::make_pair(static_cast<uint16_t>(studentKnowledgeRangeSlider->getSelectionStart()),
+					static_cast<uint16_t>(studentKnowledgeRangeSlider->getSelectionEnd()))),
+			std::make_pair("student_resistance",
+				std::make_pair(static_cast<uint16_t>(studentAlcoholResistanceRangeSlider->getSelectionStart()),
+					static_cast<uint16_t>(studentAlcoholResistanceRangeSlider->getSelectionEnd()))) };
+		return mapa;
+		});
 	gui.add(startButton);
 }
 
@@ -273,15 +274,17 @@ void exportDataButtonOnMousePress(Simulation* simulation) {
 		try {
 			simulation->exportData();
 		}
-		catch(const std::exception& exception) {
+		catch (const std::exception& exception) {
 			std::cerr << exception.what() << std::endl;
 		}
 	}
-	
+
 	// TODO: on error msg
 }
 
-void startButtonOnMousePress(Simulation* simulation, std::map<std::string, std::any> initParametersList) {
+void startButtonOnMousePress(Simulation* simulation, std::function<std::map<std::string, std::any> ()> initParametersListFunc) {
+	auto initParametersList = initParametersListFunc();
+
 	simulation = new Simulation(std::any_cast<uint16_t>(initParametersList["board_size"]),
 		std::any_cast<uint16_t>(initParametersList["students_count"]),
 		std::any_cast<uint16_t>(initParametersList["examiners_count"]),
@@ -310,8 +313,8 @@ void editBoxOnReturnOrUnfocus(const std::shared_ptr<tgui::EditBox>& editBox, con
 }
 
 void editBoxOnReturnOrUnfocusRange(const std::shared_ptr<tgui::EditBox>& editBoxStart,
-                                   const std::shared_ptr<tgui::EditBox>&  editBoxEnd,
-                                   const std::shared_ptr<tgui::RangeSlider>& rangeSlider) {
+	const std::shared_ptr<tgui::EditBox>& editBoxEnd,
+	const std::shared_ptr<tgui::RangeSlider>& rangeSlider) {
 	const auto& editBoxTextStart = editBoxStart->getText();
 	const auto& editBoxTextEnd = editBoxEnd->getText();
 

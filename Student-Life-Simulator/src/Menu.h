@@ -1,7 +1,8 @@
 #pragma once
 
-#include <TGUI/TGUI.hpp>
 #include <SFML/Graphics.hpp>
+#include <Windows.h>
+#include <TGUI/TGUI.hpp>
 #include <string>
 #include <map>
 #include <any>
@@ -11,7 +12,7 @@
 void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window,  Simulation* simulation);
 
 void exitButtonOnMousePress(sf::RenderWindow& window);
-void startButtonOnMousePress(Simulation* simulation, std::map<std::string, std::any> initParametersList);
+void startButtonOnMousePress(Simulation* simulation, std::function<std::map<std::string, std::any> ()> initParametersList);
 void generatePlotButtonOnMousePress(Simulation* simulation);
 void exportDataButtonOnMousePress(Simulation* simulation);
 void sliderOnValueChange(const std::shared_ptr<tgui::Slider>& slider, const std::shared_ptr<tgui::EditBox>& editBox);
