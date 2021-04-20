@@ -4,6 +4,8 @@ Student::Student(const std::pair<uint16_t, uint16_t> knowledgeRange, const std::
 	: Agent(), m_status(Status::OnStudies) {
 	m_knowledge = randomNumberWithinRange(knowledgeRange);
 	m_alcoholResistance = randomNumberWithinRange(alcoholResistanceRange);
+
+	// TODO: setup drawable elements (Student)
 }
 
 bool Student::isSleeping() const {
@@ -34,7 +36,7 @@ Student::Status Student::getStatus() const {
 	return m_status;
 }
 
-void Student::acceptExamResult(bool isPassed) {
+void Student::acceptExamResult(const bool isPassed) {
 	if (isPassed)
 		m_passedExams++;
 	else

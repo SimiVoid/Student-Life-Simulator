@@ -1,5 +1,7 @@
 #include "Menu.h"
 
+#include <Windows.h>
+
 void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation* simulation) {
 	using namespace tgui;
 
@@ -239,7 +241,7 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation* simulat
 	startButton->setSize(Layout2d(190, 40));
 	startButton->setPosition(Layout2d(5, 5));
 	startButton->onMousePress(startButtonOnMousePress, simulation, [=]() -> std::map<std::string, std::any> {
-		std::map<std::string, std::any> mapa{
+		std::map<std::string, std::any> map{
 			std::make_pair("board_size", static_cast<uint16_t>(boardSizeSlider->getValue())),
 			std::make_pair("students_count", static_cast<uint16_t>(studentsCountSlider->getValue())),
 			std::make_pair("drunk_students_count", static_cast<uint16_t>(drunkStudentsCountSlider->getValue())),
@@ -253,7 +255,7 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation* simulat
 			std::make_pair("student_resistance",
 				std::make_pair(static_cast<uint16_t>(studentAlcoholResistanceRangeSlider->getSelectionStart()),
 					static_cast<uint16_t>(studentAlcoholResistanceRangeSlider->getSelectionEnd()))) };
-		return mapa;
+		return map;
 		});
 	gui.add(startButton);
 }
@@ -287,7 +289,7 @@ void startButtonOnMousePress(Simulation* simulation, std::function<std::map<std:
 
 	if (std::any_cast<uint16_t>(initParametersList["drunk_students_count"]) > std::any_cast<uint16_t>(initParametersList["students_count"]))
 	{
-		MessageBoxA(0, "Drunk students count exceeds all students count!\n\
+		MessageBoxA(nullptr, "Drunk students count exceeds all students count!\n\
 						Students count should be more or equal to drunk students count.", "Error!", MB_OK);
 		return;
 	}

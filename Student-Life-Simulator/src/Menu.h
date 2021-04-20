@@ -1,7 +1,6 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <Windows.h>
 #include <TGUI/TGUI.hpp>
 #include <string>
 #include <map>
