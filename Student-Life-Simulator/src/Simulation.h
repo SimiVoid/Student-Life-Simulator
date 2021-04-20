@@ -11,7 +11,7 @@
 #include "Board.h"
 
 class Simulation {
-	std::list<Agent> m_agents;
+	std::list<std::shared_ptr<Agent>> m_agents;
 	std::vector<BoardStatus> m_boardStatusList;
 	std::unique_ptr<Board> m_board;
 

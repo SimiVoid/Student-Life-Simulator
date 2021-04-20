@@ -15,24 +15,23 @@ void Simulation::generateAgents(uint16_t studentsCount, uint16_t examinersCount,
 	std::pair<uint16_t, uint16_t> examinerSuspicionRange,
 	std::pair<uint16_t, uint16_t> studentKnowledgeRange,
 	std::pair<uint16_t, uint16_t> studentAlcoholResistanceRange) {
-	Agent* agent;
-
+	
 	studentsCount -= drunkStudentsCount;
 
 	for (; drunkStudentsCount > 0; drunkStudentsCount--) {
-		agent = new Student(studentKnowledgeRange, studentAlcoholResistanceRange, m_board->getBoardSize());
-		dynamic_cast<Student*>(agent)->drinkBeer();
-		m_agents.push_back(*agent);
+		auto agent = std::make_shared<Student>(Student(studentKnowledgeRange, studentAlcoholResistanceRange, m_board->getBoardSize()));
+		agent->drinkBeer();
+		m_agents.push_back(agent);
 	}
 
 	for (; studentsCount > 0; studentsCount--) {
-		agent = new Student(studentKnowledgeRange, studentAlcoholResistanceRange, m_board->getBoardSize());
-		m_agents.push_back(*agent);
+		auto agent = std::make_shared<Student>(Student(studentKnowledgeRange, studentAlcoholResistanceRange, m_board->getBoardSize()));
+		m_agents.push_back(agent);
 	}
 
 	for (; examinersCount > 0; examinersCount--) {
-		agent = new Examiner(examinerSuspicionRange, m_board->getBoardSize());
-		m_agents.push_back(*agent);
+		auto agent = std::make_shared<Examiner>(Examiner(examinerSuspicionRange, m_board->getBoardSize()));
+		m_agents.push_back(agent);
 	}
 }
 
@@ -43,7 +42,7 @@ void Simulation::updateBoardStatusList() {
 
 	for (auto& agent : m_agents)
 		if (typeid(agent).name() == typeid(Student).name())
-			switch (dynamic_cast<Student*>(&agent)->getStatus()) {
+			switch (std::dynamic_pointer_cast<Student>(agent)->getStatus()) {
 			case Student::Status::OnStudies:
 				studentsOnStudiesCount++;
 				break;
@@ -75,12 +74,12 @@ Simulation::Simulation(Simulation&&) noexcept {
 
 void Simulation::updateBoard() {
 	for (auto& agent : m_agents)
-		agent.move(m_board->getBoardSize());
+		agent->move(m_board->getBoardSize());
 
 	for (uint16_t x = 0; x < m_board->getBoardSize(); ++x) {
 		for (uint16_t y = 0; y < m_board->getBoardSize(); ++y) {
 			const auto& agents = m_board->getField({ x, y }).getAgents();
-			Examiner* mainExaminer = nullptr;
+			std::shared_ptr<Examiner> mainExaminer = nullptr;
 			uint16_t minimumKnowledge = 101;
 			auto isEveryStudentSober = true;
 
@@ -89,12 +88,12 @@ void Simulation::updateBoard() {
 			 * 2. Lowest knowledge among all Students
 			 */
 			for (const auto& agent : agents) {
-				if (typeid(agent).name() == typeid(Examiner*).name()) {
-					if (mainExaminer == nullptr || mainExaminer->getSuspicion() < dynamic_cast<Examiner*>(agent)->getSuspicion())
-						mainExaminer = dynamic_cast<Examiner*>(agent);
+				if (typeid(agent).name() == typeid(Examiner).name()) {
+					if (mainExaminer == nullptr || mainExaminer->getSuspicion() < std::dynamic_pointer_cast<Examiner>(agent)->getSuspicion())
+						mainExaminer = std::dynamic_pointer_cast<Examiner>(agent);
 				}
-				else if (typeid(agent).name() == typeid(Student*).name()) {
-					auto student = dynamic_cast<Student*>(agent);
+				else if (typeid(agent).name() == typeid(Student).name()) {
+					auto student = std::dynamic_pointer_cast<Student>(agent);
 
 					// Inform each student about a new round
 					student->nextRound();
@@ -119,15 +118,15 @@ void Simulation::updateBoard() {
 					if (randomNumberWithinRange<uint16_t>(std::make_pair(1, 100)) > minimumKnowledge)
 						for (const auto& agent : agents) {
 							if (typeid(agent).name() == typeid(Student*).name()) {
-								dynamic_cast<Student*>(agent)->drinkBeer();
+								std::dynamic_pointer_cast<Student>(agent)->drinkBeer();
 							}
 						}
 				}
 			}
 			else {
-				for (const auto& agent : agents) {
+				for (auto& agent : agents) {
 					if (typeid(agent).name() == typeid(Student*).name()) {
-						mainExaminer->examinateStudent(dynamic_cast<Student*>(agent));
+						mainExaminer->examinateStudent(std::dynamic_pointer_cast<Student>(agent));
 					}
 				}
 			}
@@ -146,7 +145,7 @@ void Simulation::drawBoard(sf::RenderWindow& window) const {
 bool Simulation::checkStatus() {
 	for (auto& agent : m_agents)
 		if (typeid(agent).name() == typeid(Student).name()
-			&& dynamic_cast<Student*>(&agent)->getStatus() == Student::Status::OnStudies)
+			&& std::dynamic_pointer_cast<Student>(agent)->getStatus() == Student::Status::OnStudies)
 			return true;
 
 	return false;
