@@ -290,8 +290,7 @@ void startButtonOnMousePress(std::unique_ptr<Simulation>& simulation, std::funct
 
 	if (std::any_cast<uint16_t>(initParametersList["drunk_students_count"]) > std::any_cast<uint16_t>(initParametersList["students_count"]))
 	{
-		MessageBoxA(nullptr, "Drunk students count exceeds all students count!\n\
-						Students count should be more or equal to drunk students count.", "Error!", MB_OK);
+		MessageBoxA(nullptr, "Drunk students count exceeds all students count!\nStudents count should be more or equal to drunk students count.", "Error!", MB_OK);
 		return;
 	}
 
