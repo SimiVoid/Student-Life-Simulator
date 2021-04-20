@@ -7,7 +7,7 @@ uint16_t Agent::idCounter = 0;
 
 Agent::Agent()
 	:m_id(idCounter++) {
-
+	// TODO: Add random start position
 }
 
 sf::Vector2i Agent::getPosition() const {
