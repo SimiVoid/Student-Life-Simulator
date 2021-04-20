@@ -1,7 +1,7 @@
 #include "Student.h"
 
 Student::Student(const std::pair<uint16_t, uint16_t>& knowledgeRange, const std::pair<uint16_t, uint16_t>& alcoholResistanceRange, const uint16_t& boardSize)
-	: Agent(boardSize), m_status(Status::OnStudies) {
+	: Agent(boardSize), m_status(Status::Studying) {
 	m_knowledge = randomNumberWithinRange(knowledgeRange);
 	m_alcoholResistance = randomNumberWithinRange(alcoholResistanceRange);
 

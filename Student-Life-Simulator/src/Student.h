@@ -7,7 +7,7 @@ class Student : public Agent
 {
 public:
 	enum class Status {
-		OnStudies,
+		Studying,
 		Failed,
 		Passed
 	};

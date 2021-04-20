@@ -119,7 +119,7 @@ void Simulation::drawBoard(sf::RenderWindow& window) const {
 bool Simulation::checkStatus() const {
 	for (auto& agent : m_agents)
 		if (typeid(agent).name() == typeid(Student).name()
-			&& std::dynamic_pointer_cast<Student>(agent)->getStatus() == Student::Status::OnStudies)
+			&& std::dynamic_pointer_cast<Student>(agent)->getStatus() == Student::Status::Studying)
 			return true;
 
 	return false;
