@@ -2,14 +2,25 @@
 
 Board::Board(const uint16_t size)
 	:m_size(size) {
+	for (uint16_t x = 0; x < size; x++) {
+		std::vector<BoardField> column;
+		for (uint16_t y = 0; y < size; y++) {
+			column.push_back(BoardField(sf::Vector2i(x, y)));
+		}
+		m_fields.push_back(column);
+	}
 }
 
-BoardField Board::getField(const sf::Vector2i position) const {
-	for (const auto& field : m_fields)
-		if (field.getPosition() == position)
-			return field;
+void Board::checkFieldPosition(const sf::Vector2i& position) const {
+	if (position.x > m_size || position.y > m_size ||
+		position.x < 1 || position.y < 1)
+		throw std::out_of_range("Requested field position out of range!");
+}
 
-	throw std::out_of_range("Error! Cannot find correct field!");
+BoardField Board::getField(const sf::Vector2i& position) const {
+	checkFieldPosition(position);
+
+	return m_fields[position.x - 1][position.y - 1];
 }
 
 uint16_t Board::getBoardSize() const {
@@ -17,12 +28,13 @@ uint16_t Board::getBoardSize() const {
 }
 
 void Board::draw(sf::RenderWindow& window) {
-	for (auto& field : m_fields)
-		field.draw(window);
+	for (auto& columns : m_fields)
+		for (auto& field : columns)
+			field.draw(window);
 }
 
 void Board::updateField(const sf::Vector2i position, const std::set<Agent*>& agents) {
-	for (auto& field : m_fields)
-		if (field.getPosition() == position)
-			field.setAgents(agents);
+	checkFieldPosition(position);
+
+	m_fields[position.x - 1][position.y - 1].setAgents(agents);
 }
