@@ -29,7 +29,7 @@ void Agent::draw(sf::RenderWindow& window, const bool isSingle) const {
 	}
 }
 
-void Agent::move(const uint16_t boardSize) {
+void Agent::move(const uint16_t& boardSize) {
 	/**
 	 * Movment statemant
 	 * 1 - Up
