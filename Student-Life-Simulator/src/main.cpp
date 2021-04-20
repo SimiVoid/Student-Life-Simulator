@@ -12,7 +12,7 @@
 using namespace std::chrono_literals;
 
 int main(int argc, char* argv[]) {
-	Simulation* simulation = nullptr;
+	std::unique_ptr<Simulation> simulation;
 	
 	sf::RenderWindow window(sf::VideoMode(1200, 1000), "Student Life Simulator", sf::Style::Close);
 	window.setFramerateLimit(60);
