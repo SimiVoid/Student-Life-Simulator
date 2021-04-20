@@ -137,9 +137,11 @@ void Simulation::exportData() const {
 	std::ofstream csvFile("./output/" + ss.str());
 
 	if (csvFile.good() && csvFile.is_open()) {
+		unsigned counter = 0;
+		csvFile << "Epoch,Studying,Failed,Passed,Sem1,Sem2,Sem3,Sem4,Sem5,Sem6,Sem7" << std::endl;
 		for (auto& record : m_boardStatusList)
-			csvFile << record.getStudentsOnStudiesCount() << "," << record.getStudentsFailedCount() << "," <<
-					   record.getStudentsPassedCount() << "," << record.csvExportStudentsInSemester() << std::endl;
+			csvFile << counter++ << "," << record.getStudentsOnStudiesCount() << "," << record.getStudentsFailedCount() <<
+					"," << record.getStudentsPassedCount() << "," << record.csvExportStudentsInSemester() << std::endl;
 		csvFile.close();
 	}
 	else throw std::exception("Error!!! Cannot save data file!!!");
