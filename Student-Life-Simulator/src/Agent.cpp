@@ -21,7 +21,7 @@ uint16_t Agent::getId() const {
 }
 
 void Agent::draw(sf::RenderWindow& window, const bool isSingle) const {
-	if (isSingle) {		
+	if (isSingle) {
 		window.draw(m_singleView);
 	}
 	else {
@@ -31,7 +31,7 @@ void Agent::draw(sf::RenderWindow& window, const bool isSingle) const {
 
 void Agent::move(const uint16_t& boardSize) {
 	/**
-	 * Movment statemant
+	 * Moves table
 	 * 1 - Up
 	 * 2 - Up-Right
 	 * 3 - Right
@@ -42,12 +42,11 @@ void Agent::move(const uint16_t& boardSize) {
 	 * 8 - Up-Left
 	 */
 
-	auto inCollision = false;
 	sf::Vector2i newPosition;
-	
+
 	do {
 		newPosition = m_position;
-		
+
 		switch (randomNumberWithinRange(1, 8)) {
 		case 1:
 			newPosition.y--;
@@ -78,14 +77,11 @@ void Agent::move(const uint16_t& boardSize) {
 			newPosition.y--;
 			break;
 		default:
+			throw std::exception("Moves enum value out of range!");
 			break;
 		}
 
-		if (newPosition.x < 0 || newPosition.x >= boardSize || newPosition.y < 0 || newPosition.y >= boardSize) {
-			inCollision = true;
-		}
-		
-	} while (inCollision);
+	} while (newPosition.x < 0 || newPosition.y < 0 || newPosition.x >= boardSize || newPosition.y >= boardSize);
 
 	m_position = newPosition;
 }
