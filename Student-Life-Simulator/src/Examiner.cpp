@@ -25,7 +25,7 @@ void Examiner::examinateStudent(std::shared_ptr<Student> student) const {
 	// Choose a random number between 1 and 100
 	// Compare it to m_suspicion which acts as
 	// a likeliness of failing an exam
-	else if (randomNumberWithinRange(std::make_pair(1, 100)) <= m_suspicion) {
+	else if (randomNumberWithinRange<uint16_t>(1, 100) <= m_suspicion) {
 		student->acceptExamResult(false);
 	}
 

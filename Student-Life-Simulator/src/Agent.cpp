@@ -8,8 +8,8 @@ uint16_t Agent::idCounter = 0;
 Agent::Agent(const uint16_t boardSize)
 	:m_id(idCounter++) {
 	sf::Vector2i position(
-		randomNumberWithinRange(std::make_pair(0, boardSize - 1)),
-		randomNumberWithinRange(std::make_pair(0, boardSize - 1)));
+		randomNumberWithinRange<uint16_t>(0, boardSize - 1),
+		randomNumberWithinRange<uint16_t>(0, boardSize - 1));
 }
 
 sf::Vector2i Agent::getPosition() const {
@@ -48,7 +48,7 @@ void Agent::move(const uint16_t& boardSize) {
 	do {
 		newPosition = m_position;
 		
-		switch (randomNumberWithinRange(std::make_pair<int, int>(1, 8))) {
+		switch (randomNumberWithinRange(1, 8)) {
 		case 1:
 			newPosition.y--;
 			break;

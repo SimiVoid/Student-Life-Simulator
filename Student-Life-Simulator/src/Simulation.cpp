@@ -115,7 +115,7 @@ void Simulation::updateBoard() {
 					/* minimumKnowledge is unlikeliness of drinking a beer
 					 * so any number above it means they will drink
 					 */
-					if (randomNumberWithinRange<uint16_t>(std::make_pair(1, 100)) > minimumKnowledge)
+					if (randomNumberWithinRange<uint16_t>(1, 100) > minimumKnowledge)
 						for (const auto& agent : agents) {
 							if (typeid(agent).name() == typeid(Student*).name()) {
 								std::dynamic_pointer_cast<Student>(agent)->drinkBeer();
