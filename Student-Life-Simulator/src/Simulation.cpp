@@ -81,7 +81,7 @@ void Simulation::updateBoard() {
 		for (uint16_t y = 0; y < m_board->getBoardSize(); ++y) {
 			const auto& agents = m_board->getField({ x, y }).getAgents();
 			Examiner* mainExaminer = nullptr;
-			uint16_t minimumKnowledge = 100;
+			uint16_t minimumKnowledge = 101;
 			bool isEveryStudentSober = true;
 
 			/* Go through all agents in a field and find:
