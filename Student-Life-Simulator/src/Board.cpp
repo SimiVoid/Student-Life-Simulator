@@ -12,15 +12,15 @@ Board::Board(const uint16_t size)
 }
 
 void Board::checkFieldPosition(const sf::Vector2i& position) const {
-	if (position.x > m_size || position.y > m_size ||
-		position.x < 1 || position.y < 1)
+	if (position.x >= m_size || position.y >= m_size ||
+		position.x < 0 || position.y < 0)
 		throw std::out_of_range("Requested field position out of range!");
 }
 
 BoardField Board::getField(const sf::Vector2i& position) const {
 	checkFieldPosition(position);
 
-	return m_fields[position.x - 1][position.y - 1];
+	return m_fields[position.x][position.y];
 }
 
 uint16_t Board::getBoardSize() const {
@@ -36,5 +36,5 @@ void Board::draw(sf::RenderWindow& window) {
 void Board::updateField(const sf::Vector2i position, const std::set<std::shared_ptr<Agent>>& agents) {
 	checkFieldPosition(position);
 
-	m_fields[position.x - 1][position.y - 1].setAgents(agents);
+	m_fields[position.x][position.y].setAgents(agents);
 }
