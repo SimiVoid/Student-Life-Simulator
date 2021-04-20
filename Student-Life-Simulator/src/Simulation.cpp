@@ -63,14 +63,14 @@ Simulation::Simulation(const uint16_t boardSize, const uint16_t studentsCount, c
 	const std::pair<uint16_t, uint16_t> studentKnowledgeRange,
 	const std::pair<uint16_t, uint16_t> studentAlcoholResistanceRange) {
 
-	m_board = new Board(boardSize);
+	m_board = std::make_unique<Board>(boardSize);
 
 	generateAgents(studentsCount, examinersCount, drunkStudentsCount, examinerSuspicionRange, studentKnowledgeRange, studentAlcoholResistanceRange);
 
 }
 
-Simulation::~Simulation() {
-	delete m_board;
+Simulation::Simulation(Simulation&&) noexcept {
+	
 }
 
 void Simulation::updateBoard() {
@@ -82,7 +82,7 @@ void Simulation::updateBoard() {
 			const auto& agents = m_board->getField({ x, y }).getAgents();
 			Examiner* mainExaminer = nullptr;
 			uint16_t minimumKnowledge = 101;
-			bool isEveryStudentSober = true;
+			auto isEveryStudentSober = true;
 
 			/* Go through all agents in a field and find:
 			 * 1. Highest suspicion among all Examiners

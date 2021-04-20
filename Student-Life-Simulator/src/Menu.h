@@ -5,15 +5,16 @@
 #include <string>
 #include <map>
 #include <any>
+#include <memory>
 
 #include "Simulation.h"
 
-void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window,  Simulation* simulation);
+void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Simulation>& simulation);
 
 void exitButtonOnMousePress(sf::RenderWindow& window);
-void startButtonOnMousePress(Simulation* simulation, std::function<std::map<std::string, std::any> ()> initParametersList);
-void generatePlotButtonOnMousePress(Simulation* simulation);
-void exportDataButtonOnMousePress(Simulation* simulation);
+void startButtonOnMousePress(std::unique_ptr<Simulation>& simulation, std::function<std::map<std::string, std::any> ()> initParametersList);
+void generatePlotButtonOnMousePress(std::unique_ptr<Simulation>& simulation);
+void exportDataButtonOnMousePress(std::unique_ptr<Simulation>& simulation);
 void sliderOnValueChange(const std::shared_ptr<tgui::Slider>& slider, const std::shared_ptr<tgui::EditBox>& editBox);
 void rangeSliderOnRangeChange(const std::shared_ptr<tgui::RangeSlider>& rangeSlider, const std::shared_ptr<tgui::EditBox>& editBoxStart, const std::shared_ptr<tgui::EditBox>& editBoxEnd);
 void editBoxOnReturnOrUnfocusRange(const std::shared_ptr<tgui::EditBox>& editBoxStart, const std::shared_ptr<tgui::EditBox>& editBoxEnd, const std::shared_ptr<tgui::RangeSlider>& rangeSlider);
