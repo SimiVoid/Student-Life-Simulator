@@ -1,14 +1,17 @@
 #pragma once
 
 #include <cstdint>
+#include <list>
+
+#include "Student.h"
 
 class BoardStatus {
-	uint16_t m_studentsOnStudiesCount;
-	uint16_t m_studentsFailedCount;
-	uint16_t m_studentsPassedCount;
+	uint16_t m_studentsOnStudiesCount = 0;
+	uint16_t m_studentsFailedCount = 0;
+	uint16_t m_studentsPassedCount = 0;
 
 public:
-	explicit BoardStatus(const uint16_t& studentsOnStudiesCount, const uint16_t& studentsFailedCount, const uint16_t& studentPassedCount);
+	explicit BoardStatus(const std::list<std::shared_ptr<Agent>>& agents);
 	~BoardStatus() = default;
 
 	[[nodiscard]] uint16_t getStudentsOnStudiesCount() const;

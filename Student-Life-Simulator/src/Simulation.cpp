@@ -12,25 +12,7 @@
 #include "Student.h"
 
 void Simulation::updateBoardStatusList() {
-	uint16_t studentsOnStudiesCount = 0;
-	uint16_t studentsFailedCount = 0;
-	uint16_t studentsPassedCount = 0;
-
-	for (auto& agent : m_agents)
-		if (typeid(agent).name() == typeid(Student).name())
-			switch (std::dynamic_pointer_cast<Student>(agent)->getStatus()) {
-			case Student::Status::OnStudies:
-				studentsOnStudiesCount++;
-				break;
-			case Student::Status::Failed:
-				studentsFailedCount++;
-				break;
-			case Student::Status::Passed:
-				studentsPassedCount++;
-				break;
-			}
-
-	m_boardStatusList.emplace_back(BoardStatus(studentsOnStudiesCount, studentsFailedCount, studentsPassedCount));
+	m_boardStatusList.emplace_back(BoardStatus(m_agents));
 }
 
 Simulation::Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16_t examinersCount, uint16_t drunkStudentsCount,

@@ -1,8 +1,19 @@
 #include "BoardStatus.h"
 
-BoardStatus::BoardStatus(const uint16_t& studentsOnStudiesCount, const uint16_t& studentsFailedCount, const uint16_t& studentPassedCount)
-	:m_studentsOnStudiesCount(studentsOnStudiesCount), m_studentsFailedCount(studentsFailedCount), m_studentsPassedCount(studentPassedCount) {
-
+BoardStatus::BoardStatus(const std::list<std::shared_ptr<Agent>>& agents) {
+	for (auto& agent : agents)
+		if (typeid(agent).name() == typeid(Student).name())
+			switch (std::dynamic_pointer_cast<Student>(agent)->getStatus()) {
+			case Student::Status::OnStudies:
+				m_studentsOnStudiesCount++;
+				break;
+			case Student::Status::Failed:
+				m_studentsFailedCount++;
+				break;
+			case Student::Status::Passed:
+				m_studentsPassedCount++;
+				break;
+			}
 }
 
 uint16_t BoardStatus::getStudentsOnStudiesCount() const {
