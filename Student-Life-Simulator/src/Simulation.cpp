@@ -7,7 +7,6 @@
 #include <exception>
 #include <iostream>
 #include <sstream>
-#include <cmath>
 
 #include "Examiner.h"
 #include "Student.h"
@@ -78,8 +77,8 @@ void Simulation::updateBoard() {
 	for (auto& agent : m_agents)
 		agent.move(m_board->getBoardSize());
 
-	for (size_t x = 0; x < m_board->getBoardSize(); ++x)
-		for (size_t y = 0; y < m_board->getBoardSize(); ++y) {
+	for (uint16_t x = 0; x < m_board->getBoardSize(); ++x)
+		for (uint16_t y = 0; y < m_board->getBoardSize(); ++y) {
 			Examiner* mainExaminer = nullptr;
 			uint16_t minimumKnowledge = 100;
 			
@@ -109,10 +108,11 @@ void Simulation::updateBoard() {
 
 		}
 
+
 	updateBoardStatusList();
 }
 
-void Simulation::drawBoard(sf::RenderWindow& window) {
+void Simulation::drawBoard(sf::RenderWindow& window) const {
 	if (m_board != nullptr)
 		m_board->draw(window);
 }

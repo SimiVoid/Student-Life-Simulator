@@ -5,9 +5,9 @@ Board::Board(const uint16_t size)
 	for (uint16_t x = 0; x < size; x++) {
 		std::vector<BoardField> column;
 		for (uint16_t y = 0; y < size; y++) {
-			column.push_back(BoardField(sf::Vector2i(x, y)));
+			column.emplace_back(BoardField(sf::Vector2i(x, y)));
 		}
-		m_fields.push_back(column);
+		m_fields.emplace_back(column);
 	}
 }
 
@@ -30,7 +30,7 @@ uint16_t Board::getBoardSize() const {
 void Board::draw(sf::RenderWindow& window) {
 	for (auto& columns : m_fields)
 		for (auto& field : columns)
-			field.draw(window);
+			field.draw(window, m_size);
 }
 
 void Board::updateField(const sf::Vector2i position, const std::set<Agent*>& agents) {

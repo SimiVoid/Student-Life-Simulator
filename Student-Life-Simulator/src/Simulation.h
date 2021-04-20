@@ -29,7 +29,7 @@ public:
 	~Simulation();
 
 	void updateBoard();
-	void drawBoard(sf::RenderWindow& window);
+	void drawBoard(sf::RenderWindow& window) const;
 	[[nodiscard]] bool checkStatus();
 	void exportData();
 	void generatePlot();
