@@ -3,20 +3,18 @@
 #include <utility>
 #include <random>
 
-template<typename T>
-T randomNumberWithinRange(std::pair<T, T> range) {
-	std::random_device randomDevice;
-	std::mt19937 generator(randomDevice());
-	const std::uniform_real<> distribution(range.first, range.second);
+static std::mt19937 generator(std::random_device{}());
 
-	return static_cast<T>(distribution(generator));
+template<typename T>
+T randomNumberWithinRange(const std::pair<T, T>& range) {
+	const std::uniform_int<T> distribution(range.first, range.second);
+
+	return distribution(generator);
 }
 
 template<typename T>
 T randomNumberWithinRange(const T& first, const T& second) {
-	std::random_device randomDevice;
-	std::mt19937 generator(randomDevice());
-	const std::uniform_real<> distribution(first, second);
+	const std::uniform_int<T> distribution(first, second);
 
-	return static_cast<T>(distribution(generator));
+	return distribution(generator);
 }
