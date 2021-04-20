@@ -7,6 +7,7 @@
 #include <exception>
 #include <iostream>
 #include <sstream>
+#include <cmath>
 
 #include "Examiner.h"
 #include "Student.h"
@@ -77,23 +78,36 @@ void Simulation::updateBoard() {
 	for (auto& agent : m_agents)
 		agent.move(m_board->getBoardSize());
 
-	for (auto& agent : m_agents)
-		if (typeid(agent).name() == typeid(Examiner).name()) {
-			auto* examiner = dynamic_cast<Examiner*>(&agent);
-			const auto position = examiner->getPosition();
+	for (size_t x = 0; x < m_board->getBoardSize(); ++x)
+		for (size_t y = 0; y < m_board->getBoardSize(); ++y) {
+			Examiner* mainExaminer = nullptr;
+			uint16_t minimumKnowledge = 100;
 			
-			std::vector<Agent> studentsHandler;
+			for (const auto& agent : m_board->getField({ x, y }).getAgents())
+				if (typeid(agent).name() == typeid(Examiner*).name()) {
+					if (mainExaminer == nullptr || mainExaminer->getSuspicion() < dynamic_cast<Examiner*>(agent)->getSuspicion())
+						mainExaminer = dynamic_cast<Examiner*>(agent);
+				}
+				else if (typeid(agent).name() == typeid(Student*).name())
+					if (const auto minKnowledgeTemp = dynamic_cast<Student*>(agent)->getKnowledge() < minimumKnowledge)
+						minimumKnowledge = minKnowledgeTemp;
 
-			for (auto& agentHandler : m_agents)
-				if (typeid(agent).name() == typeid(Student*).name()
-					&& dynamic_cast<Student*>(&agentHandler)->getPosition() == position)
-					studentsHandler.emplace_back(agent);
+			if (mainExaminer == nullptr) {
+				for (const auto& agent : m_board->getField({ x, y }).getAgents())
+					if (typeid(agent).name() == typeid(Student*).name())
+						if (auto student = dynamic_cast<Student*>(agent);
+							randomNumberWithinRange<uint16_t>(std::make_pair(1, minimumKnowledge)) < student->
+							getKnowledge())
+							student->drinkBeer();
+			}
+			else {
+				for (const auto& agent : m_board->getField({x, y}).getAgents())
+					if (typeid(agent).name() == typeid(Student*).name()) {
+						mainExaminer->examinateStudent(dynamic_cast<Student*>(agent));
+					}
+			}
 
-			for (auto& student : studentsHandler)
-				examiner->examinateStudent(dynamic_cast<Student*>(&student));
 		}
-
-	// TODO: Add students simulation algorithm
 
 	updateBoardStatusList();
 }
