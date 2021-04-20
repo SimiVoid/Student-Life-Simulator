@@ -1,8 +1,8 @@
 #include "Examiner.h"
 #include "Util.h"
 
-Examiner::Examiner(const std::pair<uint16_t, uint16_t> suspicionRange)
-	: Agent() {
+Examiner::Examiner(const std::pair<uint16_t, uint16_t> suspicionRange, uint16_t boardSize)
+	: Agent(boardSize) {
 	m_suspicion = randomNumberWithinRange(suspicionRange);
 
 	// TODO: setup drawable elements (Examiner)

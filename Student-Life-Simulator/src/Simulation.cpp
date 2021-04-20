@@ -20,18 +20,18 @@ void Simulation::generateAgents(uint16_t studentsCount, uint16_t examinersCount,
 	studentsCount -= drunkStudentsCount;
 
 	for (; drunkStudentsCount > 0; drunkStudentsCount--) {
-		agent = new Student(studentKnowledgeRange, studentAlcoholResistanceRange);
+		agent = new Student(studentKnowledgeRange, studentAlcoholResistanceRange, m_board->getBoardSize());
 		dynamic_cast<Student*>(agent)->drinkBeer();
 		m_agents.push_back(*agent);
 	}
 
 	for (; studentsCount > 0; studentsCount--) {
-		agent = new Student(studentKnowledgeRange, studentAlcoholResistanceRange);
+		agent = new Student(studentKnowledgeRange, studentAlcoholResistanceRange, m_board->getBoardSize());
 		m_agents.push_back(*agent);
 	}
 
 	for (; examinersCount > 0; examinersCount--) {
-		agent = new Examiner(examinerSuspicionRange);
+		agent = new Examiner(examinerSuspicionRange, m_board->getBoardSize());
 		m_agents.push_back(*agent);
 	}
 }
@@ -100,7 +100,7 @@ void Simulation::updateBoard() {
 
 void Simulation::drawBoard(sf::RenderWindow& window) {
 	if (m_board != nullptr)
-		m_board->draw(window, m_agents);
+		m_board->draw(window);
 }
 
 bool Simulation::checkStatus() {	

@@ -24,7 +24,7 @@ private:
 	Status m_status;
 
 public:
-	explicit Student(std::pair<uint16_t, uint16_t> knowledgeRange, std::pair<uint16_t, uint16_t> alcoholResistanceRange);
+	explicit Student(std::pair<uint16_t, uint16_t> knowledgeRange, std::pair<uint16_t, uint16_t> alcoholResistanceRange, uint16_t boardSize);
 	~Student() = default;
 	
 	[[nodiscard]] bool isSleeping() const;

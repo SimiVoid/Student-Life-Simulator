@@ -11,7 +11,7 @@ protected:
 	sf::ConvexShape m_multipleView;
 
 public:
-	Agent();
+	explicit Agent(uint16_t boardSize);
 	virtual ~Agent() = default;
 		
 	static uint16_t idCounter;

@@ -5,9 +5,11 @@
 
 uint16_t Agent::idCounter = 0;
 
-Agent::Agent()
+Agent::Agent(const uint16_t boardSize)
 	:m_id(idCounter++) {
-	// TODO: Add random start position
+	sf::Vector2i position(
+		randomNumberWithinRange(std::make_pair(0, boardSize - 1)),
+		randomNumberWithinRange(std::make_pair(0, boardSize - 1)));
 }
 
 sf::Vector2i Agent::getPosition() const {
@@ -19,10 +21,12 @@ uint16_t Agent::getId() const {
 }
 
 void Agent::draw(sf::RenderWindow& window, const bool isSingle) const {
-	if (isSingle)
+	if (isSingle) {		
 		window.draw(m_singleView);
-	else
+	}
+	else {
 		window.draw(m_multipleView);
+	}
 }
 
 void Agent::move(const uint16_t boardSize) {
@@ -39,9 +43,11 @@ void Agent::move(const uint16_t boardSize) {
 	 */
 
 	auto inCollision = false;
-	auto newPosition = m_position;
+	sf::Vector2i newPosition;
 	
 	do {
+		newPosition = m_position;
+		
 		switch (randomNumberWithinRange(std::make_pair<int, int>(1, 8))) {
 		case 1:
 			newPosition.y--;
@@ -77,7 +83,6 @@ void Agent::move(const uint16_t boardSize) {
 
 		if (newPosition.x < 0 || newPosition.x >= boardSize || newPosition.y < 0 || newPosition.y >= boardSize) {
 			inCollision = true;
-			newPosition = m_position;
 		}
 		
 	} while (inCollision);

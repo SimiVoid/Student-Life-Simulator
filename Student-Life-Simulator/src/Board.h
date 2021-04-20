@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+
 #include "BoardField.h"
 
 class Board {
