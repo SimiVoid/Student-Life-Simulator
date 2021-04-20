@@ -36,8 +36,8 @@ Student::Status Student::getStatus() const {
 	return m_status;
 }
 
-void Student::acceptExamResult(const bool isPassed) {
-	if (isPassed)
+void Student::acceptExamResult(const bool hasPassed) {
+	if (hasPassed)
 		m_passedExams++;
 	else
 		m_failedExams++;

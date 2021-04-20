@@ -34,7 +34,7 @@ public:
 	[[nodiscard]] uint16_t getPassedExams() const;
 	[[nodiscard]] uint16_t getAlcoholResistance() const;
 	[[nodiscard]] Status getStatus() const;
-	void acceptExamResult(bool isPassed);
+	void acceptExamResult(const bool hasPassed);
 	void drinkBeer();
 	void nextRound();
 };
