@@ -15,17 +15,13 @@ class Simulation {
 	std::vector<BoardStatus> m_boardStatusList;
 	std::unique_ptr<Board> m_board;
 
-	void generateAgents(uint16_t studentsCount, uint16_t examinersCount, uint16_t drunkStudentsCount,
-		std::pair<uint16_t, uint16_t> examinerSuspicionRange,
-		std::pair<uint16_t, uint16_t> studentKnowledgeRange,
-		std::pair<uint16_t, uint16_t> studentAlcoholResistanceRange);
 	void updateBoardStatusList();
-	
+
 public:
-	Simulation(uint16_t boardSize, uint16_t studentsCount, uint16_t examinersCount, uint16_t drunkStudentsCount,
-		std::pair<uint16_t, uint16_t> examinerSuspicionRange, 
-		std::pair<uint16_t, uint16_t> studentKnowledgeRange,
-		std::pair<uint16_t, uint16_t> studentAlcoholResistanceRange);
+	Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16_t examinersCount, uint16_t drunkStudentsCount,
+		const std::pair<uint16_t, uint16_t>& examinerSuspicionRange,
+		const std::pair<uint16_t, uint16_t>& studentKnowledgeRange,
+		const std::pair<uint16_t, uint16_t>& studentAlcoholResistanceRange);
 	Simulation(Simulation&&) noexcept;
 	Simulation(const Simulation&) = delete;
 	Simulation& operator=(const Simulation&) = delete;

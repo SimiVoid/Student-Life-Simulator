@@ -11,30 +11,6 @@
 #include "Examiner.h"
 #include "Student.h"
 
-void Simulation::generateAgents(uint16_t studentsCount, uint16_t examinersCount, uint16_t drunkStudentsCount,
-	std::pair<uint16_t, uint16_t> examinerSuspicionRange,
-	std::pair<uint16_t, uint16_t> studentKnowledgeRange,
-	std::pair<uint16_t, uint16_t> studentAlcoholResistanceRange) {
-	
-	studentsCount -= drunkStudentsCount;
-
-	for (; drunkStudentsCount > 0; drunkStudentsCount--) {
-		auto agent = std::make_shared<Student>(Student(studentKnowledgeRange, studentAlcoholResistanceRange, m_board->getBoardSize()));
-		agent->drinkBeer();
-		m_agents.push_back(agent);
-	}
-
-	for (; studentsCount > 0; studentsCount--) {
-		auto agent = std::make_shared<Student>(Student(studentKnowledgeRange, studentAlcoholResistanceRange, m_board->getBoardSize()));
-		m_agents.push_back(agent);
-	}
-
-	for (; examinersCount > 0; examinersCount--) {
-		auto agent = std::make_shared<Examiner>(Examiner(examinerSuspicionRange, m_board->getBoardSize()));
-		m_agents.push_back(agent);
-	}
-}
-
 void Simulation::updateBoardStatusList() {
 	uint16_t studentsOnStudiesCount = 0;
 	uint16_t studentsFailedCount = 0;
@@ -57,14 +33,30 @@ void Simulation::updateBoardStatusList() {
 	m_boardStatusList.emplace_back(BoardStatus(studentsOnStudiesCount, studentsFailedCount, studentsPassedCount));
 }
 
-Simulation::Simulation(const uint16_t boardSize, const uint16_t studentsCount, const uint16_t examinersCount, const uint16_t drunkStudentsCount,
-	const std::pair<uint16_t, uint16_t> examinerSuspicionRange,
-	const std::pair<uint16_t, uint16_t> studentKnowledgeRange,
-	const std::pair<uint16_t, uint16_t> studentAlcoholResistanceRange) {
+Simulation::Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16_t examinersCount, uint16_t drunkStudentsCount,
+	const std::pair<uint16_t, uint16_t>& examinerSuspicionRange,
+	const std::pair<uint16_t, uint16_t>& studentKnowledgeRange,
+	const std::pair<uint16_t, uint16_t>& studentAlcoholResistanceRange) {
 
 	m_board = std::make_unique<Board>(boardSize);
 
-	generateAgents(studentsCount, examinersCount, drunkStudentsCount, examinerSuspicionRange, studentKnowledgeRange, studentAlcoholResistanceRange);
+	studentsCount -= drunkStudentsCount;
+
+	for (; drunkStudentsCount > 0; drunkStudentsCount--) {
+		auto agent = std::make_shared<Student>(Student(studentKnowledgeRange, studentAlcoholResistanceRange, m_board->getBoardSize()));
+		agent->drinkBeer();
+		m_agents.push_back(agent);
+	}
+
+	for (; studentsCount > 0; studentsCount--) {
+		auto agent = std::make_shared<Student>(Student(studentKnowledgeRange, studentAlcoholResistanceRange, m_board->getBoardSize()));
+		m_agents.push_back(agent);
+	}
+
+	for (; examinersCount > 0; examinersCount--) {
+		auto agent = std::make_shared<Examiner>(Examiner(examinerSuspicionRange, m_board->getBoardSize()));
+		m_agents.push_back(agent);
+	}
 
 }
 
