@@ -1,6 +1,6 @@
 #include "BoardStatus.h"
 
-BoardStatus::BoardStatus(const uint16_t studentsOnStudiesCount, const uint16_t studentsFailedCount, const uint16_t studentPassedCount)
+BoardStatus::BoardStatus(const uint16_t& studentsOnStudiesCount, const uint16_t& studentsFailedCount, const uint16_t& studentPassedCount)
 	:m_studentsOnStudiesCount(studentsOnStudiesCount), m_studentsFailedCount(studentsFailedCount), m_studentsPassedCount(studentPassedCount) {
 
 }

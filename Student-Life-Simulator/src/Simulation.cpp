@@ -142,7 +142,7 @@ void Simulation::drawBoard(sf::RenderWindow& window) const {
 		m_board->draw(window);
 }
 
-bool Simulation::checkStatus() {
+bool Simulation::checkStatus() const {
 	for (auto& agent : m_agents)
 		if (typeid(agent).name() == typeid(Student).name()
 			&& std::dynamic_pointer_cast<Student>(agent)->getStatus() == Student::Status::OnStudies)
@@ -151,7 +151,7 @@ bool Simulation::checkStatus() {
 	return false;
 }
 
-void Simulation::exportData() {
+void Simulation::exportData() const {
 	if (!std::filesystem::is_directory("./output"))
 		std::filesystem::create_directories("./output");
 

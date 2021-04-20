@@ -11,7 +11,7 @@ class BoardField {
 	sf::RectangleShape m_border;
 
 public:
-	explicit BoardField(sf::Vector2i position);
+	explicit BoardField(const sf::Vector2i& position);
 	~BoardField() = default;
 
 	[[nodiscard]] std::set<std::shared_ptr<Agent>> getAgents() const;

@@ -8,7 +8,7 @@ class BoardStatus {
 	uint16_t m_studentsPassedCount;
 
 public:
-	explicit BoardStatus(uint16_t studentsOnStudiesCount, uint16_t studentsFailedCount, uint16_t studentPassedCount);
+	explicit BoardStatus(const uint16_t& studentsOnStudiesCount, const uint16_t& studentsFailedCount, const uint16_t& studentPassedCount);
 	~BoardStatus() = default;
 
 	[[nodiscard]] uint16_t getStudentsOnStudiesCount() const;

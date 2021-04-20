@@ -33,7 +33,7 @@ void Board::draw(sf::RenderWindow& window) {
 			field.draw(window, m_size);
 }
 
-void Board::updateField(const sf::Vector2i position, const std::set<std::shared_ptr<Agent>>& agents) {
+void Board::updateField(const sf::Vector2i& position, const std::set<std::shared_ptr<Agent>>& agents) {
 	checkFieldPosition(position);
 
 	m_fields[position.x][position.y].setAgents(agents);

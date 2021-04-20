@@ -1,6 +1,6 @@
 #include "Student.h"
 
-Student::Student(const std::pair<uint16_t, uint16_t> knowledgeRange, const std::pair<uint16_t, uint16_t> alcoholResistanceRange, uint16_t boardSize)
+Student::Student(const std::pair<uint16_t, uint16_t>& knowledgeRange, const std::pair<uint16_t, uint16_t>& alcoholResistanceRange, const uint16_t& boardSize)
 	: Agent(boardSize), m_status(Status::OnStudies) {
 	m_knowledge = randomNumberWithinRange(knowledgeRange);
 	m_alcoholResistance = randomNumberWithinRange(alcoholResistanceRange);
@@ -36,7 +36,7 @@ Student::Status Student::getStatus() const {
 	return m_status;
 }
 
-void Student::acceptExamResult(const bool hasPassed) {
+void Student::acceptExamResult(const bool& hasPassed) {
 	if (hasPassed)
 		m_passedExams++;
 	else

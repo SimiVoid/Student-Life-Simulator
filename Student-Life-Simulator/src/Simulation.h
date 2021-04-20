@@ -33,7 +33,7 @@ public:
 
 	void updateBoard();
 	void drawBoard(sf::RenderWindow& window) const;
-	[[nodiscard]] bool checkStatus();
-	void exportData();
+	[[nodiscard]] bool checkStatus() const;
+	void exportData() const;
 	void generatePlot();
 };

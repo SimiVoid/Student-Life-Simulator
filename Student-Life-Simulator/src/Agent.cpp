@@ -5,7 +5,7 @@
 
 uint16_t Agent::idCounter = 0;
 
-Agent::Agent(const uint16_t boardSize)
+Agent::Agent(const uint16_t& boardSize)
 	:m_id(idCounter++) {
 	sf::Vector2i position(
 		randomNumberWithinRange<uint16_t>(0, boardSize - 1),
@@ -20,7 +20,7 @@ uint16_t Agent::getId() const {
 	return m_id;
 }
 
-void Agent::draw(sf::RenderWindow& window, const bool isSingle) const {
+void Agent::draw(sf::RenderWindow& window, const bool& isSingle) const {
 	if (isSingle) {
 		window.draw(m_singleView);
 	}
