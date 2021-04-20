@@ -81,7 +81,6 @@ void Simulation::updateBoard() {
 		if (typeid(agent).name() == typeid(Examiner).name()) {
 			auto* examiner = dynamic_cast<Examiner*>(&agent);
 			const auto position = examiner->getPosition();
-			auto agentOnFieldList = m_board->getField(position).getAgentIds();
 			
 			std::vector<Agent> studentsHandler;
 

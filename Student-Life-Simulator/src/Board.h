@@ -1,5 +1,6 @@
 #pragma once
 
+#include <list>
 #include "BoardField.h"
 
 class Board {
@@ -12,6 +13,6 @@ public:
 
 	[[nodiscard]] BoardField getField(sf::Vector2i position) const;
 	[[nodiscard]] uint16_t getBoardSize() const;
-	void draw(sf::RenderWindow& window, std::list<Agent>& agents);
-	void updateField(sf::Vector2i position, const std::list<uint16_t>& agentIds);
+	void draw(sf::RenderWindow& window);
+	void updateField(sf::Vector2i position, const std::set<Agent*>& agents);
 };

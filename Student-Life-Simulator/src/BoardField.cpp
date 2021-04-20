@@ -9,39 +9,36 @@ BoardField::BoardField(const sf::Vector2i position)
 	:m_position(position) {
 }
 
-std::list<uint16_t> BoardField::getAgentIds() const {
-	return m_agentIds;
+std::set<Agent*> BoardField::getAgents() const {
+	return m_agentsOnField;
 }
 
 sf::Vector2i BoardField::getPosition() const {
 	return m_position;
 }
 
-void BoardField::setAgentIds(std::list<uint16_t> agentIds) {
-	m_agentIds = std::move(agentIds);
+void BoardField::setAgents(std::set<Agent*> agents) {
+	m_agentsOnField = std::move(agents);
 }
 
-void BoardField::draw(sf::RenderWindow& window, std::list<Agent>& agents) {
+void BoardField::draw(sf::RenderWindow& window) {
 	uint16_t studentsCount = 0;
 	uint16_t examinersCount = 0;
 
-	std::vector<Agent> agentsList;
+	for (const auto& agent : m_agentsOnField) {
+			if (typeid(agent).name() == typeid(Student).name())
+				studentsCount++;
+			else if (typeid(agent).name() == typeid(Examiner).name())
+				examinersCount++;
+	}
+	
+	if (studentsCount == 0 && examinersCount == 0)
+		return;
 
-	for (const auto& agent : agents)
-		for (const auto& agentId : m_agentIds)
-			if (agent.getId() == agentId) {
-				if (typeid(agent).name() == typeid(Student).name())
-					studentsCount++;
-				else if (typeid(agent).name() == typeid(Examiner).name())
-					examinersCount++;
-				break;
-			}
-
-	for (auto& agent : agentsList)
-		if (examinersCount >= 1 && !studentsCount)
-			agent.draw(window);
-		else if (!examinersCount && studentsCount >= 1)
-			agent.draw(window);
-		else if (examinersCount >= 1 && studentsCount >= 1)
-			agent.draw(window, false);
+	for (const auto& agent : m_agentsOnField) {
+		if (studentsCount == 0 || examinersCount == 0)
+			agent->draw(window);
+		else
+			agent->draw(window, false);
+	}
 }
