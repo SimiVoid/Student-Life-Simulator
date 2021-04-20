@@ -125,14 +125,14 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation* simulat
 	studentKnowledgeRangeSliderText->setHorizontalAlignment(Label::HorizontalAlignment::Center);
 	gui.add(studentKnowledgeRangeSliderText);
 
-	auto studentKnowledgeRangeSlider = RangeSlider::create(1, 100);
+	auto studentKnowledgeRangeSlider = RangeSlider::create(1, 101);
 	auto studentKnowledgeRangeEditBoxStart = EditBox::create();
 	auto studentKnowledgeRangeEditBoxEnd = EditBox::create();
 
 	studentKnowledgeRangeEditBoxStart->setText("1");
 	studentKnowledgeRangeEditBoxStart->setSize(Layout2d(35, 25));
 	studentKnowledgeRangeEditBoxStart->setPosition(Layout2d(30, 395));
-	studentKnowledgeRangeEditBoxStart->setInputValidator("^(100|[1-9][0-9]|[1-9])$");
+	studentKnowledgeRangeEditBoxStart->setInputValidator("^(101|100|[1-9][0-9]|[1-9])$");
 	studentKnowledgeRangeEditBoxStart->onReturnOrUnfocus(editBoxOnReturnOrUnfocusRange, studentKnowledgeRangeEditBoxStart,
 		studentKnowledgeRangeEditBoxEnd, studentKnowledgeRangeSlider);
 	gui.add(studentKnowledgeRangeEditBoxStart);
@@ -144,7 +144,7 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation* simulat
 	studentKnowledgeRangeEditBoxEnd->setText("100");
 	studentKnowledgeRangeEditBoxEnd->setSize(Layout2d(35, 25));
 	studentKnowledgeRangeEditBoxEnd->setPosition(Layout2d(135, 395));
-	studentKnowledgeRangeEditBoxEnd->setInputValidator("^(100|[1-9][0-9]|[1-9])$");
+	studentKnowledgeRangeEditBoxEnd->setInputValidator("^(101|100|[1-9][0-9]|[1-9])$");
 	studentKnowledgeRangeEditBoxEnd->onReturnOrUnfocus(editBoxOnReturnOrUnfocusRange, studentKnowledgeRangeEditBoxStart,
 		studentKnowledgeRangeEditBoxEnd, studentKnowledgeRangeSlider);
 	gui.add(studentKnowledgeRangeEditBoxEnd);
@@ -205,14 +205,14 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation* simulat
 	examinerSuspicionRangeSliderText->setHorizontalAlignment(Label::HorizontalAlignment::Center);
 	gui.add(examinerSuspicionRangeSliderText);
 
-	auto examinerSuspicionRangeSlider = RangeSlider::create(1, 100);
+	auto examinerSuspicionRangeSlider = RangeSlider::create(0, 100);
 	auto examinerSuspicionRangeEditBoxStart = EditBox::create();
 	auto examinerSuspicionRangeEditBoxEnd = EditBox::create();
 
 	examinerSuspicionRangeEditBoxStart->setText("1");
 	examinerSuspicionRangeEditBoxStart->setSize(Layout2d(35, 25));
 	examinerSuspicionRangeEditBoxStart->setPosition(Layout2d(30, 595));
-	examinerSuspicionRangeEditBoxStart->setInputValidator("^(100|[1-9][0-9]|[1-9])$");
+	examinerSuspicionRangeEditBoxStart->setInputValidator("^(100|[1-9][0-9]|[0-9])$");
 	examinerSuspicionRangeEditBoxStart->onReturnOrUnfocus(editBoxOnReturnOrUnfocusRange, examinerSuspicionRangeEditBoxStart,
 		examinerSuspicionRangeEditBoxEnd, examinerSuspicionRangeSlider);
 	gui.add(examinerSuspicionRangeEditBoxStart);
@@ -224,7 +224,7 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation* simulat
 	examinerSuspicionRangeEditBoxEnd->setText("100");
 	examinerSuspicionRangeEditBoxEnd->setSize(Layout2d(35, 25));
 	examinerSuspicionRangeEditBoxEnd->setPosition(Layout2d(135, 595));
-	examinerSuspicionRangeEditBoxEnd->setInputValidator("^(100|[1-9][0-9]|[1-9])$");
+	examinerSuspicionRangeEditBoxEnd->setInputValidator("^(100|[1-9][0-9]|[0-9])$");
 	examinerSuspicionRangeEditBoxEnd->onReturnOrUnfocus(editBoxOnReturnOrUnfocusRange, examinerSuspicionRangeEditBoxStart,
 		examinerSuspicionRangeEditBoxEnd, examinerSuspicionRangeSlider);
 	gui.add(examinerSuspicionRangeEditBoxEnd);
@@ -232,6 +232,7 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, Simulation* simulat
 	examinerSuspicionRangeSlider->setSize(Layout2d(170, 20));
 	examinerSuspicionRangeSlider->setPosition((Layout2d(15, 625)));
 	examinerSuspicionRangeSlider->setStep(1);
+	examinerSuspicionRangeSlider->setSelectionStart(1);
 	examinerSuspicionRangeSlider->setSelectionEnd(100);
 	examinerSuspicionRangeSlider->onRangeChange(rangeSliderOnRangeChange, examinerSuspicionRangeSlider,
 		examinerSuspicionRangeEditBoxStart, examinerSuspicionRangeEditBoxEnd);
