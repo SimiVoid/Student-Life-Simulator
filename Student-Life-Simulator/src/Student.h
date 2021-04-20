@@ -21,6 +21,7 @@ private:
 	uint16_t m_passedExams{};
 	uint16_t m_alcoholResistance;
 	uint16_t m_sleepingRounds{};
+	uint16_t m_inSemester{ 1 };
 	Status m_status;
 
 public:
@@ -34,6 +35,7 @@ public:
 	[[nodiscard]] uint16_t getPassedExams() const;
 	[[nodiscard]] uint16_t getAlcoholResistance() const;
 	[[nodiscard]] Status getStatus() const;
+	[[nodiscard]] uint16_t getCurrentSemester() const;
 	void acceptExamResult(const bool& hasPassed);
 	void drinkBeer();
 	void nextRound();

@@ -32,6 +32,10 @@ uint16_t Student::getAlcoholResistance() const {
 	return m_alcoholResistance;
 }
 
+uint16_t Student::getCurrentSemester() const {
+	return m_inSemester;
+}
+
 Student::Status Student::getStatus() const {
 	return m_status;
 }
@@ -41,6 +45,19 @@ void Student::acceptExamResult(const bool& hasPassed) {
 		m_passedExams++;
 	else
 		m_failedExams++;
+
+	if (m_passedExams == 4) {
+		if (m_inSemester < 7)
+			m_inSemester++;
+		else
+			m_status = Status::Passed;
+
+		m_passedExams = 0;
+		m_failedExams = 0;
+	}
+	else if (m_failedExams == 4) {
+		m_status = Status::Failed;
+	}
 }
 
 void Student::drinkBeer() {
