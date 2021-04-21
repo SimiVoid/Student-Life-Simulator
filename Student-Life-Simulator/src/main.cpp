@@ -46,7 +46,11 @@ int main(int argc, char* argv[]) {
 
 		if (simulationThreadRunning)
 		{
-			simulation->drawBoard(window);
+			auto isLocked = simulation_lock.try_lock();
+			if (isLocked) {
+				simulation->drawBoard(window);
+				simulation_lock.unlock();
+			}
 		}
 
 		window.display();
