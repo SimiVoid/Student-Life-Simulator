@@ -44,10 +44,6 @@ Simulation::Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16
 	updateBoardStatusList();
 }
 
-Simulation::Simulation(Simulation&&) noexcept {
-	
-}
-
 void Simulation::updateBoard() {
 	for (auto& agent : m_agents)
 		agent->move(m_board->getBoardSize());
@@ -93,7 +89,7 @@ void Simulation::updateBoard() {
 					 */
 					if (randomNumberWithinRange<uint16_t>(1, 100) > minimumKnowledge)
 						for (const auto& agent : agents) {
-							if (agent->getTypeInfo() == typeid(Student*).name()) {
+							if (typeid(agent).name() == typeid(Student*).name()) {
 								std::dynamic_pointer_cast<Student>(agent)->drinkBeer();
 							}
 						}

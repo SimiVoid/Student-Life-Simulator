@@ -22,7 +22,7 @@ public:
 		const std::pair<uint16_t, uint16_t>& examinerSuspicionRange,
 		const std::pair<uint16_t, uint16_t>& studentKnowledgeRange,
 		const std::pair<uint16_t, uint16_t>& studentAlcoholResistanceRange);
-	Simulation(Simulation&&) noexcept;
+	Simulation(Simulation&& simulation) noexcept = default;
 	Simulation(const Simulation&) = delete;
 	Simulation& operator=(const Simulation&) = delete;
 	~Simulation() = default;
