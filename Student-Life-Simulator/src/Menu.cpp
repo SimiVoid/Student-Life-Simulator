@@ -336,7 +336,7 @@ void editBoxOnReturnOrUnfocusRange(const std::shared_ptr<tgui::EditBox>& editBox
 	const auto& editBoxTextStart = editBoxStart->getText();
 	const auto& editBoxTextEnd = editBoxEnd->getText();
 
-	// This block can safetly return because no other changes could be made if statement is true
+	// This block can safely return because no other changes could be made if statement is true
 	if (editBoxTextStart == "") {
 		editBoxStart->setText(std::to_string(static_cast<int>(rangeSlider->getSelectionStart())));
 		return;
