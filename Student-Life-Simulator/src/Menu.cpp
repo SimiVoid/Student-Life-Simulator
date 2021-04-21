@@ -1,6 +1,7 @@
 #include "Menu.h"
 
 #include <Windows.h>
+#include "SimulationThread.h"
 
 void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Simulation>& simulation) {
 	using namespace tgui;
@@ -307,6 +308,8 @@ void startButtonOnMousePress(std::unique_ptr<Simulation>& simulation, std::funct
 		std::any_cast<std::pair<uint16_t, uint16_t>>(initParametersList["examiners_suspicion"]),
 		std::any_cast<std::pair<uint16_t, uint16_t>>(initParametersList["student_knowledge"]),
 		std::any_cast<std::pair<uint16_t, uint16_t>>(initParametersList["student_resistance"])));
+
+	runSimulationThread(simulation);
 }
 
 void sliderOnValueChange(const std::shared_ptr<tgui::Slider>& slider, const std::shared_ptr<tgui::EditBox>& editBox) {
