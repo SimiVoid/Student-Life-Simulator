@@ -40,6 +40,8 @@ Simulation::Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16
 		m_agents.push_back(agent);
 	}
 
+	// Add epoch 0 to stats
+	updateBoardStatusList();
 }
 
 Simulation::Simulation(Simulation&&) noexcept {
