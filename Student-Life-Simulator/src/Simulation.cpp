@@ -39,7 +39,7 @@ Simulation::Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16
 		auto agent = std::make_shared<Examiner>(Examiner(examinerSuspicionRange, m_board->getBoardSize()));
 		m_agents.push_back(agent);
 	}
-	
+
 	// Add epoch 0 to stats
 	updateBoardStatusList();
 }
@@ -60,11 +60,11 @@ void Simulation::updateBoard() {
 			 * 2. Lowest knowledge among all Students
 			 */
 			for (const auto& agent : agents) {
-				if (agent->getTypeInfo() == typeid(Examiner).name()) {
+				if (typeid(agent).name() == typeid(Examiner).name()) {
 					if (mainExaminer == nullptr || mainExaminer->getSuspicion() < std::dynamic_pointer_cast<Examiner>(agent)->getSuspicion())
 						mainExaminer = std::dynamic_pointer_cast<Examiner>(agent);
 				}
-				else if (agent->getTypeInfo() == typeid(Student).name()) {
+				else if (typeid(agent).name() == typeid(Student).name()) {
 					auto student = std::dynamic_pointer_cast<Student>(agent);
 
 					// Inform each student about a new round
@@ -97,7 +97,7 @@ void Simulation::updateBoard() {
 			}
 			else {
 				for (auto& agent : agents) {
-					if (agent->getTypeInfo() == typeid(Student*).name()) {
+					if (typeid(agent).name() == typeid(Student*).name()) {
 						mainExaminer->examinateStudent(std::dynamic_pointer_cast<Student>(agent));
 					}
 				}
@@ -116,7 +116,7 @@ void Simulation::drawBoard(sf::RenderWindow& window) const {
 
 bool Simulation::checkStatus() const {
 	for (auto& agent : m_agents)
-		if (agent->getTypeInfo() == typeid(Student).name()
+		if (typeid(agent).name() == typeid(Student).name()
 			&& std::dynamic_pointer_cast<Student>(agent)->getStatus() == Student::Status::Studying)
 			return true;
 

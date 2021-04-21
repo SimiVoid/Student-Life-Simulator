@@ -20,10 +20,6 @@ uint16_t Agent::getId() const {
 	return m_id;
 }
 
-std::string Agent::getTypeInfo() const {
-	return typeInfo;
-}
-
 void Agent::draw(sf::RenderWindow& window, const bool& isSingle) const {
 	if (isSingle) {
 		window.draw(m_singleView);
