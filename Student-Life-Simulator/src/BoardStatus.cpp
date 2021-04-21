@@ -2,11 +2,11 @@
 
 BoardStatus::BoardStatus(const std::list<std::shared_ptr<Agent>>& agents) : noStudentsInSemester(7) {
 	for (auto& agent : agents)
-		if (typeid(agent).name() == typeid(Student).name())
-			switch (std::dynamic_pointer_cast<Student>(agent)->getStatus()) {
+		if (isAgentTypeof<Student>(agent))
+			switch (castAgentTo<Student>(agent)->getStatus()) {
 			case Student::Status::Studying:
 				m_studentsOnStudiesCount++;
-				noStudentsInSemester[std::dynamic_pointer_cast<Student>(agent)->getCurrentSemester() - 1]++;
+				noStudentsInSemester[castAgentTo<Student>(agent)->getCurrentSemester() - 1]++;
 				break;
 			case Student::Status::Failed:
 				m_studentsFailedCount++;

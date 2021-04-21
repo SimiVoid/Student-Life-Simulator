@@ -29,9 +29,9 @@ void BoardField::draw(sf::RenderWindow& window, const uint16_t boardSize) {
 	uint16_t examinersCount = 0;
 
 	for (const auto& agent : m_agentsOnField) {
-			if (typeid(agent).name() == typeid(Student).name())
+			if (castAgentTo<Student>(agent))
 				studentsCount++;
-			else if (typeid(agent).name() == typeid(Examiner).name())
+			else if (castAgentTo<Examiner>(agent))
 				examinersCount++;
 	}
 	

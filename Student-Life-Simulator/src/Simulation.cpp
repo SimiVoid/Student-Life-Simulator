@@ -60,12 +60,12 @@ void Simulation::updateBoard() {
 			 * 2. Lowest knowledge among all Students
 			 */
 			for (const auto& agent : agents) {
-				if (typeid(agent).name() == typeid(Examiner).name()) {
-					if (mainExaminer == nullptr || mainExaminer->getSuspicion() < std::dynamic_pointer_cast<Examiner>(agent)->getSuspicion())
-						mainExaminer = std::dynamic_pointer_cast<Examiner>(agent);
+				if (isAgentTypeof<Examiner>(agent)) {
+					if (mainExaminer == nullptr || mainExaminer->getSuspicion() < castAgentTo<Examiner>(agent)->getSuspicion())
+						mainExaminer = castAgentTo<Examiner>(agent);
 				}
-				else if (typeid(agent).name() == typeid(Student).name()) {
-					auto student = std::dynamic_pointer_cast<Student>(agent);
+				else if (isAgentTypeof<Student>(agent)) {
+					auto student = castAgentTo<Student>(agent);
 
 					// Inform each student about a new round
 					student->nextRound();
@@ -89,16 +89,16 @@ void Simulation::updateBoard() {
 					 */
 					if (randomNumberWithinRange<uint16_t>(1, 100) > minimumKnowledge)
 						for (const auto& agent : agents) {
-							if (typeid(agent).name() == typeid(Student*).name()) {
-								std::dynamic_pointer_cast<Student>(agent)->drinkBeer();
+							if (isAgentTypeof<Student>(agent)) {
+								castAgentTo<Student>(agent)->drinkBeer();
 							}
 						}
 				}
 			}
 			else {
 				for (auto& agent : agents) {
-					if (typeid(agent).name() == typeid(Student*).name()) {
-						mainExaminer->examinateStudent(std::dynamic_pointer_cast<Student>(agent));
+					if (isAgentTypeof<Student>(agent)) {
+						mainExaminer->examinateStudent(castAgentTo<Student>(agent));
 					}
 				}
 			}
@@ -116,8 +116,8 @@ void Simulation::drawBoard(sf::RenderWindow& window) const {
 
 bool Simulation::checkStatus() const {
 	for (auto& agent : m_agents)
-		if (typeid(agent).name() == typeid(Student).name()
-			&& std::dynamic_pointer_cast<Student>(agent)->getStatus() == Student::Status::Studying)
+		if (isAgentTypeof<Student>(agent)
+			&& castAgentTo<Student>(agent)->getStatus() == Student::Status::Studying)
 			return true;
 
 	return false;

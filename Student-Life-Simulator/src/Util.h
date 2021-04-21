@@ -18,3 +18,13 @@ T randomNumberWithinRange(const T& first, const T& second) {
 
 	return distribution(generator);
 }
+
+template<class T1, class T2>
+std::shared_ptr<T1> castAgentTo(const std::shared_ptr<T2>& agent) {
+	return std::dynamic_pointer_cast<T1>(agent);
+}
+
+template<class T1, class T2>
+bool isAgentTypeof(const std::shared_ptr<T2>& agent) {
+	return std::dynamic_pointer_cast<T1>(agent) != nullptr;
+}
