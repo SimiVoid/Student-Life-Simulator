@@ -5,7 +5,7 @@
 #include "Student.h"
 #include "Examiner.h"
 
-BoardField::BoardField(const sf::Vector2i position)
+BoardField::BoardField(const sf::Vector2i& position)
 	:m_position(position) {
 	m_border.setOutlineThickness(1);
 	m_border.setOutlineColor(sf::Color::White);

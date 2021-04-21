@@ -11,13 +11,13 @@ protected:
 	sf::ConvexShape m_multipleView;
 
 public:
-	explicit Agent(uint16_t boardSize);
+	explicit Agent(const uint16_t& boardSize);
 	virtual ~Agent() = default;
 		
 	static uint16_t idCounter;
 
 	[[nodiscard]] sf::Vector2i getPosition() const;
 	[[nodiscard]] uint16_t getId() const;
-	void draw(sf::RenderWindow& window, bool isSingle = true) const;
+	void draw(sf::RenderWindow& window, const bool& isSingle = true) const;
 	void move(const uint16_t& boardSize);
 };

@@ -11,11 +11,17 @@
 #include "Examiner.h"
 #include "Student.h"
 
-void Simulation::generateAgents(uint16_t studentsCount, uint16_t examinersCount, uint16_t drunkStudentsCount,
-	std::pair<uint16_t, uint16_t> examinerSuspicionRange,
-	std::pair<uint16_t, uint16_t> studentKnowledgeRange,
-	std::pair<uint16_t, uint16_t> studentAlcoholResistanceRange) {
-	
+void Simulation::updateBoardStatusList() {
+	m_boardStatusList.emplace_back(BoardStatus(m_agents));
+}
+
+Simulation::Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16_t examinersCount, uint16_t drunkStudentsCount,
+	const std::pair<uint16_t, uint16_t>& examinerSuspicionRange,
+	const std::pair<uint16_t, uint16_t>& studentKnowledgeRange,
+	const std::pair<uint16_t, uint16_t>& studentAlcoholResistanceRange) {
+
+	m_board = std::make_unique<Board>(boardSize);
+
 	studentsCount -= drunkStudentsCount;
 
 	for (; drunkStudentsCount > 0; drunkStudentsCount--) {
@@ -33,40 +39,8 @@ void Simulation::generateAgents(uint16_t studentsCount, uint16_t examinersCount,
 		auto agent = std::make_shared<Examiner>(Examiner(examinerSuspicionRange, m_board->getBoardSize()));
 		m_agents.push_back(agent);
 	}
-}
 
-void Simulation::updateBoardStatusList() {
-	uint16_t studentsOnStudiesCount = 0;
-	uint16_t studentsFailedCount = 0;
-	uint16_t studentsPassedCount = 0;
-
-	for (auto& agent : m_agents) {
-		if (typeid(agent).name() == typeid(std::shared_ptr<Student>&).name())
-			switch (std::dynamic_pointer_cast<Student>(agent)->getStatus()) {
-			case Student::Status::OnStudies:
-				studentsOnStudiesCount++;
-				break;
-			case Student::Status::Failed:
-				studentsFailedCount++;
-				break;
-			case Student::Status::Passed:
-				studentsPassedCount++;
-				break;
-			}
-	}
-
-	m_boardStatusList.emplace_back(BoardStatus(studentsOnStudiesCount, studentsFailedCount, studentsPassedCount));
-}
-
-Simulation::Simulation(const uint16_t boardSize, const uint16_t studentsCount, const uint16_t examinersCount, const uint16_t drunkStudentsCount,
-	const std::pair<uint16_t, uint16_t> examinerSuspicionRange,
-	const std::pair<uint16_t, uint16_t> studentKnowledgeRange,
-	const std::pair<uint16_t, uint16_t> studentAlcoholResistanceRange) {
-
-	m_board = std::make_unique<Board>(boardSize);
-
-	generateAgents(studentsCount, examinersCount, drunkStudentsCount, examinerSuspicionRange, studentKnowledgeRange, studentAlcoholResistanceRange);
-
+	// Add epoch 0 to stats
 	updateBoardStatusList();
 }
 
@@ -117,7 +91,7 @@ void Simulation::updateBoard() {
 					/* minimumKnowledge is unlikeliness of drinking a beer
 					 * so any number above it means they will drink
 					 */
-					if (randomNumberWithinRange<uint16_t>(std::make_pair(1, 100)) > minimumKnowledge)
+					if (randomNumberWithinRange<uint16_t>(1, 100) > minimumKnowledge)
 						for (const auto& agent : agents) {
 							if (typeid(agent).name() == typeid(Student*).name()) {
 								std::dynamic_pointer_cast<Student>(agent)->drinkBeer();
@@ -144,16 +118,16 @@ void Simulation::drawBoard(sf::RenderWindow& window) const {
 		m_board->draw(window);
 }
 
-bool Simulation::checkStatus() {
+bool Simulation::checkStatus() const {
 	for (auto& agent : m_agents)
-		if (typeid(agent).name() == typeid(std::shared_ptr<Student>&).name()
-			&& std::dynamic_pointer_cast<Student>(agent)->getStatus() == Student::Status::OnStudies)
+		if (typeid(agent).name() == typeid(Student).name()
+			&& std::dynamic_pointer_cast<Student>(agent)->getStatus() == Student::Status::Studying)
 			return true;
 
 	return false;
 }
 
-void Simulation::exportData() {
+void Simulation::exportData() const {
 	if (!std::filesystem::is_directory("./output"))
 		std::filesystem::create_directories("./output");
 
@@ -165,9 +139,11 @@ void Simulation::exportData() {
 	std::ofstream csvFile("./output/" + ss.str());
 
 	if (csvFile.good() && csvFile.is_open()) {
-
+		unsigned counter = 0;
+		csvFile << "Epoch,Studying,Failed,Passed,Sem1,Sem2,Sem3,Sem4,Sem5,Sem6,Sem7" << std::endl;
 		for (auto& record : m_boardStatusList)
-			csvFile << record.getStudentsOnStudiesCount() << "," << record.getStudentsFailedCount() << "," << record.getStudentsPassedCount() << std::endl;
+			csvFile << counter++ << "," << record.getStudentsOnStudiesCount() << "," << record.getStudentsFailedCount() <<
+					"," << record.getStudentsPassedCount() << "," << record.csvExportStudentsInSemester() << std::endl;
 		csvFile.close();
 	}
 	else throw std::exception("Error!!! Cannot save data file!!!");
