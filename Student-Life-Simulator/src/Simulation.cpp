@@ -15,10 +15,14 @@ void Simulation::updateBoardStatusList() {
 	m_boardStatusList.emplace_back(BoardStatus(m_agents));
 }
 
+void Simulation::updateAgentsPosition() {
+	// TODO: Agents ptr to fields
+}
+
 Simulation::Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16_t examinersCount, uint16_t drunkStudentsCount,
-	const std::pair<uint16_t, uint16_t>& examinerSuspicionRange,
-	const std::pair<uint16_t, uint16_t>& studentKnowledgeRange,
-	const std::pair<uint16_t, uint16_t>& studentAlcoholResistanceRange) {
+                       const std::pair<uint16_t, uint16_t>& examinerSuspicionRange,
+                       const std::pair<uint16_t, uint16_t>& studentKnowledgeRange,
+                       const std::pair<uint16_t, uint16_t>& studentAlcoholResistanceRange) {
 
 	m_board = std::make_unique<Board>(boardSize);
 
@@ -42,6 +46,8 @@ Simulation::Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16
 
 	// Add epoch 0 to stats
 	updateBoardStatusList();
+
+	updateAgentsPosition();
 }
 
 void Simulation::updateBoard() {
@@ -102,11 +108,11 @@ void Simulation::updateBoard() {
 					}
 				}
 			}
-
 		}
 	}
 
 	updateBoardStatusList();
+	updateAgentsPosition();
 }
 
 void Simulation::drawBoard(sf::RenderWindow& window) const {

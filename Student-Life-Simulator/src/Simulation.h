@@ -16,7 +16,8 @@ class Simulation {
 	std::unique_ptr<Board> m_board;
 
 	void updateBoardStatusList();
-
+	void updateAgentsPosition();
+	
 public:
 	Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16_t examinersCount, uint16_t drunkStudentsCount,
 		const std::pair<uint16_t, uint16_t>& examinerSuspicionRange,

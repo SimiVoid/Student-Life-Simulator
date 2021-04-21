@@ -8,8 +8,8 @@
 BoardField::BoardField(const sf::Vector2i& position)
 	:m_position(position) {
 	m_border.setOutlineThickness(1);
-	m_border.setOutlineColor(sf::Color::White);
-	
+	m_border.setOutlineColor(sf::Color(31, 31, 31));
+	m_border.setFillColor(sf::Color::Black);
 }
 
 std::set<std::shared_ptr<Agent>> BoardField::getAgents() const {
@@ -29,25 +29,22 @@ void BoardField::draw(sf::RenderWindow& window, const uint16_t boardSize) {
 	uint16_t examinersCount = 0;
 
 	for (const auto& agent : m_agentsOnField) {
-			if (castAgentTo<Student>(agent))
-				studentsCount++;
-			else if (castAgentTo<Examiner>(agent))
-				examinersCount++;
+		if (castAgentTo<Student>(agent))
+			studentsCount++;
+		else if (castAgentTo<Examiner>(agent))
+			examinersCount++;
 	}
 	
-	if (studentsCount == 0 && examinersCount == 0)
-		return;
-
-	for (const auto& agent : m_agentsOnField) {
-		if (studentsCount == 0 || examinersCount == 0)
+	for (auto& agent : m_agentsOnField) {
+		if ((studentsCount == 1 && examinersCount == 0) || (studentsCount == 0 && examinersCount == 1))
 			agent->draw(window);
 		else
 			agent->draw(window, false);
 	}
 
 	const auto fieldSize = floorf(static_cast<float>(window.getSize().y) / static_cast<float>(boardSize));
-	m_border.setSize( sf::Vector2f(fieldSize, fieldSize));
-	m_border.setPosition(200.f + boardSize * m_position.x, boardSize * m_position.y);
+	m_border.setSize(sf::Vector2f(fieldSize, fieldSize));
+	m_border.setPosition(200.f + fieldSize * m_position.x, fieldSize * m_position.y);
 
 	window.draw(m_border);
 }

@@ -7,6 +7,10 @@ class Agent {
 protected:
 	uint16_t m_id;
 	sf::Vector2i m_position;
+	/**
+	 * Green - Student
+	 * Brown - Examiner
+	 */
 	sf::RectangleShape m_singleView;
 	sf::ConvexShape m_multipleView;
 

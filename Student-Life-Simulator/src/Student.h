@@ -23,7 +23,7 @@ private:
 	uint16_t m_sleepingRounds{};
 	uint16_t m_inSemester{ 1 };
 	Status m_status;
-
+	
 public:
 	explicit Student(const std::pair<uint16_t, uint16_t>& knowledgeRange, const std::pair<uint16_t, uint16_t>& alcoholResistanceRange, const uint16_t& boardSize);
 	~Student() = default;

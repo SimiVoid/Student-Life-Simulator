@@ -5,7 +5,18 @@ Examiner::Examiner(const std::pair<uint16_t, uint16_t>& suspicionRange, const ui
 	: Agent(boardSize) {
 	m_suspicion = randomNumberWithinRange(suspicionRange);
 
-	// TODO: setup drawable elements (Examiner)
+	const unsigned windowHeight = 1000;
+	const auto fieldSize = floorf(static_cast<float>(windowHeight) / static_cast<float>(boardSize));
+
+	m_singleView.setSize({ fieldSize, fieldSize });
+	m_singleView.setFillColor(sf::Color(165, 42, 42));
+
+	m_multipleView.setPointCount(3);
+	m_multipleView.setPoint(0, { fieldSize, fieldSize });
+	m_multipleView.setPoint(1, { fieldSize, 0 });
+	m_multipleView.setPoint(2, { 0, fieldSize });
+	m_multipleView.setFillColor(sf::Color(165, 42, 42));
+
 }
 
 uint16_t Examiner::getSuspicion() const {

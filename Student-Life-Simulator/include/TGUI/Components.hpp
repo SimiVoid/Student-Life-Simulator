@@ -360,7 +360,7 @@ namespace dev
         ///static std::unordered_map<std::uint64_t, ValueType> m_globalValues;
         ///static std::uint64_t m_nextGlobalValueIndex;
 
-        /// TODO: The system with global values caused way too many implementation and platform-specific problems.
+        /// The system with global values caused way too many implementation and platform-specific problems.
         ///       For now we just store the values in the StyleProperty itself.
         std::unordered_map<std::uint64_t, ValueType> m_globalValues;
     };
