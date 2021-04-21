@@ -40,8 +40,8 @@ void Simulation::updateBoardStatusList() {
 	uint16_t studentsFailedCount = 0;
 	uint16_t studentsPassedCount = 0;
 
-	for (auto& agent : m_agents)
-		if (typeid(agent).name() == typeid(Student).name())
+	for (auto& agent : m_agents) {
+		if (typeid(agent).name() == typeid(std::shared_ptr<Student>&).name())
 			switch (std::dynamic_pointer_cast<Student>(agent)->getStatus()) {
 			case Student::Status::OnStudies:
 				studentsOnStudiesCount++;
@@ -53,6 +53,7 @@ void Simulation::updateBoardStatusList() {
 				studentsPassedCount++;
 				break;
 			}
+	}
 
 	m_boardStatusList.emplace_back(BoardStatus(studentsOnStudiesCount, studentsFailedCount, studentsPassedCount));
 }
@@ -66,6 +67,7 @@ Simulation::Simulation(const uint16_t boardSize, const uint16_t studentsCount, c
 
 	generateAgents(studentsCount, examinersCount, drunkStudentsCount, examinerSuspicionRange, studentKnowledgeRange, studentAlcoholResistanceRange);
 
+	updateBoardStatusList();
 }
 
 Simulation::Simulation(Simulation&&) noexcept {
@@ -144,7 +146,7 @@ void Simulation::drawBoard(sf::RenderWindow& window) const {
 
 bool Simulation::checkStatus() {
 	for (auto& agent : m_agents)
-		if (typeid(agent).name() == typeid(Student).name()
+		if (typeid(agent).name() == typeid(std::shared_ptr<Student>&).name()
 			&& std::dynamic_pointer_cast<Student>(agent)->getStatus() == Student::Status::OnStudies)
 			return true;
 
@@ -163,6 +165,7 @@ void Simulation::exportData() {
 	std::ofstream csvFile("./output/" + ss.str());
 
 	if (csvFile.good() && csvFile.is_open()) {
+
 		for (auto& record : m_boardStatusList)
 			csvFile << record.getStudentsOnStudiesCount() << "," << record.getStudentsFailedCount() << "," << record.getStudentsPassedCount() << std::endl;
 		csvFile.close();
