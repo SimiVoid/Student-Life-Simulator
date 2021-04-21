@@ -5,6 +5,8 @@ Student::Student(const std::pair<uint16_t, uint16_t>& knowledgeRange, const std:
 	m_knowledge = randomNumberWithinRange(knowledgeRange);
 	m_alcoholResistance = randomNumberWithinRange(alcoholResistanceRange);
 
+	typeInfo = typeid(Student).name();
+	
 	// TODO: setup drawable elements (Student)
 }
 

@@ -2,7 +2,7 @@
 
 BoardStatus::BoardStatus(const std::list<std::shared_ptr<Agent>>& agents) : noStudentsInSemester(7) {
 	for (auto& agent : agents)
-		if (typeid(agent).name() == typeid(Student).name())
+		if (agent->getTypeInfo() == typeid(Student).name())
 			switch (std::dynamic_pointer_cast<Student>(agent)->getStatus()) {
 			case Student::Status::Studying:
 				m_studentsOnStudiesCount++;

@@ -5,6 +5,8 @@ Examiner::Examiner(const std::pair<uint16_t, uint16_t>& suspicionRange, const ui
 	: Agent(boardSize) {
 	m_suspicion = randomNumberWithinRange(suspicionRange);
 
+	typeInfo = typeid(Examiner).name();
+	
 	// TODO: setup drawable elements (Examiner)
 }
 
