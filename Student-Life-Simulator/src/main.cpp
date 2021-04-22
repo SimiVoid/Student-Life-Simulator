@@ -15,8 +15,9 @@ void setupEnvPath();
 
 int main(int argc, char* argv[]) {
 	setupEnvPath();
-	
+
 	std::unique_ptr<Simulation> simulation;
+	SimulationThread thread;
 
 	sf::RenderWindow window(sf::VideoMode(1200, 1000), "Student Life Simulator", sf::Style::Close);
 	window.setFramerateLimit(60);
@@ -24,7 +25,7 @@ int main(int argc, char* argv[]) {
 	tgui::GuiSFML gui(window);
 
 	try {
-		setupMenu(gui, window, simulation);
+		setupMenu(gui, window, simulation, thread);
 	}
 	catch (const tgui::Exception& e) {
 		std::cerr << "Failed to load TGUI widgets: " << e.what() << std::endl;
@@ -51,19 +52,20 @@ int main(int argc, char* argv[]) {
 		window.draw(menuBackground);
 		gui.draw();
 
-		auto isLocked = simulationLock.try_lock();
-		if (isLocked)
-		{
-			if (simulationThreadRunning)
+		if (simulation != nullptr) {
+			auto isLocked = thread.simulationLock.try_lock();
+			if (isLocked)
+			{
 				simulation->drawBoard(window);
 
-			simulationLock.unlock();
+				thread.simulationLock.unlock();
+			}
 		}
 
 		window.display();
 	}
 
-	stopSimulationThread();
+	thread.stopSimulationThread(true);
 
 	return 0;
 }
@@ -72,15 +74,15 @@ void setupEnvPath() {
 	auto pathBuffer = new WCHAR[UINT16_MAX];
 
 	GetEnvironmentVariable(L"PATH", pathBuffer, UINT16_MAX);
-	
+
 	std::wstring path(pathBuffer);
 	std::wstring gnuplotPath = L"\\gnuplot";
 
-	if(path.find(gnuplotPath) != std::wstring::npos) return;
-	
+	if (path.find(gnuplotPath) != std::wstring::npos) return;
+
 	std::wstring currentPath = std::filesystem::current_path().wstring();
 
 	path += currentPath + gnuplotPath;
-	
+
 	SetEnvironmentVariable(L"PATH", path.c_str());
 }
