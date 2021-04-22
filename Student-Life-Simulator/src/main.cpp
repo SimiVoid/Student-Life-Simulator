@@ -44,13 +44,13 @@ int main(int argc, char* argv[]) {
 		window.draw(menuBackground);
 		gui.draw();
 
-		if (simulationThreadRunning)
+		auto isLocked = simulation_lock.try_lock();
+		if (isLocked)
 		{
-			auto isLocked = simulation_lock.try_lock();
-			if (isLocked) {
+			if (simulationThreadRunning)
 				simulation->drawBoard(window);
-				simulation_lock.unlock();
-			}
+
+			simulation_lock.unlock();
 		}
 
 		window.display();

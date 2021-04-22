@@ -38,11 +38,19 @@ void runSimulationThread(const std::unique_ptr<Simulation>& simulation) {
 	});
 
 	simulationThreadRunning = true;
+
+	simulationLoopThread.detach();
 }
 
 void stopSimulationThread() {
+	simulation_lock.lock();
+
+	if (!simulationThreadRunning)
+		goto out;
+
+	simulationLoopThread.~thread();
 	simulationThreadRunning = false;
 
-	if (simulationThreadRunning)
-		simulationLoopThread.~thread();
+out:
+	simulation_lock.unlock();
 }
