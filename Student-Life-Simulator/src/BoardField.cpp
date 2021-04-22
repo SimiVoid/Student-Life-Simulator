@@ -46,10 +46,10 @@ void BoardField::draw(sf::RenderWindow& window, const uint16_t boardSize) {
 	}
 	
 	for (auto& agent : m_agentsOnField) {
-		if ((studentsCount == 1 && examinersCount == 0) || (studentsCount == 0 && examinersCount == 1))
-			agent->draw(window, fieldSize);
-		else
+		if (studentsCount >= 1 && examinersCount >= 1)
 			agent->draw(window, fieldSize, false);
+		else
+			agent->draw(window, fieldSize);
 	}
 
 	m_border.setSize(sf::Vector2f(fieldSize, fieldSize));
