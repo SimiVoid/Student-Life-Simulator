@@ -363,4 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # Output Data
-*.csv
+./Student-Life-Simulator/output
