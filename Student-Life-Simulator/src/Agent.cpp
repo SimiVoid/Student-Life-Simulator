@@ -8,8 +8,7 @@ uint16_t Agent::idCounter = 0;
 Agent::Agent(const uint16_t& boardSize)
 	:m_id(idCounter++) {
 	m_position = sf::Vector2i(randomNumberWithinRange<uint16_t>(0, boardSize - 1),
-		randomNumberWithinRange<uint16_t>(0, boardSize - 1));
-	
+		randomNumberWithinRange<uint16_t>(0, boardSize - 1));	
 }
 
 sf::Vector2i Agent::getPosition() const {
@@ -20,11 +19,13 @@ uint16_t Agent::getId() const {
 	return m_id;
 }
 
-void Agent::draw(sf::RenderWindow& window, const bool& isSingle) const {
+void Agent::draw(sf::RenderWindow& window, const uint16_t& fieldSize, const bool& isSingle) {
 	if (isSingle) {
+		m_singleView.setPosition(200 + fieldSize * m_position.x, fieldSize * m_position.y);
 		window.draw(m_singleView);
 	}
 	else {
+		m_multipleView.setPosition(200 + fieldSize * m_position.x, fieldSize * m_position.y);
 		window.draw(m_multipleView);
 	}
 }
