@@ -18,6 +18,15 @@ Student::Student(const std::pair<uint16_t, uint16_t>& knowledgeRange, const std:
 	m_multipleView.setFillColor(sf::Color::Green);
 }
 
+void Student::move(const uint16_t& boardSize) {
+	nextRound();
+
+	if (m_isSleeping)
+		return;
+
+	Agent::move(boardSize);
+}
+
 bool Student::isSleeping() const {
 	return m_isSleeping;
 }

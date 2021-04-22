@@ -24,6 +24,7 @@ private:
 	uint16_t m_inSemester{ 1 };
 	Status m_status;
 	
+	void nextRound();
 public:
 	explicit Student(const std::pair<uint16_t, uint16_t>& knowledgeRange, const std::pair<uint16_t, uint16_t>& alcoholResistanceRange, const uint16_t& boardSize);
 	~Student() = default;
@@ -38,6 +39,6 @@ public:
 	[[nodiscard]] uint16_t getCurrentSemester() const;
 	void acceptExamResult(const bool& hasPassed);
 	void drinkBeer();
-	void nextRound();
+	void move(const uint16_t& boardSize);
 };
 
