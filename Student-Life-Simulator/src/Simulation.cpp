@@ -1,5 +1,6 @@
 #include "Simulation.h"
 
+#include <sciplot/sciplot.hpp>
 #include <fstream>
 #include <chrono>
 #include <typeinfo>
@@ -154,5 +155,36 @@ void Simulation::exportData() const {
 }
 
 void Simulation::generatePlot() {
-	// TODO: generating plot algorithm
+	using namespace sciplot;
+
+	if (!std::filesystem::is_directory("./output"))
+		std::filesystem::create_directories("./output");
+
+	const auto now = std::chrono::system_clock::now();
+	auto inTimeT = std::chrono::system_clock::to_time_t(now);
+
+	std::stringstream ss;
+	ss << std::put_time(std::localtime(&inTimeT), "%Y-%m-%d_%H-%M-%S_plot.pdf");
+
+	// Generating plot algorithm
+	Plot plot;
+	plot.palette("set2");
+	plot.size(800, 600);
+
+	const auto epoch = linspace(0, m_boardStatusList.size(), 1);
+
+	std::vector<uint16_t> studentsOnStudies, studentsFailed, studentsPassed;
+
+	for (auto& record : m_boardStatusList) {
+		studentsFailed.emplace_back(record.getStudentsFailedCount());
+		studentsPassed.emplace_back(record.getStudentsPassedCount());
+		studentsOnStudies.emplace_back(record.getStudentsOnStudiesCount());
+	}
+	
+	plot.drawBrokenCurve(epoch, studentsOnStudies).label("Students on studies").lineWidth(4);
+	plot.drawBrokenCurve(epoch, studentsPassed).label("Students failed studies").lineWidth(4);
+	plot.drawBrokenCurve(epoch, studentsFailed).label("Students passed studies").lineWidth(4);
+	
+	plot.save("./output/" + ss.str());
+	plot.show();
 }

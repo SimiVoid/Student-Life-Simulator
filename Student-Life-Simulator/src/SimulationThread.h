@@ -6,7 +6,7 @@
 
 #include "Simulation.h"
 
-extern std::mutex simulation_lock;
+extern std::mutex simulationLock;
 
 extern bool simulationThreadRunning;
 
