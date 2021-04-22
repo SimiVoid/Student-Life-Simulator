@@ -85,10 +85,16 @@ void Student::drinkBeer() {
 		m_isSleeping = true;
 		m_intoxication = 0;
 		m_roundsWithoutDrinking = 0;
+
+		m_singleView.setFillColor(sf::Color(105, 105, 105));
+		m_multipleView.setFillColor(sf::Color(105, 105, 105));
 	}
 	else {
 		m_intoxication++;
 		m_roundsWithoutDrinking = 0;
+
+		m_singleView.setFillColor(sf::Color::Yellow);
+		m_multipleView.setFillColor(sf::Color::Yellow);
 	}
 }
 
@@ -97,6 +103,9 @@ void Student::nextRound() {
 		if (m_sleepingRounds == 4) {
 			m_isSleeping = false;
 			m_sleepingRounds = 0;
+
+			m_multipleView.setFillColor(sf::Color::Green);
+			m_singleView.setFillColor(sf::Color::Green);
 		}
 		else
 			m_sleepingRounds++;
@@ -106,8 +115,13 @@ void Student::nextRound() {
 
 	if (m_roundsWithoutDrinking == 4) {
 		m_roundsWithoutDrinking = 0;
-		if (m_intoxication != 0)
+		if (m_intoxication != 0) {
 			m_intoxication--;
+			if (m_intoxication == 0) {
+				m_multipleView.setFillColor(sf::Color::Green);
+				m_singleView.setFillColor(sf::Color::Green);
+			}
+		}
 	}
 	else
 		m_roundsWithoutDrinking++;
