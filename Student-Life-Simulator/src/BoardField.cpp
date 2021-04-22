@@ -9,7 +9,7 @@ BoardField::BoardField(const sf::Vector2i& position)
 	:m_position(position) {
 	m_border.setOutlineThickness(1);
 	m_border.setOutlineColor(sf::Color(31, 31, 31));
-	m_border.setFillColor(sf::Color::Black);
+	m_border.setFillColor(sf::Color::Transparent);
 }
 
 std::set<std::shared_ptr<Agent>> BoardField::getAgents() const {
