@@ -1,21 +1,21 @@
 #include "SimulationThread.h"
 
-using namespace std::chrono_literals;
-
-std::thread simulationLoopThread;
-std::mutex simulationLock;
-
-bool simulationThreadRunning = false;
-
-void runSimulationThread(const std::unique_ptr<Simulation>& simulation) {
+void SimulationThread::runSimulationThread(const std::unique_ptr<Simulation>& simulation) {
 	if (simulation == nullptr)
 		throw std::exception("Simulation pointer is null!");
 
 	if (simulationThreadRunning)
 		throw std::exception("Tried to run simulation while it was running!");
 
-	simulationLoopThread = std::thread([&simulation]() {
-		while (1) {
+	m_simulationThreadShouldRun = true;
+
+	m_simulationThread = std::thread([&]() {
+		while (m_simulationThreadShouldRun) {
+			{
+				std::unique_lock<std::mutex> lock(m_pauseMutex);
+				m_pauseConditionVariable.wait(lock, [&] {return !m_simulationThreadPaused; });
+			}
+
 			const auto start = std::chrono::system_clock::now();
 
 			simulationLock.lock();
@@ -25,7 +25,8 @@ void runSimulationThread(const std::unique_ptr<Simulation>& simulation) {
 				simulationThreadRunning = false;
 				simulationLock.unlock();
 
-				std::terminate();
+				m_simulationThread.detach();
+				return;
 			}
 
 			simulation->updateBoard();
@@ -33,24 +34,53 @@ void runSimulationThread(const std::unique_ptr<Simulation>& simulation) {
 
 			const auto end = std::chrono::system_clock::now();
 
-			std::this_thread::sleep_for(1s - (end - start));
+			std::this_thread::sleep_for(m_threadWait - (end - start));
 		}
 	});
 
 	simulationThreadRunning = true;
-
-	simulationLoopThread.detach();
 }
 
-void stopSimulationThread() {
-	simulationLock.lock();
-
+void SimulationThread::stopSimulationThread(const bool& sync) {
 	if (!simulationThreadRunning)
-		goto out;
+		return;
 
-	simulationLoopThread.~thread();
+	m_simulationThreadShouldRun = false;
+
+	if(sync)
+		m_simulationThread.join();
+	else
+		m_simulationThread.detach();
+
 	simulationThreadRunning = false;
+}
 
-out:
-	simulationLock.unlock();
+void SimulationThread::pauseSimulationThread() {
+	std::lock_guard<std::mutex> lock(m_pauseMutex);
+	m_simulationThreadPaused = true;
+	m_pauseConditionVariable.notify_all();
+}
+
+void SimulationThread::resumeSimulationThread() {
+	std::lock_guard<std::mutex> lock(m_pauseMutex);
+	m_simulationThreadPaused = false;
+	m_pauseConditionVariable.notify_all();
+}
+
+void SimulationThread::doSimulationThreadStep() {
+	resumeSimulationThread();
+	
+	// Give simulation thread chance to run
+	// This is a dirty hack and could be broken
+	std::this_thread::sleep_for(1us);
+	
+	pauseSimulationThread();
+}
+
+void SimulationThread::setSimulationWait(const std::chrono::system_clock::duration& waitTime) {
+	m_threadWait = waitTime;
+}
+
+std::chrono::system_clock::duration SimulationThread::getSimulationWait() const {
+	return m_threadWait;
 }

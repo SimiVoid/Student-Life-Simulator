@@ -17,27 +17,9 @@ void Simulation::updateBoardStatusList() {
 }
 
 void Simulation::updateAgentsPosition() {
-	const auto boardSize = static_cast<size_t>(m_board->getBoardSize());
-
-	std::vector<std::vector<std::set<std::shared_ptr<Agent>>>> agents;
-
-	for (auto i = 0; i < boardSize; ++i) {
-		std::vector<std::set<std::shared_ptr<Agent>>> temp;
-
-		for (auto j = 0; j < boardSize; ++j)
-			temp.emplace_back(std::set<std::shared_ptr<Agent>>());
-		
-		agents.emplace_back(temp);
-	}
-	
-	for(auto agent : m_agents) {
-		const auto pos = agent->getPosition();
-		agents[pos.x][pos.y].insert(agent);
-	}
-
-	for (auto i = 0; i < boardSize; ++i)
-		for (auto j = 0; j < boardSize; ++j)
-			m_board->getField({ i, j }).setAgents(agents[i][j]);
+	m_board->clearFields();
+	for (const auto& agent : m_agents)
+		m_board->getField(agent->getPosition()).addAgent(agent);
 }
 
 Simulation::Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16_t examinersCount, uint16_t drunkStudentsCount,
@@ -74,6 +56,8 @@ Simulation::Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16
 void Simulation::updateBoard() {
 	for (auto& agent : m_agents)
 		agent->move(m_board->getBoardSize());
+
+	updateAgentsPosition();
 
 	for (uint16_t x = 0; x < m_board->getBoardSize(); ++x) {
 		for (uint16_t y = 0; y < m_board->getBoardSize(); ++y) {
@@ -133,7 +117,6 @@ void Simulation::updateBoard() {
 	}
 
 	updateBoardStatusList();
-	updateAgentsPosition();
 }
 
 void Simulation::drawBoard(sf::RenderWindow& window) const {

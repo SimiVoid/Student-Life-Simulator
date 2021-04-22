@@ -24,6 +24,14 @@ void BoardField::setAgents(std::set<std::shared_ptr<Agent>> agents) {
 	m_agentsOnField = std::move(agents);
 }
 
+void BoardField::addAgent(const std::shared_ptr<Agent>& agent) {
+	m_agentsOnField.insert(agent);
+}
+
+void BoardField::clearField() {
+	m_agentsOnField.clear();
+}
+
 void BoardField::draw(sf::RenderWindow& window, const uint16_t boardSize) {
 	uint16_t studentsCount = 0;
 	uint16_t examinersCount = 0;

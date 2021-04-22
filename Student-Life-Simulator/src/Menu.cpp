@@ -4,7 +4,7 @@
 
 #include "SimulationThread.h"
 
-void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Simulation>& simulation) {
+void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Simulation>& simulation, SimulationThread& thread) {
 	using namespace tgui;
 
 	gui.setTextSize(15);
@@ -243,7 +243,7 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Sim
 	auto startButton = Button::create("Start");
 	startButton->setSize(Layout2d(190, 40));
 	startButton->setPosition(Layout2d(5, 5));
-	startButton->onMousePress(startButtonOnMousePress, std::ref(simulation), [=]() -> std::map<std::string, std::any> {
+	startButton->onMousePress(startButtonOnMousePress, std::ref(simulation), std::ref(thread), [=]() -> std::map<std::string, std::any> {
 		std::map<std::string, std::any> map{
 			std::make_pair("board_size", static_cast<uint16_t>(boardSizeSlider->getValue())),
 			std::make_pair("students_count", static_cast<uint16_t>(studentsCountSlider->getValue())),
@@ -293,7 +293,7 @@ void exportDataButtonOnMousePress(std::unique_ptr<Simulation>& simulation) {
 		MessageBoxA(nullptr, "Cannot export data because simulation is not initialized", "Warning!", MB_OK | MB_ICONWARNING);
 }
 
-void startButtonOnMousePress(std::unique_ptr<Simulation>& simulation, std::function<std::map<std::string, std::any> ()> initParametersListFunc) {
+void startButtonOnMousePress(std::unique_ptr<Simulation>& simulation, SimulationThread& thread, std::function<std::map<std::string, std::any> ()> initParametersListFunc) {
 	auto initParametersList = initParametersListFunc();
 
 	if (std::any_cast<uint16_t>(initParametersList["drunk_students_count"]) > std::any_cast<uint16_t>(initParametersList["students_count"]))
