@@ -32,9 +32,9 @@ uint16_t BoardStatus::getStudentsPassedCount() const {
 std::string BoardStatus::csvExportStudentsInSemester() const {
 	std::string tmp{};
 	for (auto& count : noStudentsInSemester)
-		tmp += std::to_string(count) + ",";
+		tmp += std::to_string(count) + ";";
 
-	// Remove comma at the end
+	// Remove semicolon at the end
 	tmp.pop_back();
 
 	return tmp;
