@@ -3,7 +3,7 @@
 using namespace std::chrono_literals;
 
 std::thread simulationLoopThread;
-std::mutex simulation_lock;
+std::mutex simulationLock;
 
 bool simulationThreadRunning = false;
 
@@ -18,18 +18,18 @@ void runSimulationThread(const std::unique_ptr<Simulation>& simulation) {
 		while (1) {
 			const auto start = std::chrono::system_clock::now();
 
-			simulation_lock.lock();
+			simulationLock.lock();
 
 			if (!simulation->checkStatus()) {
 				// Simulation is finished at this point
 				simulationThreadRunning = false;
-				simulation_lock.unlock();
+				simulationLock.unlock();
 
 				std::terminate();
 			}
 
 			simulation->updateBoard();
-			simulation_lock.unlock();
+			simulationLock.unlock();
 
 			const auto end = std::chrono::system_clock::now();
 

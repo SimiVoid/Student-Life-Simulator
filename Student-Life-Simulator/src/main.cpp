@@ -46,10 +46,10 @@ int main(int argc, char* argv[]) {
 
 		if (simulationThreadRunning)
 		{
-			auto isLocked = simulation_lock.try_lock();
+			auto isLocked = simulationLock.try_lock();
 			if (isLocked) {
 				simulation->drawBoard(window);
-				simulation_lock.unlock();
+				simulationLock.unlock();
 			}
 		}
 
