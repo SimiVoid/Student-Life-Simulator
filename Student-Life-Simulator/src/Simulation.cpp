@@ -17,7 +17,9 @@ void Simulation::updateBoardStatusList() {
 }
 
 void Simulation::updateAgentsPosition() {
-	// TODO: Agents ptr to fields
+	m_board->clearFields();
+	for (const auto& agent : m_agents)
+		m_board->getField(agent->getPosition()).addAgent(agent);
 }
 
 Simulation::Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16_t examinersCount, uint16_t drunkStudentsCount,
@@ -54,6 +56,8 @@ Simulation::Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16
 void Simulation::updateBoard() {
 	for (auto& agent : m_agents)
 		agent->move(m_board->getBoardSize());
+
+	updateAgentsPosition();
 
 	for (uint16_t x = 0; x < m_board->getBoardSize(); ++x) {
 		for (uint16_t y = 0; y < m_board->getBoardSize(); ++y) {
@@ -113,7 +117,6 @@ void Simulation::updateBoard() {
 	}
 
 	updateBoardStatusList();
-	updateAgentsPosition();
 }
 
 void Simulation::drawBoard(sf::RenderWindow& window) const {

@@ -23,6 +23,12 @@ BoardField Board::getField(const sf::Vector2i& position) const {
 	return m_fields[position.x][position.y];
 }
 
+void Board::clearFields() {
+	for (auto& columns : m_fields)
+		for (auto& field : columns)
+			field.clearField();
+}
+
 uint16_t Board::getBoardSize() const {
 	return m_size;
 }

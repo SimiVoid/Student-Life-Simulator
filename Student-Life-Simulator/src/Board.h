@@ -17,4 +17,5 @@ public:
 	[[nodiscard]] uint16_t getBoardSize() const;
 	void draw(sf::RenderWindow& window);
 	void updateField(const sf::Vector2i& position, const std::set<std::shared_ptr<Agent>>& agents);
+	void clearFields();
 };

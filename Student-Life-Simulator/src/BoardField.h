@@ -17,5 +17,7 @@ public:
 	[[nodiscard]] std::set<std::shared_ptr<Agent>> getAgents() const;
 	[[nodiscard]] sf::Vector2i getPosition() const;
 	void setAgents(std::set<std::shared_ptr<Agent>> agents);
+	void addAgent(const std::shared_ptr<Agent>& agent);
+	void clearField();
 	void draw(sf::RenderWindow& window, uint16_t boardSize);
 };
