@@ -17,7 +17,7 @@ void Board::checkFieldPosition(const sf::Vector2i& position) const {
 		throw std::out_of_range("Requested field position out of range!");
 }
 
-BoardField Board::getField(const sf::Vector2i& position) const {
+BoardField& Board::getField(const sf::Vector2i& position) {
 	checkFieldPosition(position);
 
 	return m_fields[position.x][position.y];
