@@ -305,7 +305,7 @@ void startButtonOnMousePress(tgui::Button::Ptr stopButton, tgui::Button::Ptr sta
 
 	if (std::any_cast<uint16_t>(initParametersList["drunk_students_count"]) > std::any_cast<uint16_t>(initParametersList["students_count"]))
 	{
-		MessageBoxA(nullptr, "Drunk students count exceeds all students count!\nStudents count should be more or equal to drunk students count.", "Error!", MB_OK);
+		MessageBoxA(nullptr, "Drunk students count exceeds all students count!\nStudents count should be more or equal to drunk students count.", "Error!", MB_OK | MB_ICONWARNING);
 		return;
 	}
 
