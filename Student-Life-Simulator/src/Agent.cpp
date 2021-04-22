@@ -7,9 +7,9 @@ uint16_t Agent::idCounter = 0;
 
 Agent::Agent(const uint16_t& boardSize)
 	:m_id(idCounter++) {
-	sf::Vector2i position(
-		randomNumberWithinRange<uint16_t>(0, boardSize - 1),
+	m_position = sf::Vector2i(randomNumberWithinRange<uint16_t>(0, boardSize - 1),
 		randomNumberWithinRange<uint16_t>(0, boardSize - 1));
+	
 }
 
 sf::Vector2i Agent::getPosition() const {
