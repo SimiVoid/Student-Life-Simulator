@@ -47,20 +47,19 @@ int main(int argc, char* argv[]) {
 				window.close();
 		}
 
-		window.clear();
-
-		window.draw(menuBackground);
-		gui.draw();
-
 		if (simulation != nullptr) {
 			auto isLocked = thread.simulationLock.try_lock();
 			if (isLocked)
 			{
+				window.clear();
 				simulation->drawBoard(window);
 
 				thread.simulationLock.unlock();
 			}
 		}
+
+		window.draw(menuBackground);
+		gui.draw();
 
 		window.display();
 	}
