@@ -17,7 +17,27 @@ void Simulation::updateBoardStatusList() {
 }
 
 void Simulation::updateAgentsPosition() {
-	// TODO: Agents ptr to fields
+	const auto boardSize = static_cast<size_t>(m_board->getBoardSize());
+
+	std::vector<std::vector<std::set<std::shared_ptr<Agent>>>> agents;
+
+	for (auto i = 0; i < boardSize; ++i) {
+		std::vector<std::set<std::shared_ptr<Agent>>> temp;
+
+		for (auto j = 0; j < boardSize; ++j)
+			temp.emplace_back(std::set<std::shared_ptr<Agent>>());
+		
+		agents.emplace_back(temp);
+	}
+	
+	for(auto agent : m_agents) {
+		const auto pos = agent->getPosition();
+		agents[pos.x][pos.y].insert(agent);
+	}
+
+	for (auto i = 0; i < boardSize; ++i)
+		for (auto j = 0; j < boardSize; ++j)
+			m_board->getField({ i, j }).setAgents(agents[i][j]);
 }
 
 Simulation::Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16_t examinersCount, uint16_t drunkStudentsCount,
