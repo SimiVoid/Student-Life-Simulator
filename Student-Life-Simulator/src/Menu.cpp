@@ -1,6 +1,7 @@
 #include "Menu.h"
 
 #include <Windows.h>
+
 #include "SimulationThread.h"
 
 void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Simulation>& simulation) {

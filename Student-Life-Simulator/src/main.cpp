@@ -2,13 +2,20 @@
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 #endif
 
+#define NOMINMAX
+#include <Windows.h>
 #include <iostream>
+#include <filesystem>
 
 #include "Simulation.h"
 #include "SimulationThread.h"
 #include "Menu.h"
 
+void setupEnvPath();
+
 int main(int argc, char* argv[]) {
+	setupEnvPath();
+	
 	std::unique_ptr<Simulation> simulation;
 
 	sf::RenderWindow window(sf::VideoMode(1200, 1000), "Student Life Simulator", sf::Style::Close);
@@ -59,4 +66,21 @@ int main(int argc, char* argv[]) {
 	stopSimulationThread();
 
 	return 0;
+}
+
+void setupEnvPath() {
+	auto pathBuffer = new WCHAR[UINT16_MAX];
+
+	GetEnvironmentVariable(L"PATH", pathBuffer, UINT16_MAX);
+	
+	std::wstring path(pathBuffer);
+	std::wstring gnuplotPath = L"\\gnuplot";
+
+	if(path.find(gnuplotPath) != std::wstring::npos) return;
+	
+	std::wstring currentPath = std::filesystem::current_path().wstring();
+
+	path += currentPath + gnuplotPath;
+	
+	SetEnvironmentVariable(L"PATH", path.c_str());
 }
