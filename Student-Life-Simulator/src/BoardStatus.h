@@ -9,7 +9,7 @@ class BoardStatus {
 	uint16_t m_studentsOnStudiesCount = 0;
 	uint16_t m_studentsFailedCount = 0;
 	uint16_t m_studentsPassedCount = 0;
-	std::vector<uint16_t> noStudentsInSemester;
+	std::vector<uint16_t> m_noStudentsInSemester;
 
 public:
 	explicit BoardStatus(const std::list<std::shared_ptr<Agent>>& agents);

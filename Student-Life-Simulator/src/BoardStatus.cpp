@@ -1,12 +1,12 @@
 #include "BoardStatus.h"
 
-BoardStatus::BoardStatus(const std::list<std::shared_ptr<Agent>>& agents) : noStudentsInSemester(7) {
+BoardStatus::BoardStatus(const std::list<std::shared_ptr<Agent>>& agents) : m_noStudentsInSemester(7) {
 	for (auto& agent : agents)
 		if (isAgentTypeof<Student>(agent))
 			switch (castAgentTo<Student>(agent)->getStatus()) {
 			case Student::Status::Studying:
 				m_studentsOnStudiesCount++;
-				noStudentsInSemester[castAgentTo<Student>(agent)->getCurrentSemester() - 1]++;
+				m_noStudentsInSemester[castAgentTo<Student>(agent)->getCurrentSemester() - 1]++;
 				break;
 			case Student::Status::Failed:
 				m_studentsFailedCount++;
@@ -31,7 +31,7 @@ uint16_t BoardStatus::getStudentsPassedCount() const {
 
 std::string BoardStatus::csvExportStudentsInSemester() const {
 	std::string tmp{};
-	for (auto& count : noStudentsInSemester)
+	for (auto& count : m_noStudentsInSemester)
 		tmp += std::to_string(count) + ";";
 
 	// Remove semicolon at the end
