@@ -39,8 +39,8 @@ set encoding utf8
 #==============================================================================
 # SETUP COMMANDS
 #==============================================================================
-
-
+set xlabel 'Epoch' enhanced textcolor '#404040'
+set ylabel 'Count' enhanced textcolor '#404040'
 
 
 set border 3 front linetype 1 linewidth 2 linecolor '#404040'
@@ -48,7 +48,7 @@ unset grid
 set style fill solid noborder
 set style histogram
 set tics border nomirror out scale 0.5,0.25 norotate enhanced textcolor '#404040' front
-set xtics border nomirror out scale 0.5,0.25 norotate enhanced textcolor '#404040'
+unset xtics
 unset x2tics
 set mxtics
 unset mx2tics
@@ -71,7 +71,9 @@ set style data histogram
 # PLOT COMMANDS
 #==============================================================================
 plot \
-    'plot0.dat' index 0 using 0:($2):xtic(1) title 'Students on studies' with lines linestyle 1 linewidth 4, \
-    'plot0.dat' index 1 using 0:($2):xtic(1) title 'Students failed studies' with lines linestyle 2 linewidth 4, \
-    'plot0.dat' index 2 using 0:($2):xtic(1) title 'Students passed studies' with lines linestyle 3 linewidth 4
+    'plot0.dat' index 0 title 'Studying Students' with lines linestyle 1 linewidth 3, \
+    'plot0.dat' index 1 title 'Students failed' with lines linestyle 2 linewidth 3, \
+    'plot0.dat' index 2 title 'Students passed' with lines linestyle 3 linewidth 3, \
+    'plot0.dat' index 3 title 'Sleeping students' with lines linestyle 4 linewidth 3, \
+    'plot0.dat' index 4 title 'Drunk students' with lines linestyle 5 linewidth 3
 

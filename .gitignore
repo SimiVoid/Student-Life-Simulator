@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 # Output Data
 Student-Life-Simulator/output/
+*.plt
