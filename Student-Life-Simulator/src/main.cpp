@@ -81,7 +81,7 @@ void setupEnvPath() {
 
 	std::wstring currentPath = std::filesystem::current_path().wstring();
 
-	path += currentPath + gnuplotPath;
+	path += L";" + currentPath + gnuplotPath;
 
 	SetEnvironmentVariable(L"PATH", path.c_str());
 }
