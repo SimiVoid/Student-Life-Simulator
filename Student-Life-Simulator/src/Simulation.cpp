@@ -18,8 +18,12 @@ void Simulation::updateBoardStatusList() {
 
 void Simulation::updateAgentsPosition() {
 	m_board->clearFields();
-	for (const auto& agent : m_agents)
+	for (const auto& agent : m_agents) {
+		if (isAgentTypeof<Student>(agent) && castAgentTo<Student>(agent)->getStatus() != Student::Status::Studying)
+			continue;
+
 		m_board->getField(agent->getPosition()).addAgent(agent);
+	}
 }
 
 Simulation::Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16_t examinersCount, uint16_t drunkStudentsCount,

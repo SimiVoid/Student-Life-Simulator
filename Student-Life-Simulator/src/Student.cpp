@@ -21,7 +21,7 @@ Student::Student(const std::pair<uint16_t, uint16_t>& knowledgeRange, const std:
 void Student::move(const uint16_t& boardSize) {
 	nextRound();
 
-	if (m_isSleeping)
+	if (m_isSleeping || m_status != Student::Status::Studying)
 		return;
 
 	Agent::move(boardSize);
