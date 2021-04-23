@@ -4,7 +4,7 @@ void SimulationThread::runSimulationThread(const std::unique_ptr<Simulation>& si
 	if (simulation == nullptr)
 		throw std::exception("Simulation pointer is null!");
 
-	if (simulationThreadRunning)
+	if (m_simulationThreadRunning)
 		throw std::exception("Tried to run simulation while it was running!");
 
 	m_simulationThreadShouldRun = true;
@@ -23,7 +23,7 @@ void SimulationThread::runSimulationThread(const std::unique_ptr<Simulation>& si
 			if (!simulation->checkStatus()) {
 				// Simulation is finished at this point
 				simulation->updateAgentsPosition();
-				simulationThreadRunning = false;
+				m_simulationThreadRunning = false;
 				simulationLock.unlock();
 
 				m_simulationThread.detach();
@@ -39,11 +39,11 @@ void SimulationThread::runSimulationThread(const std::unique_ptr<Simulation>& si
 		}
 	});
 
-	simulationThreadRunning = true;
+	m_simulationThreadRunning = true;
 }
 
 void SimulationThread::stopSimulationThread(const bool& sync) {
-	if (!simulationThreadRunning)
+	if (!m_simulationThreadRunning)
 		return;
 
 	m_simulationThreadShouldRun = false;
@@ -53,7 +53,7 @@ void SimulationThread::stopSimulationThread(const bool& sync) {
 	else
 		m_simulationThread.detach();
 
-	simulationThreadRunning = false;
+	m_simulationThreadRunning = false;
 }
 
 void SimulationThread::pauseSimulationThread() {
@@ -84,4 +84,8 @@ void SimulationThread::setSimulationWait(const std::chrono::system_clock::durati
 
 std::chrono::system_clock::duration SimulationThread::getSimulationWait() const {
 	return m_threadWait;
+}
+
+bool SimulationThread::isSimulationRunning() const {
+	return m_simulationThreadRunning;
 }
