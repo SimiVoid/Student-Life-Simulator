@@ -27,17 +27,23 @@ void Examiner::examinateStudent(std::shared_ptr<Student> student) const {
 	// Examiners hate sleeping students...
 	if (student->isSleeping()) {
 		student->acceptExamResult(false);
+		return;
 	}
+
 	// Sober student always passes an exam
-	else if (student->getIntoxication() == 0) {
+	if (student->getIntoxication() == 0) {
 		student->acceptExamResult(true);
+		return;
 	}
+
 	// Student is drunk
 	// Choose a random number between 1 and 100
 	// Compare it to m_suspicion which acts as
 	// a likeliness of failing an exam
-	else if (randomNumberWithinRange<uint16_t>(1, 100) <= m_suspicion) {
+
+	if (randomNumberWithinRange<uint16_t>(1, 100) <= m_suspicion) {
 		student->acceptExamResult(false);
+		return;
 	}
 
 	// The chance of drunk student passing an
