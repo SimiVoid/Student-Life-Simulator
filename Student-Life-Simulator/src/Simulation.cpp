@@ -147,10 +147,11 @@ void Simulation::exportData() const {
 
 	if (csvFile.good() && csvFile.is_open()) {
 		unsigned counter = 0;
-		csvFile << "Epoch;Studying;Failed;Passed;Sem1;Sem2;Sem3;Sem4;Sem5;Sem6;Sem7" << std::endl;
+		csvFile << "Epoch;Studying;Drunk;Sleeping;Failed;Passed;Sem1;Sem2;Sem3;Sem4;Sem5;Sem6;Sem7" << std::endl;
 		for (auto& record : m_boardStatusList)
-			csvFile << counter++ << ";" << record.getStudentsOnStudiesCount() << ";" << record.getStudentsFailedCount() <<
-					";" << record.getStudentsPassedCount() << ";" << record.csvExportStudentsInSemester() << std::endl;
+			csvFile << counter++ << ";" << record.getStudyingStudentsCount() << ";" << record.getDrunkStudentsCount() <<
+					";" << record.getSleepingStudentsCount() << ";" << record.getFailedStudentsCount() <<
+					";" << record.getPassedStudentsCount() << ";" << record.csvExportStudentsInSemester() << std::endl;
 		csvFile.close();
 	}
 	else throw std::exception("Error!!! Cannot save data file!!!");
@@ -177,18 +178,22 @@ void Simulation::generatePlot() {
 
 	const auto epoch = linspace(0, m_boardStatusList.size(), 1);
 
-	std::vector<uint16_t> studentsOnStudies, studentsFailed, studentsPassed;
+	std::vector<uint16_t> studyingStudents, sleepingStudent, drunkStudents, failedStudents, passedStudents;
 
 	for (auto& record : m_boardStatusList) {
-		studentsFailed.emplace_back(record.getStudentsFailedCount());
-		studentsPassed.emplace_back(record.getStudentsPassedCount());
-		studentsOnStudies.emplace_back(record.getStudentsOnStudiesCount());
+		failedStudents.emplace_back(record.getFailedStudentsCount());
+		passedStudents.emplace_back(record.getPassedStudentsCount());
+		studyingStudents.emplace_back(record.getStudyingStudentsCount());
+		sleepingStudent.emplace_back(record.getSleepingStudentsCount());
+		drunkStudents.emplace_back(record.getDrunkStudentsCount());
 	}
 	
-	plot.drawBrokenCurve(epoch, studentsOnStudies).label("Students on studies").lineWidth(4);
-	plot.drawBrokenCurve(epoch, studentsPassed).label("Students failed studies").lineWidth(4);
-	plot.drawBrokenCurve(epoch, studentsFailed).label("Students passed studies").lineWidth(4);
-	
+	plot.drawBrokenCurve(epoch, studyingStudents).label("Studying Students").lineWidth(4);
+	plot.drawBrokenCurve(epoch, passedStudents).label("Students failed").lineWidth(4);
+	plot.drawBrokenCurve(epoch, failedStudents).label("Students passed").lineWidth(4);
+	plot.drawBrokenCurve(epoch, sleepingStudent).label("Sleeping students").lineWidth(4);
+	plot.drawBrokenCurve(epoch, drunkStudents).label("Drunk students").lineWidth(4);
+
 	plot.save("./output/" + ss.str());
 	plot.show();
 }

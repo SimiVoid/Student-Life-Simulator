@@ -2,31 +2,46 @@
 
 BoardStatus::BoardStatus(const std::list<std::shared_ptr<Agent>>& agents) : m_noStudentsInSemester(7) {
 	for (auto& agent : agents)
-		if (isAgentTypeof<Student>(agent))
-			switch (castAgentTo<Student>(agent)->getStatus()) {
+		if (isAgentTypeof<Student>(agent)) {
+			auto student = castAgentTo<Student>(agent);
+			switch (student->getStatus()) {
 			case Student::Status::Studying:
-				m_studentsOnStudiesCount++;
-				m_noStudentsInSemester[castAgentTo<Student>(agent)->getCurrentSemester() - 1]++;
+				m_studyingStudentsCount++;
+				m_noStudentsInSemester[student->getCurrentSemester() - 1]++;
+
+				if (student->isSleeping())
+					m_sleepingStudentsCount++;
+				else if (student->getIntoxication() > 0)
+					m_drunkStudentsCount++;
 				break;
 			case Student::Status::Failed:
-				m_studentsFailedCount++;
+				m_failedStudentsCount++;
 				break;
 			case Student::Status::Passed:
-				m_studentsPassedCount++;
+				m_passedStudentsCount++;
 				break;
 			}
+		}
 }
 
-uint16_t BoardStatus::getStudentsOnStudiesCount() const {
-	return m_studentsOnStudiesCount;
+uint16_t BoardStatus::getStudyingStudentsCount() const {
+	return m_studyingStudentsCount;
 }
 
-uint16_t BoardStatus::getStudentsFailedCount() const {
-	return m_studentsFailedCount;
+uint16_t BoardStatus::getFailedStudentsCount() const {
+	return m_failedStudentsCount;
 }
 
-uint16_t BoardStatus::getStudentsPassedCount() const {
-	return m_studentsPassedCount;
+uint16_t BoardStatus::getPassedStudentsCount() const {
+	return m_passedStudentsCount;
+}
+
+uint16_t BoardStatus::getDrunkStudentsCount() const {
+	return m_drunkStudentsCount;
+}
+
+uint16_t BoardStatus::getSleepingStudentsCount() const {
+	return m_sleepingStudentsCount;
 }
 
 std::string BoardStatus::csvExportStudentsInSemester() const {
