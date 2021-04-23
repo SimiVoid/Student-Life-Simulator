@@ -78,9 +78,6 @@ void Simulation::updateBoard() {
 				else if (isAgentTypeof<Student>(agent)) {
 					auto student = castAgentTo<Student>(agent);
 
-					// Inform each student about a new round
-					student->nextRound();
-
 					const auto& minKnowledgeTemp = student->getKnowledge();
 					if (minKnowledgeTemp < minimumKnowledge)
 						minimumKnowledge = minKnowledgeTemp;

@@ -23,5 +23,5 @@ public:
 	[[nodiscard]] sf::Vector2i getPosition() const;
 	[[nodiscard]] uint16_t getId() const;
 	void draw(sf::RenderWindow& window, const uint16_t& fieldSize, const bool& isSingle = true);
-	void move(const uint16_t& boardSize);
+	virtual void move(const uint16_t& boardSize);
 };

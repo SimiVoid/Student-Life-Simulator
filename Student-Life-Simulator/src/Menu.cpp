@@ -240,10 +240,11 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Sim
 		examinerSuspicionRangeEditBoxStart, examinerSuspicionRangeEditBoxEnd);
 	gui.add(examinerSuspicionRangeSlider);
 
+	auto stopButton = Button::create("Stop");
 	auto startButton = Button::create("Start");
 	startButton->setSize(Layout2d(190, 40));
 	startButton->setPosition(Layout2d(5, 5));
-	startButton->onMousePress(startButtonOnMousePress, std::ref(simulation), std::ref(thread), [=]() -> std::map<std::string, std::any> {
+	startButton->onMousePress(startButtonOnMousePress, stopButton, startButton, std::ref(simulation), std::ref(thread), [=]() -> std::map<std::string, std::any> {
 		std::map<std::string, std::any> map{
 			std::make_pair("board_size", static_cast<uint16_t>(boardSizeSlider->getValue())),
 			std::make_pair("students_count", static_cast<uint16_t>(studentsCountSlider->getValue())),
@@ -261,6 +262,12 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Sim
 		return map;
 		});
 	gui.add(startButton);
+
+	stopButton->setSize(Layout2d(190, 40));
+	stopButton->setPosition(Layout2d(5, 5));
+	stopButton->setVisible(false);
+	stopButton->onMousePress(stopButtonOnMousePress, stopButton, startButton, std::ref(thread));
+	gui.add(stopButton);
 }
 
 void exitButtonOnMousePress(sf::RenderWindow& window) {
@@ -272,8 +279,8 @@ void generatePlotButtonOnMousePress(std::unique_ptr<Simulation>& simulation) {
 		try {
 			simulation->generatePlot();
 		}
-		catch(const std::exception& exception) {
-			
+		catch (const std::exception& exception) {
+
 		}
 	}
 	else
@@ -293,12 +300,12 @@ void exportDataButtonOnMousePress(std::unique_ptr<Simulation>& simulation) {
 		MessageBoxA(nullptr, "Cannot export data because simulation is not initialized", "Warning!", MB_OK | MB_ICONWARNING);
 }
 
-void startButtonOnMousePress(std::unique_ptr<Simulation>& simulation, SimulationThread& thread, std::function<std::map<std::string, std::any> ()> initParametersListFunc) {
+void startButtonOnMousePress(tgui::Button::Ptr stopButton, tgui::Button::Ptr startButton, std::unique_ptr<Simulation>& simulation, SimulationThread& thread, std::function<std::map<std::string, std::any>()> initParametersListFunc) {
 	auto initParametersList = initParametersListFunc();
 
 	if (std::any_cast<uint16_t>(initParametersList["drunk_students_count"]) > std::any_cast<uint16_t>(initParametersList["students_count"]))
 	{
-		MessageBoxA(nullptr, "Drunk students count exceeds all students count!\nStudents count should be more or equal to drunk students count.", "Error!", MB_OK);
+		MessageBoxA(nullptr, "Drunk students count exceeds all students count!\nStudents count should be more or equal to drunk students count.", "Error!", MB_OK | MB_ICONWARNING);
 		return;
 	}
 
@@ -311,6 +318,8 @@ void startButtonOnMousePress(std::unique_ptr<Simulation>& simulation, Simulation
 		std::any_cast<std::pair<uint16_t, uint16_t>>(initParametersList["student_resistance"])));
 
 	thread.runSimulationThread(simulation);
+	stopButton->setVisible(true);
+	startButton->setVisible(false);
 }
 
 void sliderOnValueChange(const std::shared_ptr<tgui::Slider>& slider, const std::shared_ptr<tgui::EditBox>& editBox) {
@@ -357,4 +366,10 @@ void editBoxOnReturnOrUnfocusRange(const std::shared_ptr<tgui::EditBox>& editBox
 	rangeSlider->setSelectionStart(editBoxTextStart.toFloat());
 	rangeSlider->setSelectionEnd(editBoxTextEnd.toFloat());
 	rangeSlider->onRangeChange.setEnabled(true);
+}
+
+void stopButtonOnMousePress(tgui::Button::Ptr stopButton, tgui::Button::Ptr startButton, SimulationThread& thread) {
+	thread.stopSimulationThread(false);
+	stopButton->setVisible(false);
+	startButton->setVisible(true);
 }
