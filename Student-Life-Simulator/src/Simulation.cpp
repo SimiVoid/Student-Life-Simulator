@@ -193,8 +193,8 @@ void Simulation::generatePlot() {
 	}
 	
 	plot.drawCurve(epoch, studyingStudents).label("Studying Students").lineWidth(3);
-	plot.drawCurve(epoch, passedStudents).label("Students failed").lineWidth(3);
-	plot.drawCurve(epoch, failedStudents).label("Students passed").lineWidth(3);
+	plot.drawCurve(epoch, failedStudents).label("Students failed").lineWidth(3);
+	plot.drawCurve(epoch, passedStudents).label("Students passed").lineWidth(3);
 	plot.drawCurve(epoch, sleepingStudent).label("Sleeping students").lineWidth(3);
 	plot.drawCurve(epoch, drunkStudents).label("Drunk students").lineWidth(3);
 
