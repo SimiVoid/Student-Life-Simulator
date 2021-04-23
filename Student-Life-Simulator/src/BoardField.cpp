@@ -36,7 +36,7 @@ void BoardField::draw(sf::RenderWindow& window, const uint16_t boardSize) {
 	uint16_t studentsCount = 0;
 	uint16_t examinersCount = 0;
 
-	const auto fieldSize = floorf(static_cast<float>(window.getSize().y) / static_cast<float>(boardSize));
+	const float fieldSize = (window.getSize().y * 1.f) / (boardSize);
 	
 	for (const auto& agent : m_agentsOnField) {
 		if (castAgentTo<Student>(agent))
@@ -53,7 +53,7 @@ void BoardField::draw(sf::RenderWindow& window, const uint16_t boardSize) {
 	}
 
 	m_border.setSize(sf::Vector2f(fieldSize, fieldSize));
-	m_border.setPosition(200.f + fieldSize * m_position.x, fieldSize * m_position.y);
+	m_border.setPosition(200.f + fieldSize * (m_position.x), fieldSize * (m_position.y));
 
 	window.draw(m_border);
 }
