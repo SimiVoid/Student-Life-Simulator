@@ -22,6 +22,7 @@ void SimulationThread::runSimulationThread(const std::unique_ptr<Simulation>& si
 
 			if (!simulation->checkStatus()) {
 				// Simulation is finished at this point
+				simulation->updateAgentsPosition();
 				simulationThreadRunning = false;
 				simulationLock.unlock();
 

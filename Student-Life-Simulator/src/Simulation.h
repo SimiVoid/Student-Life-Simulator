@@ -16,7 +16,6 @@ class Simulation {
 	std::unique_ptr<Board> m_board;
 
 	void updateBoardStatusList();
-	void updateAgentsPosition();
 	
 public:
 	Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16_t examinersCount, uint16_t drunkStudentsCount,
@@ -33,4 +32,5 @@ public:
 	[[nodiscard]] bool checkStatus() const;
 	void exportData() const;
 	void generatePlot();
+	void updateAgentsPosition();
 };
