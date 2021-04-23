@@ -176,7 +176,11 @@ void Simulation::generatePlot() {
 	plot.palette("set2");
 	plot.size(800, 600);
 
-	const auto epoch = linspace(0, m_boardStatusList.size(), 1);
+	plot.ylabel("Count");
+	plot.xlabel("Epoch");
+	plot.xtics().hide();
+
+	const auto epoch = range(0, m_boardStatusList.size());
 
 	std::vector<uint16_t> studyingStudents, sleepingStudent, drunkStudents, failedStudents, passedStudents;
 
@@ -188,11 +192,11 @@ void Simulation::generatePlot() {
 		drunkStudents.emplace_back(record.getDrunkStudentsCount());
 	}
 	
-	plot.drawBrokenCurve(epoch, studyingStudents).label("Studying Students").lineWidth(4);
-	plot.drawBrokenCurve(epoch, passedStudents).label("Students failed").lineWidth(4);
-	plot.drawBrokenCurve(epoch, failedStudents).label("Students passed").lineWidth(4);
-	plot.drawBrokenCurve(epoch, sleepingStudent).label("Sleeping students").lineWidth(4);
-	plot.drawBrokenCurve(epoch, drunkStudents).label("Drunk students").lineWidth(4);
+	plot.drawCurve(epoch, studyingStudents).label("Studying Students").lineWidth(3);
+	plot.drawCurve(epoch, passedStudents).label("Students failed").lineWidth(3);
+	plot.drawCurve(epoch, failedStudents).label("Students passed").lineWidth(3);
+	plot.drawCurve(epoch, sleepingStudent).label("Sleeping students").lineWidth(3);
+	plot.drawCurve(epoch, drunkStudents).label("Drunk students").lineWidth(3);
 
 	plot.save("./output/" + ss.str());
 	plot.show();
