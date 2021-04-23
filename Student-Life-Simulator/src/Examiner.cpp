@@ -36,17 +36,18 @@ void Examiner::examinateStudent(std::shared_ptr<Student> student) const {
 		return;
 	}
 
-	// Student is drunk
-	// Choose a random number between 1 and 100
-	// Compare it to m_suspicion which acts as
-	// a likeliness of failing an exam
-
-	if (randomNumberWithinRange<uint16_t>(1, 100) <= m_suspicion) {
+	/* Student is drunk.
+	 * Choose a random number between 1 and 100
+	 * Compare it to m_suspicion scaled by ratio
+	 * of beers drunk to maximum alcohol resistance
+	 */
+	if (randomNumberWithinRange<uint16_t>(1, 100) <= m_suspicion * student->getIntoxication() / student->getAlcoholResistance()) {
 		student->acceptExamResult(false);
 		return;
 	}
 
-	// The chance of drunk student passing an
-	// exam is (100 - m_suspicion) %
+	/* The chance of drunk student passing an
+	 * exam is (100 - suspicion * drunk beers / alcohol resistance) %
+	 */
 	student->acceptExamResult(true);
 }
