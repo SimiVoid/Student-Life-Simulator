@@ -2,12 +2,22 @@
 
 Board::Board(const uint16_t size)
 	:m_size(size) {
+	const float fieldSize = (1000 * 1.f) / (m_size);
+
 	for (uint16_t x = 0; x < size; x++) {
 		std::vector<BoardField> column;
 		for (uint16_t y = 0; y < size; y++) {
 			column.emplace_back(BoardField(sf::Vector2i(x, y)));
 		}
 		m_fields.emplace_back(column);
+		
+		m_boardGrid.setPrimitiveType(sf::Lines);
+		
+		// x offset is 200, board size is 1000x1000
+		m_boardGrid.append(sf::Vertex(sf::Vector2f(200, x * fieldSize), m_gridColor));
+		m_boardGrid.append(sf::Vertex(sf::Vector2f(1200, x * fieldSize), m_gridColor));
+		m_boardGrid.append(sf::Vertex(sf::Vector2f(200 + x * fieldSize, 0), m_gridColor));
+		m_boardGrid.append(sf::Vertex(sf::Vector2f(200 + x * fieldSize , 1000), m_gridColor));
 	}
 }
 
@@ -34,6 +44,8 @@ uint16_t Board::getBoardSize() const {
 }
 
 void Board::draw(sf::RenderWindow& window) {
+	window.draw(m_boardGrid);
+
 	for (auto& columns : m_fields)
 		for (auto& field : columns)
 			field.draw(window, m_size);

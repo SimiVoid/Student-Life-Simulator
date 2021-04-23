@@ -8,7 +8,6 @@
 class BoardField {
 	std::set<std::shared_ptr<Agent>> m_agentsOnField;
 	sf::Vector2i m_position;
-	sf::RectangleShape m_border;
 
 public:
 	explicit BoardField(const sf::Vector2i& position);
@@ -19,5 +18,5 @@ public:
 	void setAgents(std::set<std::shared_ptr<Agent>> agents);
 	void addAgent(const std::shared_ptr<Agent>& agent);
 	void clearField();
-	void draw(sf::RenderWindow& window, uint16_t boardSize);
+	void draw(sf::RenderWindow& window, const uint16_t& boardSize);
 };

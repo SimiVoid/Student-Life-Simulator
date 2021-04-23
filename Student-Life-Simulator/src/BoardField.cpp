@@ -6,11 +6,7 @@
 #include "Examiner.h"
 
 BoardField::BoardField(const sf::Vector2i& position)
-	:m_position(position) {
-	m_border.setOutlineThickness(1);
-	m_border.setOutlineColor(sf::Color(31, 31, 31));
-	m_border.setFillColor(sf::Color::Transparent);
-}
+	:m_position(position) {}
 
 std::set<std::shared_ptr<Agent>> BoardField::getAgents() const {
 	return m_agentsOnField;
@@ -32,11 +28,11 @@ void BoardField::clearField() {
 	m_agentsOnField.clear();
 }
 
-void BoardField::draw(sf::RenderWindow& window, const uint16_t boardSize) {
+void BoardField::draw(sf::RenderWindow& window, const uint16_t& boardSize) {
 	uint16_t studentsCount = 0;
 	uint16_t examinersCount = 0;
 
-	const float fieldSize = (window.getSize().y * 1.f) / (boardSize);
+	const float fieldSize = 1000.f / boardSize;
 	
 	for (const auto& agent : m_agentsOnField) {
 		if (castAgentTo<Student>(agent))
@@ -51,9 +47,4 @@ void BoardField::draw(sf::RenderWindow& window, const uint16_t boardSize) {
 		else
 			agent->draw(window, fieldSize);
 	}
-
-	m_border.setSize(sf::Vector2f(fieldSize, fieldSize));
-	m_border.setPosition(200.f + fieldSize * (m_position.x), fieldSize * (m_position.y));
-
-	window.draw(m_border);
 }

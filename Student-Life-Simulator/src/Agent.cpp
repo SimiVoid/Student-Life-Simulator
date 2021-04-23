@@ -21,11 +21,11 @@ uint16_t Agent::getId() const {
 
 void Agent::draw(sf::RenderWindow& window, const float& fieldSize, const bool& isSingle) {
 	if (isSingle) {
-		m_singleView.setPosition(200.f + fieldSize * m_position.x, fieldSize * m_position.y);
+		m_singleView.setPosition(200 + fieldSize * m_position.x, fieldSize * m_position.y);
 		window.draw(m_singleView);
 	}
 	else {
-		m_multipleView.setPosition(200.f + fieldSize * m_position.x, fieldSize * m_position.y);
+		m_multipleView.setPosition(200 + fieldSize * m_position.x, fieldSize * m_position.y);
 		window.draw(m_multipleView);
 	}
 }

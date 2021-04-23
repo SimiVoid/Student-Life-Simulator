@@ -5,8 +5,12 @@
 typedef std::vector<std::vector<BoardField>> BoardArray;
 
 class Board {
+	const sf::Color& m_gridColor = sf::Color(31, 31, 31);
+	sf::VertexArray m_boardGrid;
+
 	BoardArray m_fields;
 	uint16_t m_size;
+
 	void checkFieldPosition(const sf::Vector2i& position) const;
 
 public:
