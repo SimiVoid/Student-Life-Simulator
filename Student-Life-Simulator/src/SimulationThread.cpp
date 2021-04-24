@@ -18,20 +18,19 @@ void SimulationThread::runSimulationThread(const std::unique_ptr<Simulation>& si
 
 			const auto start = std::chrono::system_clock::now();
 
-			simulationLock.lock();
+			{
+				std::lock_guard<std::mutex> lock(simulationLock);
+				if (!simulation->checkStatus()) {
+					// Simulation is finished at this point
+					simulation->updateAgentsPosition();
+					m_simulationThreadRunning = false;
 
-			if (!simulation->checkStatus()) {
-				// Simulation is finished at this point
-				simulation->updateAgentsPosition();
-				m_simulationThreadRunning = false;
-				simulationLock.unlock();
+					m_simulationThread.detach();
+					return;
+				}
 
-				m_simulationThread.detach();
-				return;
+				simulation->updateBoard();
 			}
-
-			simulation->updateBoard();
-			simulationLock.unlock();
 
 			const auto end = std::chrono::system_clock::now();
 

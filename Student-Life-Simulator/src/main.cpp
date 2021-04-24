@@ -48,13 +48,11 @@ int main(int argc, char* argv[]) {
 		}
 
 		if (simulation != nullptr) {
-			auto isLocked = thread.simulationLock.try_lock();
-			if (isLocked)
+			std::unique_lock<std::mutex> lock(thread.simulationLock,std::try_to_lock);
+			if (lock)
 			{
 				window.clear();
 				simulation->drawBoard(window);
-
-				thread.simulationLock.unlock();
 			}
 		}
 
