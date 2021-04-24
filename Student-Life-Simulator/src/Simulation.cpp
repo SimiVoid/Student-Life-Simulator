@@ -124,8 +124,7 @@ void Simulation::updateBoard() {
 }
 
 void Simulation::drawBoard(sf::RenderWindow& window) const {
-	if (m_board != nullptr)
-		m_board->draw(window);
+	m_board->draw(window);
 }
 
 bool Simulation::checkStatus() const {
