@@ -27,10 +27,9 @@ void Simulation::updateAgentsPosition() {
 }
 
 Simulation::Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16_t examinersCount, uint16_t drunkStudentsCount,
-                       const std::pair<uint16_t, uint16_t>& examinerSuspicionRange,
-                       const std::pair<uint16_t, uint16_t>& studentKnowledgeRange,
-                       const std::pair<uint16_t, uint16_t>& studentAlcoholResistanceRange) {
-
+	const std::pair<uint16_t, uint16_t>& examinerSuspicionRange,
+	const std::pair<uint16_t, uint16_t>& studentKnowledgeRange,
+	const std::pair<uint16_t, uint16_t>& studentAlcoholResistanceRange) {
 	m_board = std::make_unique<Board>(boardSize);
 
 	studentsCount -= drunkStudentsCount;
@@ -58,18 +57,19 @@ Simulation::Simulation(const uint16_t& boardSize, uint16_t studentsCount, uint16
 }
 
 void Simulation::updateBoard() {
-	for (auto& agent : m_agents)
+	for (const auto& agent : m_agents)
 		agent->move(m_board->getBoardSize());
 
 	updateAgentsPosition();
 
-	for (uint16_t x = 0; x < m_board->getBoardSize(); ++x) {
-		for (uint16_t y = 0; y < m_board->getBoardSize(); ++y) {
+	for (uint16_t x = 0; x < m_board->getBoardSize(); x++) {
+		for (uint16_t y = 0; y < m_board->getBoardSize(); y++) {
 			const auto& agents = m_board->getField({ x, y }).getAgents();
+			std::vector<std::shared_ptr<Student>> students;
 			std::shared_ptr<Examiner> mainExaminer = nullptr;
 			uint16_t minimumKnowledge = 101;
-			auto isEveryStudentSober = true;
 			uint16_t studentsCount = 0;
+			bool isEveryStudentSober = true;
 
 			/* Go through all agents in a field and find:
 			 * 1. Highest suspicion among all Examiners
@@ -77,11 +77,14 @@ void Simulation::updateBoard() {
 			 */
 			for (const auto& agent : agents) {
 				if (isAgentTypeof<Examiner>(agent)) {
-					if (mainExaminer == nullptr || mainExaminer->getSuspicion() < castAgentTo<Examiner>(agent)->getSuspicion())
-						mainExaminer = castAgentTo<Examiner>(agent);
+					const auto& examiner = castAgentTo<Examiner>(agent);
+					if (mainExaminer == nullptr || mainExaminer->getSuspicion() < examiner->getSuspicion())
+						mainExaminer = examiner;
 				}
-				else if (isAgentTypeof<Student>(agent)) {
-					auto student = castAgentTo<Student>(agent);
+				else {
+					// Agent is typeof Student
+					const auto& student = castAgentTo<Student>(agent);
+					students.emplace_back(student);
 
 					const auto& minKnowledgeTemp = student->getKnowledge();
 					if (minKnowledgeTemp < minimumKnowledge)
@@ -102,20 +105,15 @@ void Simulation::updateBoard() {
 					/* minimumKnowledge is unlikeliness of drinking a beer
 					 * so any number above it means they will drink
 					 */
-					if (randomNumberWithinRange<uint16_t>(1, 100) > minimumKnowledge)
-						for (const auto& agent : agents) {
-							if (isAgentTypeof<Student>(agent)) {
-								castAgentTo<Student>(agent)->drinkBeer();
-							}
-						}
+					if (randomNumberWithinRange<uint16_t>(1, 100) > minimumKnowledge) {
+						for (const auto& student : students)
+							student->drinkBeer();
+					}
 				}
 			}
 			else {
-				for (auto& agent : agents) {
-					if (isAgentTypeof<Student>(agent)) {
-						mainExaminer->examinateStudent(castAgentTo<Student>(agent));
-					}
-				}
+				for (const auto& student : students)
+					mainExaminer->examinateStudent(student);
 			}
 		}
 	}
@@ -128,35 +126,36 @@ void Simulation::drawBoard(sf::RenderWindow& window) const {
 }
 
 bool Simulation::checkStatus() const {
-	for (auto& agent : m_agents)
+	for (const auto& agent : m_agents)
 		if (isAgentTypeof<Student>(agent)
 			&& castAgentTo<Student>(agent)->getStatus() == Student::Status::Studying)
-				return true;
+			return true;
 
 	return false;
 }
 
 void Simulation::exportData() const {
 	if (!std::filesystem::is_directory("./output"))
-		std::filesystem::create_directories("./output");
+		std::filesystem::create_directory("./output");
 
-	const auto now = std::chrono::system_clock::now();
-	auto inTimeT = std::chrono::system_clock::to_time_t(now);
+	const auto& now = std::chrono::system_clock::now();
+	const auto& inTimeT = std::chrono::system_clock::to_time_t(now);
 
 	std::stringstream ss;
 	ss << std::put_time(std::localtime(&inTimeT), "%Y-%m-%d_%H-%M-%S_data.csv");
 	std::ofstream csvFile("./output/" + ss.str());
 
-	if (csvFile.good() && csvFile.is_open()) {
-		unsigned counter = 0;
-		csvFile << "Epoch;Studying;Drunk;Sleeping;Failed;Passed;Sem1;Sem2;Sem3;Sem4;Sem5;Sem6;Sem7" << std::endl;
-		for (auto& record : m_boardStatusList)
-			csvFile << counter++ << ";" << record.getStudyingStudentsCount() << ";" << record.getDrunkStudentsCount() <<
-					";" << record.getSleepingStudentsCount() << ";" << record.getFailedStudentsCount() <<
-					";" << record.getPassedStudentsCount() << ";" << record.csvExportStudentsInSemester() << std::endl;
-		csvFile.close();
-	}
-	else throw std::exception("Error!!! Cannot save data file!!!");
+	if (!csvFile.good() || !csvFile.is_open())
+		throw std::exception("Cannot save csv export!");
+
+	unsigned counter = 0;
+	csvFile << "Epoch;Studying;Drunk;Sleeping;Failed;Passed;Sem1;Sem2;Sem3;Sem4;Sem5;Sem6;Sem7" << std::endl;
+	for (const auto& record : m_boardStatusList)
+		csvFile << counter++ << ";" << record.getStudyingStudentsCount() << ";" << record.getDrunkStudentsCount() <<
+		";" << record.getSleepingStudentsCount() << ";" << record.getFailedStudentsCount() <<
+		";" << record.getPassedStudentsCount() << ";" << record.csvExportStudentsInSemester() << std::endl;
+
+	csvFile.close();
 
 	std::clog << "File: " << ss.str() << " save" << std::endl;
 }
@@ -167,8 +166,8 @@ void Simulation::generatePlot() {
 	if (!std::filesystem::is_directory("./output"))
 		std::filesystem::create_directories("./output");
 
-	const auto now = std::chrono::system_clock::now();
-	auto inTimeT = std::chrono::system_clock::to_time_t(now);
+	const auto& now = std::chrono::system_clock::now();
+	const auto& inTimeT = std::chrono::system_clock::to_time_t(now);
 
 	std::stringstream ss;
 	ss << std::put_time(std::localtime(&inTimeT), "%Y-%m-%d_%H-%M-%S_plot.pdf");
@@ -182,18 +181,18 @@ void Simulation::generatePlot() {
 	plot.xlabel("Epoch");
 	plot.xtics().hide();
 
-	const auto epoch = range(0, m_boardStatusList.size());
+	const auto& epoch = range(0, m_boardStatusList.size() - 1);
 
 	std::vector<uint16_t> studyingStudents, sleepingStudent, drunkStudents, failedStudents, passedStudents;
 
-	for (auto& record : m_boardStatusList) {
+	for (const auto& record : m_boardStatusList) {
 		failedStudents.emplace_back(record.getFailedStudentsCount());
 		passedStudents.emplace_back(record.getPassedStudentsCount());
 		studyingStudents.emplace_back(record.getStudyingStudentsCount());
 		sleepingStudent.emplace_back(record.getSleepingStudentsCount());
 		drunkStudents.emplace_back(record.getDrunkStudentsCount());
 	}
-	
+
 	plot.drawCurve(epoch, studyingStudents).label("Studying Students").lineWidth(3);
 	plot.drawCurve(epoch, failedStudents).label("Students failed").lineWidth(3);
 	plot.drawCurve(epoch, passedStudents).label("Students passed").lineWidth(3);
@@ -201,5 +200,7 @@ void Simulation::generatePlot() {
 	plot.drawCurve(epoch, drunkStudents).label("Drunk students").lineWidth(3);
 
 	plot.save("./output/" + ss.str());
+	std::clog << "File: " << ss.str() << " save" << std::endl;
+
 	plot.show();
 }

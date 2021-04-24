@@ -1,9 +1,9 @@
 #include "BoardStatus.h"
 
 BoardStatus::BoardStatus(const std::list<std::shared_ptr<Agent>>& agents) : m_noStudentsInSemester(7) {
-	for (auto& agent : agents)
+	for (const auto& agent : agents)
 		if (isAgentTypeof<Student>(agent)) {
-			auto student = castAgentTo<Student>(agent);
+			const auto student = castAgentTo<Student>(agent);
 			switch (student->getStatus()) {
 			case Student::Status::Studying:
 				m_studyingStudentsCount++;
@@ -24,29 +24,29 @@ BoardStatus::BoardStatus(const std::list<std::shared_ptr<Agent>>& agents) : m_no
 		}
 }
 
-uint16_t BoardStatus::getStudyingStudentsCount() const {
+const uint16_t& BoardStatus::getStudyingStudentsCount() const {
 	return m_studyingStudentsCount;
 }
 
-uint16_t BoardStatus::getFailedStudentsCount() const {
+const uint16_t& BoardStatus::getFailedStudentsCount() const {
 	return m_failedStudentsCount;
 }
 
-uint16_t BoardStatus::getPassedStudentsCount() const {
+const uint16_t& BoardStatus::getPassedStudentsCount() const {
 	return m_passedStudentsCount;
 }
 
-uint16_t BoardStatus::getDrunkStudentsCount() const {
+const uint16_t& BoardStatus::getDrunkStudentsCount() const {
 	return m_drunkStudentsCount;
 }
 
-uint16_t BoardStatus::getSleepingStudentsCount() const {
+const uint16_t& BoardStatus::getSleepingStudentsCount() const {
 	return m_sleepingStudentsCount;
 }
 
-std::string BoardStatus::csvExportStudentsInSemester() const {
+const std::string BoardStatus::csvExportStudentsInSemester() const {
 	std::string tmp{};
-	for (auto& count : m_noStudentsInSemester)
+	for (const auto& count : m_noStudentsInSemester)
 		tmp += std::to_string(count) + ";";
 
 	// Remove semicolon at the end

@@ -17,10 +17,10 @@ public:
 	explicit BoardStatus(const std::list<std::shared_ptr<Agent>>& agents);
 	~BoardStatus() = default;
 
-	[[nodiscard]] uint16_t getStudyingStudentsCount() const;
-	[[nodiscard]] uint16_t getDrunkStudentsCount() const;
-	[[nodiscard]] uint16_t getSleepingStudentsCount() const;
-	[[nodiscard]] uint16_t getFailedStudentsCount() const;
-	[[nodiscard]] uint16_t getPassedStudentsCount() const;
-	[[nodiscard]] std::string csvExportStudentsInSemester() const;
+	[[nodiscard]] const uint16_t& getStudyingStudentsCount() const;
+	[[nodiscard]] const uint16_t& getDrunkStudentsCount() const;
+	[[nodiscard]] const uint16_t& getSleepingStudentsCount() const;
+	[[nodiscard]] const uint16_t& getFailedStudentsCount() const;
+	[[nodiscard]] const uint16_t& getPassedStudentsCount() const;
+	[[nodiscard]] const std::string csvExportStudentsInSemester() const;
 };
