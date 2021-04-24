@@ -69,6 +69,7 @@ void Simulation::updateBoard() {
 			std::shared_ptr<Examiner> mainExaminer = nullptr;
 			uint16_t minimumKnowledge = 101;
 			auto isEveryStudentSober = true;
+			uint16_t studentsCount = 0;
 
 			/* Go through all agents in a field and find:
 			 * 1. Highest suspicion among all Examiners
@@ -88,6 +89,8 @@ void Simulation::updateBoard() {
 
 					if (student->getIntoxication() > 0)
 						isEveryStudentSober = false;
+
+					studentsCount++;
 				}
 			}
 
@@ -95,7 +98,7 @@ void Simulation::updateBoard() {
 			 * otherwise, they are being examined and don't drink
 			 */
 			if (mainExaminer == nullptr) {
-				if (!isEveryStudentSober) {
+				if (!isEveryStudentSober && studentsCount > 1) {
 					/* minimumKnowledge is unlikeliness of drinking a beer
 					 * so any number above it means they will drink
 					 */
@@ -129,7 +132,7 @@ bool Simulation::checkStatus() const {
 	for (auto& agent : m_agents)
 		if (isAgentTypeof<Student>(agent)
 			&& castAgentTo<Student>(agent)->getStatus() == Student::Status::Studying)
-			return true;
+				return true;
 
 	return false;
 }
