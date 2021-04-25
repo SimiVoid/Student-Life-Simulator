@@ -277,29 +277,31 @@ void exitButtonOnMousePress(sf::RenderWindow& window) {
 }
 
 void generatePlotButtonOnMousePress(std::unique_ptr<Simulation>& simulation) {
-	if (simulation != nullptr) {
-		try {
-			simulation->generatePlot();
-		}
-		catch (const std::exception& exception) {
-
-		}
-	}
-	else
+	if (simulation == nullptr) {
 		MessageBoxA(nullptr, "Cannot generate plot because simulation is not initialized", "Warring!", MB_OK | MB_ICONWARNING);
+		return;
+	}
+
+	try {
+		simulation->generatePlot();
+	}
+	catch (const std::exception& exception) {
+		std::cerr << exception.what() << std::endl;
+	}
 }
 
 void exportDataButtonOnMousePress(std::unique_ptr<Simulation>& simulation) {
 	if (simulation != nullptr) {
-		try {
-			simulation->exportData();
-		}
-		catch (const std::exception& exception) {
-			std::cerr << exception.what() << std::endl;
-		}
-	}
-	else
 		MessageBoxA(nullptr, "Cannot export data because simulation is not initialized", "Warning!", MB_OK | MB_ICONWARNING);
+		return;
+	}
+
+	try {
+		simulation->exportData();
+	}
+	catch (const std::exception& exception) {
+		std::cerr << exception.what() << std::endl;
+	}
 }
 
 void startButtonOnMousePress(tgui::Button::Ptr stopButton, tgui::Button::Ptr startButton, std::unique_ptr<Simulation>& simulation, SimulationThread& thread, std::function<std::map<std::string, std::any>()> initParametersListFunc) {
