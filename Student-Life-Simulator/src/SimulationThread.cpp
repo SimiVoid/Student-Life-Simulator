@@ -25,6 +25,7 @@ void SimulationThread::runSimulationThread(const std::unique_ptr<Simulation>& si
 					simulation->updateAgentsPosition();
 					m_simulationThreadRunning = false;
 
+					m_finishCallback();
 					m_simulationThread.detach();
 					return;
 				}
@@ -47,7 +48,7 @@ void SimulationThread::stopSimulationThread(const bool& sync) {
 
 	m_simulationThreadShouldRun = false;
 
-	if(sync)
+	if (sync)
 		m_simulationThread.join();
 	else
 		m_simulationThread.detach();
@@ -69,11 +70,11 @@ void SimulationThread::resumeSimulationThread() {
 
 void SimulationThread::doSimulationThreadStep() {
 	resumeSimulationThread();
-	
+
 	// Give simulation thread chance to run
 	// This is a dirty hack and could be broken
 	std::this_thread::sleep_for(1us);
-	
+
 	pauseSimulationThread();
 }
 

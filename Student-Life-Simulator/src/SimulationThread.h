@@ -5,6 +5,7 @@
 #include <mutex>
 
 #include "Simulation.h"
+#include <functional>
 
 using namespace std::chrono_literals;
 
@@ -20,6 +21,8 @@ class SimulationThread {
 
 	std::chrono::system_clock::duration m_threadWait = 1s;
 
+	std::function<void ()> m_finishCallback;
+
 public:
 	std::mutex simulationLock;
 
@@ -34,4 +37,9 @@ public:
 
 	void setSimulationWait(const std::chrono::system_clock::duration& waitTime);
 	std::chrono::system_clock::duration getSimulationWait() const;
+
+	template<typename Func, typename... Targs>
+	void setSimulationFinishCallback(const Func& onFinishCallback, const Targs&... args) {
+		m_finishCallback = [=] { std::invoke(onFinishCallback, args...); };
+	}
 };

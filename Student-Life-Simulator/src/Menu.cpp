@@ -268,6 +268,8 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Sim
 	stopButton->setVisible(false);
 	stopButton->onMousePress(stopButtonOnMousePress, stopButton, startButton, std::ref(thread));
 	gui.add(stopButton);
+
+	thread.setSimulationFinishCallback(onSimulationFinish, stopButton, startButton);
 }
 
 void exitButtonOnMousePress(sf::RenderWindow& window) {
@@ -370,6 +372,10 @@ void editBoxOnReturnOrUnfocusRange(const std::shared_ptr<tgui::EditBox>& editBox
 
 void stopButtonOnMousePress(tgui::Button::Ptr stopButton, tgui::Button::Ptr startButton, SimulationThread& thread) {
 	thread.stopSimulationThread(false);
+	onSimulationFinish(stopButton, startButton);
+}
+
+void onSimulationFinish(tgui::Button::Ptr stopButton, tgui::Button::Ptr startButton) {
 	stopButton->setVisible(false);
 	startButton->setVisible(true);
 }
