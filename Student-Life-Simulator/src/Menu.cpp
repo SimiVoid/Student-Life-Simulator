@@ -322,6 +322,8 @@ void startButtonOnMousePress(tgui::Button::Ptr stopButton, tgui::Button::Ptr sta
 		return;
 	}
 
+	startButton->setVisible(false);
+
 	simulation = std::make_unique<Simulation>(Simulation(std::any_cast<uint16_t>(initParametersList["board_size"]),
 		std::any_cast<uint16_t>(initParametersList["students_count"]),
 		std::any_cast<uint16_t>(initParametersList["examiners_count"]),
@@ -331,8 +333,8 @@ void startButtonOnMousePress(tgui::Button::Ptr stopButton, tgui::Button::Ptr sta
 		std::any_cast<std::pair<uint16_t, uint16_t>>(initParametersList["student_resistance"])));
 
 	thread.runSimulationThread(simulation);
+
 	stopButton->setVisible(true);
-	startButton->setVisible(false);
 }
 
 void sliderOnValueChange(const std::shared_ptr<tgui::Slider>& slider, const std::shared_ptr<tgui::EditBox>& editBox) {
