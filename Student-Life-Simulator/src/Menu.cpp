@@ -40,13 +40,13 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Sim
 	boardSizeEditBox->setText("10");
 	boardSizeEditBox->setSize(Layout2d(35, 25));
 	boardSizeEditBox->setPosition(Layout2d(150, 55));
-	boardSizeEditBox->setInputValidator("^(100|[1-9]0)$");
+	boardSizeEditBox->setInputValidator("^(100|[1-9][0|5])$");
 	boardSizeEditBox->onReturnOrUnfocus(editBoxOnReturnOrUnfocus, boardSizeEditBox, boardSizeSlider);
 	gui.add(boardSizeEditBox);
 
 	boardSizeSlider->setSize(Layout2d(170, 20));
 	boardSizeSlider->setPosition((Layout2d(15, 85)));
-	boardSizeSlider->setStep(10);
+	boardSizeSlider->setStep(5);
 	boardSizeSlider->onValueChange(sliderOnValueChange, boardSizeSlider, boardSizeEditBox);
 	gui.add(boardSizeSlider);
 
@@ -59,11 +59,11 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Sim
 	gui.add(studentsCountSliderText);
 
 	auto studentsCountEditBox = EditBox::create();
-	auto studentsCountSlider = Slider::create(1, 100);
+	auto studentsCountSlider = Slider::create(1, 19999);
 	studentsCountEditBox->setText("1");
-	studentsCountEditBox->setSize(Layout2d(35, 25));
-	studentsCountEditBox->setPosition(Layout2d(150, 135));
-	studentsCountEditBox->setInputValidator("^(100|[1-9][0-9]|[1-9])$");
+	studentsCountEditBox->setSize(Layout2d(55, 25));
+	studentsCountEditBox->setPosition(Layout2d(130, 135));
+	studentsCountEditBox->setInputValidator("^(1[0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9]|[1-9])$");
 	studentsCountEditBox->onReturnOrUnfocus(editBoxOnReturnOrUnfocus, studentsCountEditBox, studentsCountSlider);
 	gui.add(studentsCountEditBox);
 
@@ -82,11 +82,11 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Sim
 	gui.add(examinersCountSliderText);
 
 	auto examinersCountEditBox = EditBox::create();
-	auto examinersCountSlider = Slider::create(1, 100);
+	auto examinersCountSlider = Slider::create(1, 19999);
 	examinersCountEditBox->setText("1");
-	examinersCountEditBox->setSize(Layout2d(35, 25));
-	examinersCountEditBox->setPosition(Layout2d(150, 215));
-	examinersCountEditBox->setInputValidator("^(100|[1-9][0-9]|[1-9])$");
+	examinersCountEditBox->setSize(Layout2d(55, 25));
+	examinersCountEditBox->setPosition(Layout2d(130, 215));
+	examinersCountEditBox->setInputValidator("^(1[0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9]|[1-9])$");
 	examinersCountEditBox->onReturnOrUnfocus(editBoxOnReturnOrUnfocus, examinersCountEditBox, examinersCountSlider);
 	gui.add(examinersCountEditBox);
 
@@ -105,11 +105,11 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Sim
 	gui.add(drunkStudentsCountSliderText);
 
 	auto drunkStudentsCountEditBox = EditBox::create();
-	auto drunkStudentsCountSlider = Slider::create(1, 100);
+	auto drunkStudentsCountSlider = Slider::create(1, 19999);
 	drunkStudentsCountEditBox->setText("1");
-	drunkStudentsCountEditBox->setSize(Layout2d(35, 25));
-	drunkStudentsCountEditBox->setPosition(Layout2d(150, 295));
-	drunkStudentsCountEditBox->setInputValidator("^(100|[1-9][0-9]|[1-9])$");
+	drunkStudentsCountEditBox->setSize(Layout2d(52, 25));
+	drunkStudentsCountEditBox->setPosition(Layout2d(133, 295));
+	drunkStudentsCountEditBox->setInputValidator("^(1[0-9][0-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9]|[1-9])$");
 	drunkStudentsCountEditBox->onReturnOrUnfocus(editBoxOnReturnOrUnfocus, drunkStudentsCountEditBox, drunkStudentsCountSlider);
 	gui.add(drunkStudentsCountEditBox);
 
@@ -310,6 +310,15 @@ void startButtonOnMousePress(tgui::Button::Ptr stopButton, tgui::Button::Ptr sta
 	if (std::any_cast<uint16_t>(initParametersList["drunk_students_count"]) > std::any_cast<uint16_t>(initParametersList["students_count"]))
 	{
 		MessageBoxA(nullptr, "Drunk students count exceeds all students count!\nStudents count should be more or equal to drunk students count.", "Error!", MB_OK | MB_ICONWARNING);
+		return;
+	}
+
+	if (std::any_cast<uint16_t>(initParametersList["examiners_count"]) + std::any_cast<uint16_t>(initParametersList["students_count"]) >
+		2 * std::pow(std::any_cast<uint16_t>(initParametersList["board_size"]), 2))
+	{
+		std::string msg = "Agents count exceeds maximal agents to board fields ratio: 2";
+		msg += "\nDefine less agents or larger board size.";
+		MessageBoxA(nullptr, msg.c_str(), "Error!", MB_OK | MB_ICONWARNING);
 		return;
 	}
 
