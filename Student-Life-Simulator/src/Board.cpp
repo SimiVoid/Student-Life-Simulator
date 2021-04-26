@@ -2,7 +2,10 @@
 
 Board::Board(const uint16_t size)
 	:m_size(size) {
-	const float fieldSize = (1000 * 1.f) / (m_size);
+	const float fieldSize = static_cast<float>(1000 / m_size);
+	const float offset = static_cast<float>(1000 % m_size / 2);
+
+	m_boardGrid.setPrimitiveType(sf::Lines);
 
 	for (uint16_t x = 0; x < size; x++) {
 		std::vector<BoardField> column;
@@ -10,15 +13,18 @@ Board::Board(const uint16_t size)
 			column.emplace_back(BoardField(sf::Vector2i(x, y)));
 		}
 		m_fields.emplace_back(column);
-		
-		m_boardGrid.setPrimitiveType(sf::Lines);
-		
-		// x offset is 200, board size is 1000x1000
-		m_boardGrid.append(sf::Vertex(sf::Vector2f(200, x * fieldSize), m_gridColor));
-		m_boardGrid.append(sf::Vertex(sf::Vector2f(1200, x * fieldSize), m_gridColor));
-		m_boardGrid.append(sf::Vertex(sf::Vector2f(200 + x * fieldSize, 0), m_gridColor));
-		m_boardGrid.append(sf::Vertex(sf::Vector2f(200 + x * fieldSize , 1000), m_gridColor));
+
+		// x offset is 200
+		m_boardGrid.append(sf::Vertex(sf::Vector2f(200 + offset, x * fieldSize + offset), m_gridColor));
+		m_boardGrid.append(sf::Vertex(sf::Vector2f(200 + fieldSize * size + offset, x * fieldSize + offset), m_gridColor));
+		m_boardGrid.append(sf::Vertex(sf::Vector2f(200 + x * fieldSize + offset, offset), m_gridColor));
+		m_boardGrid.append(sf::Vertex(sf::Vector2f(200 + x * fieldSize + offset, fieldSize * size + offset), m_gridColor));
 	}
+
+	m_boardGrid.append(sf::Vertex(sf::Vector2f(200 + offset, size * fieldSize + offset), m_gridColor));
+	m_boardGrid.append(sf::Vertex(sf::Vector2f(200 + fieldSize * size + offset, size * fieldSize + offset), m_gridColor));
+	m_boardGrid.append(sf::Vertex(sf::Vector2f(200 + size * fieldSize + offset, 0 + offset), m_gridColor));
+	m_boardGrid.append(sf::Vertex(sf::Vector2f(200 + size * fieldSize + offset, fieldSize * size + offset), m_gridColor));
 }
 
 void Board::checkFieldPosition(const sf::Vector2i& position) const {
@@ -44,11 +50,12 @@ uint16_t Board::getBoardSize() const {
 }
 
 void Board::draw(sf::RenderWindow& window) {
-	window.draw(m_boardGrid);
+
 
 	for (auto& columns : m_fields)
 		for (auto& field : columns)
-			field.draw(window, m_size);
+			field.draw(window);
+	window.draw(m_boardGrid);
 }
 
 void Board::updateField(const sf::Vector2i& position, const std::set<std::shared_ptr<Agent>>& agents) {

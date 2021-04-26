@@ -5,8 +5,7 @@ Student::Student(const std::pair<uint16_t, uint16_t>& knowledgeRange, const std:
 	m_knowledge = randomNumberWithinRange(knowledgeRange);
 	m_alcoholResistance = randomNumberWithinRange(alcoholResistanceRange);
 
-	const unsigned windowHeight = 1000;
-	const auto fieldSize = floorf(static_cast<float>(windowHeight) / static_cast<float>(boardSize));
+	const float fieldSize = static_cast<float>(1000 / boardSize - 1);
 
 	m_singleView.setSize({ fieldSize, fieldSize });
 	m_singleView.setFillColor(sf::Color::Green);

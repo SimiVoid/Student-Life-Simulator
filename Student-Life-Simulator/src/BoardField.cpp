@@ -28,11 +28,9 @@ void BoardField::clearField() {
 	m_agentsOnField.clear();
 }
 
-void BoardField::draw(sf::RenderWindow& window, const uint16_t& boardSize) {
+void BoardField::draw(sf::RenderWindow& window) {
 	std::shared_ptr<Student> highestPrioStudent = nullptr;
 	std::shared_ptr<Examiner> examinerInField = nullptr;
-
-	const float fieldSize = 1000.f / boardSize;
 	
 	for (const auto& agent : m_agentsOnField) {
 		if (isAgentTypeof<Student>(agent)) {
@@ -50,13 +48,13 @@ void BoardField::draw(sf::RenderWindow& window, const uint16_t& boardSize) {
 	}
 	
 	if (highestPrioStudent && examinerInField) {
-		highestPrioStudent->draw(window, fieldSize, false);
-		examinerInField->draw(window, fieldSize, false);
+		highestPrioStudent->draw(window, false);
+		examinerInField->draw(window, false);
 	}
 	else {
 		if (highestPrioStudent)
-			highestPrioStudent->draw(window, fieldSize);
+			highestPrioStudent->draw(window);
 		else if(examinerInField)
-			examinerInField->draw(window, fieldSize);
+			examinerInField->draw(window);
 	}
 }

@@ -5,8 +5,7 @@ Examiner::Examiner(const std::pair<uint16_t, uint16_t>& suspicionRange, const ui
 	: Agent(boardSize) {
 	m_suspicion = randomNumberWithinRange(suspicionRange);
 
-	const unsigned windowHeight = 1000;
-	const auto fieldSize = floorf(static_cast<float>(windowHeight) / static_cast<float>(boardSize));
+	const float fieldSize = static_cast<float>(1000 / boardSize - 1);
 
 	m_singleView.setSize({ fieldSize, fieldSize });
 	m_singleView.setFillColor(sf::Color(165, 42, 42));
@@ -16,7 +15,6 @@ Examiner::Examiner(const std::pair<uint16_t, uint16_t>& suspicionRange, const ui
 	m_multipleView.setPoint(1, { fieldSize, 0 });
 	m_multipleView.setPoint(2, { 0, fieldSize });
 	m_multipleView.setFillColor(sf::Color(165, 42, 42));
-
 }
 
 uint16_t Examiner::getSuspicion() const {
