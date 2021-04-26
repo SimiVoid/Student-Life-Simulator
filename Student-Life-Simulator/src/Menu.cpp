@@ -1,6 +1,7 @@
 #include "Menu.h"
 
 #include <Windows.h>
+#include <iostream>
 
 #include "SimulationThread.h"
 
