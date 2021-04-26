@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
 		window.display();
 	}
 
-	thread.stopSimulationThread(true);
+	thread.stopSimulationThread();
 
 	return 0;
 }

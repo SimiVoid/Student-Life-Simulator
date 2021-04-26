@@ -17,7 +17,6 @@ class SimulationThread {
 
 	std::atomic_bool m_simulationThreadRunning{ false };
 	bool m_simulationThreadPaused{ false };
-	std::atomic_bool m_simulationThreadShouldRun;
 
 	std::chrono::system_clock::duration m_threadWait = 1s;
 
@@ -27,7 +26,7 @@ public:
 	std::mutex simulationLock;
 
 	void runSimulationThread(const std::unique_ptr<Simulation>& simulation);
-	void stopSimulationThread(const bool& sync);
+	void stopSimulationThread();
 
 	bool isSimulationRunning() const;
 

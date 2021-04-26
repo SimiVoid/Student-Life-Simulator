@@ -7,10 +7,10 @@ void SimulationThread::runSimulationThread(const std::unique_ptr<Simulation>& si
 	if (m_simulationThreadRunning)
 		throw std::exception("Tried to run simulation while it was running!");
 
-	m_simulationThreadShouldRun = true;
+	m_simulationThreadRunning = true;
 
 	m_simulationThread = std::thread([&]() {
-		while (m_simulationThreadShouldRun) {
+		while (m_simulationThreadRunning) {
 			{
 				std::unique_lock<std::mutex> lock(m_pauseMutex);
 				m_pauseConditionVariable.wait(lock, [&] {return !m_simulationThreadPaused; });
@@ -38,22 +38,14 @@ void SimulationThread::runSimulationThread(const std::unique_ptr<Simulation>& si
 			std::this_thread::sleep_for(m_threadWait - (end - start));
 		}
 	});
-
-	m_simulationThreadRunning = true;
 }
 
-void SimulationThread::stopSimulationThread(const bool& sync) {
+void SimulationThread::stopSimulationThread() {
 	if (!m_simulationThreadRunning)
 		return;
 
-	m_simulationThreadShouldRun = false;
-
-	if (sync)
-		m_simulationThread.join();
-	else
-		m_simulationThread.detach();
-
 	m_simulationThreadRunning = false;
+	m_simulationThread.join();
 }
 
 void SimulationThread::pauseSimulationThread() {

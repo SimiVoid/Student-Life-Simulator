@@ -373,7 +373,7 @@ void editBoxOnReturnOrUnfocusRange(const std::shared_ptr<tgui::EditBox>& editBox
 }
 
 void stopButtonOnMousePress(tgui::Button::Ptr stopButton, tgui::Button::Ptr startButton, SimulationThread& thread) {
-	thread.stopSimulationThread(false);
+	thread.stopSimulationThread();
 	onSimulationFinish(stopButton, startButton);
 }
 
