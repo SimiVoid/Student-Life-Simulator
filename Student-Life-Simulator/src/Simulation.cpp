@@ -160,7 +160,7 @@ void Simulation::exportData() const {
 	std::clog << "File: " << ss.str() << " save" << std::endl;
 }
 
-void Simulation::generatePlot() {
+void Simulation::generateChart() {
 	using namespace sciplot;
 
 	if (!std::filesystem::is_directory("./output"))
@@ -170,20 +170,19 @@ void Simulation::generatePlot() {
 	const auto& inTimeT = std::chrono::system_clock::to_time_t(now);
 
 	std::stringstream ss;
-	ss << std::put_time(std::localtime(&inTimeT), "%Y-%m-%d_%H-%M-%S_plot.pdf");
+	ss << std::put_time(std::localtime(&inTimeT), "%Y-%m-%d_%H-%M-%S_chart.pdf");
 
-	// Generating plot algorithm
-	Plot plot;
-	plot.palette("set2");
-	plot.size(800, 600);
+	Plot chart;
+	chart.palette("set2");
+	chart.size(800, 600);
 
-	plot.ylabel("Count");
-	plot.xlabel("Epoch");
+	chart.ylabel("Count");
+	chart.xlabel("Epoch");
 	if(m_boardStatusList[0].getStudyingStudentsCount() < 5)
-		plot.ytics().increment(1);
+		chart.ytics().increment(1);
 	if (m_boardStatusList.size() < 5)
-		plot.xtics().increment(1);
-	plot.legend().atOutsideRight();
+		chart.xtics().increment(1);
+	chart.legend().atOutsideRight();
 
 	const auto& epoch = range(0, m_boardStatusList.size() - 1);
 
@@ -197,14 +196,14 @@ void Simulation::generatePlot() {
 		drunkStudents.emplace_back(record.getDrunkStudentsCount());
 	}
 
-	plot.drawCurve(epoch, studyingStudents).label("Studying Students").lineWidth(3);
-	plot.drawCurve(epoch, failedStudents).label("Students failed").lineWidth(3);
-	plot.drawCurve(epoch, passedStudents).label("Students passed").lineWidth(3);
-	plot.drawCurve(epoch, sleepingStudent).label("Sleeping students").lineWidth(3);
-	plot.drawCurve(epoch, drunkStudents).label("Drunk students").lineWidth(3);
+	chart.drawCurve(epoch, studyingStudents).label("Studying Students").lineWidth(3);
+	chart.drawCurve(epoch, failedStudents).label("Students failed").lineWidth(3);
+	chart.drawCurve(epoch, passedStudents).label("Students passed").lineWidth(3);
+	chart.drawCurve(epoch, sleepingStudent).label("Sleeping students").lineWidth(3);
+	chart.drawCurve(epoch, drunkStudents).label("Drunk students").lineWidth(3);
 
-	plot.save("./output/" + ss.str());
+	chart.save("./output/" + ss.str());
 	std::clog << "File: " << ss.str() << " save" << std::endl;
 
-	plot.show();
+	chart.show();
 }

@@ -31,6 +31,6 @@ public:
 	void drawBoard(sf::RenderWindow& window) const;
 	[[nodiscard]] bool checkStatus() const;
 	void exportData() const;
-	void generatePlot();
+	void generateChart();
 	void updateAgentsPosition();
 };

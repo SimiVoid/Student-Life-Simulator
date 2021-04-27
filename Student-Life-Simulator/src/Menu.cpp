@@ -16,7 +16,7 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Sim
 	exitButton->onMousePress(exitButtonOnMousePress, std::ref(window));
 	gui.add(exitButton);
 
-	auto generatePlotButton = Button::create("Generate plot");
+	auto generatePlotButton = Button::create("Generate chart");
 	generatePlotButton->setSize(Layout2d(190, 40));
 	generatePlotButton->setPosition(Layout2d(5, 905));
 	generatePlotButton->onMousePress(generatePlotButtonOnMousePress, std::ref(simulation));
@@ -299,7 +299,7 @@ void generatePlotButtonOnMousePress(std::unique_ptr<Simulation>& simulation) {
 	}
 
 	try {
-		simulation->generatePlot();
+		simulation->generateChart();
 	}
 	catch (const std::exception& exception) {
 		std::cerr << exception.what() << std::endl;
