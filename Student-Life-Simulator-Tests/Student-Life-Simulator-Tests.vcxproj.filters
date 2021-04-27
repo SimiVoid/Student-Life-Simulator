@@ -7,6 +7,7 @@
     <ClCompile Include="tests\Student.cpp" />
     <ClCompile Include="tests\Examiner.cpp" />
     <ClCompile Include="tests\Agent.cpp" />
+    <ClCompile Include="tests\Board.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
