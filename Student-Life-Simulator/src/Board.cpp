@@ -2,6 +2,9 @@
 
 Board::Board(const uint16_t size)
 	:m_size(size) {
+	if (m_size < 2)
+		throw std::invalid_argument("Board size must be at least 2");
+
 	const float fieldSize = static_cast<float>(1000 / m_size);
 	const float offset = static_cast<float>(1000 % m_size / 2);
 

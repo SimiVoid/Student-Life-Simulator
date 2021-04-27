@@ -9,6 +9,11 @@ TEST(Board, BoardGetSize) {
 	ASSERT_EQ(board.getBoardSize(), boardSize);
 }
 
+TEST(Board, BoardSize) {
+	ASSERT_THROW(Board board(1), std::invalid_argument);
+	ASSERT_THROW(Board board(0), std::invalid_argument);
+}
+
 TEST(Board, BoardFieldsRange) {
 	const uint16_t boardSize = 10;
 	Board board(boardSize);
