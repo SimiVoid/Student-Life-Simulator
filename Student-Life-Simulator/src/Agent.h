@@ -7,10 +7,7 @@ class Agent {
 protected:
 	uint16_t m_id;
 	sf::Vector2i m_position;
-	/**
-	 * Green - Student
-	 * Brown - Examiner
-	 */
+
 	sf::RectangleShape m_singleView;
 	sf::ConvexShape m_multipleView;
 
@@ -22,6 +19,6 @@ public:
 
 	[[nodiscard]] sf::Vector2i getPosition() const;
 	[[nodiscard]] uint16_t getId() const;
-	void draw(sf::RenderWindow& window, const float& fieldSize, const bool& isSingle = true);
+	void draw(sf::RenderWindow& window, const bool isSingle = true);
 	virtual void move(const uint16_t& boardSize);
 };

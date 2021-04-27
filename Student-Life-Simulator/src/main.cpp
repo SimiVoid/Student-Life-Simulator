@@ -19,9 +19,12 @@ int main(int argc, char* argv[]) {
 	std::unique_ptr<Simulation> simulation;
 	SimulationThread thread;
 
-	sf::RenderWindow window(sf::VideoMode(1200, 1000), "Student Life Simulator", sf::Style::Close);
+	sf::ContextSettings cs;
+	cs.antialiasingLevel = 2;
+	
+	sf::RenderWindow window(sf::VideoMode(1200, 1000), "Student Life Simulator", sf::Style::Close, cs);
 	window.setFramerateLimit(60);
-
+	
 	tgui::GuiSFML gui(window);
 
 	try {
@@ -48,7 +51,7 @@ int main(int argc, char* argv[]) {
 		}
 
 		if (simulation != nullptr) {
-			std::unique_lock<std::mutex> lock(thread.simulationLock,std::try_to_lock);
+			std::unique_lock<std::mutex> lock(thread.simulationLock, std::try_to_lock);
 			if (lock)
 			{
 				window.clear();
@@ -62,7 +65,7 @@ int main(int argc, char* argv[]) {
 		window.display();
 	}
 
-	thread.stopSimulationThread(true);
+	thread.stopSimulationThread();
 
 	return 0;
 }

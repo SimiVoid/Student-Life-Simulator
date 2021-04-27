@@ -5,7 +5,7 @@
 typedef std::vector<std::vector<BoardField>> BoardArray;
 
 class Board {
-	const sf::Color& m_gridColor = sf::Color(31, 31, 31);
+	const sf::Color& m_gridColor = sf::Color(41, 41, 41);;
 	sf::VertexArray m_boardGrid;
 
 	BoardArray m_fields;
