@@ -325,6 +325,7 @@ void startButtonOnMousePress(tgui::Button::Ptr stopButton, tgui::Button::Ptr sta
 
 	startButton->setVisible(false);
 
+	simulation = nullptr;
 	simulation = std::make_unique<Simulation>(Simulation(std::any_cast<uint16_t>(initParametersList["board_size"]),
 		std::any_cast<uint16_t>(initParametersList["students_count"]),
 		std::any_cast<uint16_t>(initParametersList["examiners_count"]),
