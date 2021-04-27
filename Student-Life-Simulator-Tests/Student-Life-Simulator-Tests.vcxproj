@@ -43,7 +43,10 @@
   <ItemGroup>
     <ClCompile Include="tests\BoardField.cpp" />
     <ClCompile Include="tests\BoardStatus.cpp" />
+    <ClCompile Include="tests\Examiner.cpp" />
     <ClCompile Include="tests\Simulation.cpp" />
+    <ClCompile Include="tests\Student.cpp" />
+    <ClCompile Include="tests\Agent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Student-Life-Simulation\Student-Life-Simulation.vcxproj">
