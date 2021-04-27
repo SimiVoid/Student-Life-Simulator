@@ -41,6 +41,7 @@
     <IncludePath>$(SolutionDir)Student-Life-Simulator/include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemGroup>
+    <ClCompile Include="tests\Board.cpp" />
     <ClCompile Include="tests\BoardField.cpp" />
     <ClCompile Include="tests\BoardStatus.cpp" />
     <ClCompile Include="tests\Examiner.cpp" />

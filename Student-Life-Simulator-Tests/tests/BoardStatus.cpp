@@ -31,5 +31,4 @@ TEST(BoardStatus, BoardStatusClassTest) {
 	ASSERT_EQ(students, boardStatus.getStudyingStudentsCount());
 	ASSERT_EQ(0, boardStatus.getFailedStudentsCount());
 	ASSERT_EQ(0, boardStatus.getPassedStudentsCount());
-	
 }
