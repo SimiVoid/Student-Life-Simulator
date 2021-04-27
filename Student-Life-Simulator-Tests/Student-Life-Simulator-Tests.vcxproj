@@ -50,7 +50,7 @@
     <ClCompile Include="tests\Agent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Student-Life-Simulation\Student-Life-Simulation.vcxproj">
+    <ProjectReference Include="..\Student-Life-Simulator\Student-Life-Simulator.vcxproj">
       <Project>{a533ccf1-7da1-40a0-825c-192de7be8fd2}</Project>
     </ProjectReference>
   </ItemGroup>
