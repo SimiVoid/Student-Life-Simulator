@@ -28,6 +28,20 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Sim
 	exportDataButton->onMousePress(exportDataButtonOnMousePress, std::ref(simulation));
 	gui.add(exportDataButton);
 
+	auto sleepTimeText = Label::create("Sleep time: (ms)");
+	sleepTimeText->setSize(Layout2d(190, 20));
+	sleepTimeText->setPosition(Layout2d(5, 825));
+	sleepTimeText->setVerticalAlignment(Label::VerticalAlignment::Center);
+	sleepTimeText->setHorizontalAlignment(Label::HorizontalAlignment::Left);
+	gui.add(sleepTimeText);
+
+	auto sleepTimeEditBox = EditBox::create();
+	sleepTimeEditBox->setSize(Layout2d(50, 25));
+	sleepTimeEditBox->setPosition(Layout2d(145, 825));
+	sleepTimeEditBox->setText("500");
+	sleepTimeEditBox->setInputValidator("^(1[0-9][0-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9]|[1-9])$");
+	gui.add(sleepTimeEditBox);
+
 	// Board size
 	auto boardSizeSliderText = Label::create("Size:");
 	boardSizeSliderText->setSize(Layout2d(190, 20));
@@ -259,7 +273,8 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Sim
 					static_cast<uint16_t>(studentKnowledgeRangeSlider->getSelectionEnd()))),
 			std::make_pair("student_resistance",
 				std::make_pair(static_cast<uint16_t>(studentAlcoholResistanceRangeSlider->getSelectionStart()),
-					static_cast<uint16_t>(studentAlcoholResistanceRangeSlider->getSelectionEnd()))) };
+					static_cast<uint16_t>(studentAlcoholResistanceRangeSlider->getSelectionEnd()))),
+			std::make_pair("sleep_time", static_cast<uint16_t>(sleepTimeEditBox->getText().toInt())) };
 		return map;
 		});
 	gui.add(startButton);
@@ -333,6 +348,9 @@ void startButtonOnMousePress(tgui::Button::Ptr stopButton, tgui::Button::Ptr sta
 		std::any_cast<std::pair<uint16_t, uint16_t>>(initParametersList["examiners_suspicion"]),
 		std::any_cast<std::pair<uint16_t, uint16_t>>(initParametersList["student_knowledge"]),
 		std::any_cast<std::pair<uint16_t, uint16_t>>(initParametersList["student_resistance"])));
+
+	uint16_t msec = std::any_cast<uint16_t>(initParametersList["sleep_time"]);
+	thread.setSimulationWait(std::chrono::duration(std::chrono::milliseconds(msec)));
 
 	thread.runSimulationThread(simulation);
 
