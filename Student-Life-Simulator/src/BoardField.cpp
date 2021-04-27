@@ -5,19 +5,8 @@
 #include "Student.h"
 #include "Examiner.h"
 
-BoardField::BoardField(const sf::Vector2i& position)
-	:m_position(position) {}
-
 std::set<std::shared_ptr<Agent>> BoardField::getAgents() const {
 	return m_agentsOnField;
-}
-
-sf::Vector2i BoardField::getPosition() const {
-	return m_position;
-}
-
-void BoardField::setAgents(std::set<std::shared_ptr<Agent>> agents) {
-	m_agentsOnField = std::move(agents);
 }
 
 void BoardField::addAgent(const std::shared_ptr<Agent>& agent) {

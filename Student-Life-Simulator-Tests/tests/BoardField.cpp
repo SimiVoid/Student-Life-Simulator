@@ -3,7 +3,7 @@
 #include "../src/BoardField.h"
 
 TEST(BoardField, SetAndReadAgents) {
-	BoardField boardField({ 0,0 });
+	BoardField boardField;
 
 	std::set<std::shared_ptr<Agent>> agentsIn = {
 		std::make_shared<Agent>(Agent(10)),
@@ -13,7 +13,8 @@ TEST(BoardField, SetAndReadAgents) {
 		std::make_shared<Agent>(Agent(10))
 	};
 
-	boardField.setAgents(agentsIn);
+	for (auto& agent : agentsIn)
+		boardField.addAgent(agent);
 
 	const auto agentsOut = boardField.getAgents();
 
