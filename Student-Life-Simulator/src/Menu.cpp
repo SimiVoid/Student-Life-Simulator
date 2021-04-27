@@ -307,7 +307,7 @@ void generatePlotButtonOnMousePress(std::unique_ptr<Simulation>& simulation) {
 }
 
 void exportDataButtonOnMousePress(std::unique_ptr<Simulation>& simulation) {
-	if (simulation != nullptr) {
+	if (simulation == nullptr) {
 		MessageBoxA(nullptr, "Cannot export data because simulation is not initialized", "Warning!", MB_OK | MB_ICONWARNING);
 		return;
 	}
