@@ -131,20 +131,3 @@ TEST(Student, StudentPassMove) {
 	student.move(boardSize);
 	ASSERT_EQ(position, student.getPosition());
 }
-
-TEST(Student, StudentMove) {
-	sf::Vector2i oldPosition;
-	uint16_t boardSize = 10;
-	Student student(std::make_pair(1, 1), std::make_pair(1, 1), boardSize);
-
-	// Make 1000 randomized moves
-	for (int i = 0; i < 1000; i++) {
-		oldPosition = student.getPosition();
-		student.move(boardSize);
-		ASSERT_NE(oldPosition, student.getPosition());
-		ASSERT_GE(student.getPosition().x, 0);
-		ASSERT_GE(student.getPosition().y, 0);
-		ASSERT_LT(student.getPosition().x, boardSize);
-		ASSERT_LT(student.getPosition().y, boardSize);
-	}
-}
