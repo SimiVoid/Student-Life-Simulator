@@ -4,6 +4,9 @@
     <ClCompile Include="tests\Simulation.cpp" />
     <ClCompile Include="tests\BoardField.cpp" />
     <ClCompile Include="tests\BoardStatus.cpp" />
+    <ClCompile Include="tests\Student.cpp" />
+    <ClCompile Include="tests\Examiner.cpp" />
+    <ClCompile Include="tests\Agent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
