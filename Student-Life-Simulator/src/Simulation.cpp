@@ -207,3 +207,11 @@ void Simulation::generateChart() {
 
 	chart.show();
 }
+
+const std::unique_ptr<Board>& Simulation::getBoard() const {
+	return m_board;
+}
+
+const AgentsList& Simulation::getAgents() const {
+	return m_agents;
+}

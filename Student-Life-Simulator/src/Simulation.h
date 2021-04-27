@@ -10,8 +10,10 @@
 #include "BoardStatus.h"
 #include "Board.h"
 
+typedef std::list<std::shared_ptr<Agent>> AgentsList;
+
 class Simulation {
-	std::list<std::shared_ptr<Agent>> m_agents;
+	AgentsList m_agents;
 	std::vector<BoardStatus> m_boardStatusList;
 	std::unique_ptr<Board> m_board;
 
@@ -30,6 +32,8 @@ public:
 	void updateBoard();
 	void drawBoard(sf::RenderWindow& window) const;
 	[[nodiscard]] bool checkStatus() const;
+	[[nodiscard]] const std::unique_ptr<Board>& getBoard() const;
+	[[nodiscard]] const AgentsList& getAgents() const;
 	void exportData() const;
 	void generateChart();
 	void updateAgentsPosition();
