@@ -179,7 +179,11 @@ void Simulation::generatePlot() {
 
 	plot.ylabel("Count");
 	plot.xlabel("Epoch");
-	plot.xtics().hide();
+	if(m_boardStatusList[0].getStudyingStudentsCount() < 5)
+		plot.ytics().increment(1);
+	if (m_boardStatusList.size() < 5)
+		plot.xtics().increment(1);
+	plot.legend().atOutsideRight();
 
 	const auto& epoch = range(0, m_boardStatusList.size() - 1);
 
