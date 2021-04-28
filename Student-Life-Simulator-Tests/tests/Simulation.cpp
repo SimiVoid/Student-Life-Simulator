@@ -41,3 +41,78 @@ TEST(Simulation, SimulationClassTest) {
 	ASSERT_EQ(studentCount, 50);
 	ASSERT_EQ(drunkStudentCount, 10);
 }
+
+TEST(Simulation, SimulationStatus1) {
+	// One sober student, alcohol resist 1
+	// A few examiners
+	Simulation simulation(2, 1, 5, 0, std::make_pair<uint16_t>(1, 1), std::make_pair<uint16_t>(1, 1), std::make_pair<uint16_t>(1, 1));
+
+	std::shared_ptr<Student> student;
+
+	for (const auto& agent : simulation.getAgents()) {
+		if (isAgentTypeof<Student>(agent)) {
+			student = castAgentTo<Student>(agent);
+			break;
+		}
+	}
+
+	ASSERT_TRUE(simulation.checkStatus());
+
+	// Drunk student
+	student->drinkBeer();
+
+	ASSERT_TRUE(simulation.checkStatus());
+
+	// Sleeping student
+	student->drinkBeer();
+
+	ASSERT_TRUE(simulation.checkStatus());
+}
+
+TEST(Simulation, SimulationStatus2) {
+	// One sober student, alcohol resist 1
+	// A few examiners
+	Simulation simulation(2, 1, 5, 0, std::make_pair<uint16_t>(1, 1), std::make_pair<uint16_t>(1, 1), std::make_pair<uint16_t>(1, 1));
+
+	std::shared_ptr<Student> student;
+
+	for (const auto& agent : simulation.getAgents()) {
+		if (isAgentTypeof<Student>(agent)) {
+			student = castAgentTo<Student>(agent);
+			break;
+		}
+	}
+
+	// Fail student
+	while (student->getStatus() != Student::Status::Failed)
+	{
+		ASSERT_TRUE(simulation.checkStatus());
+		student->acceptExamResult(false);
+	}
+
+	ASSERT_FALSE(simulation.checkStatus());
+}
+
+TEST(Simulation, SimulationStatus3) {
+	// One sober student, alcohol resist 1
+	// A few examiners
+	Simulation simulation(2, 1, 5, 0, std::make_pair<uint16_t>(1, 1), std::make_pair<uint16_t>(1, 1), std::make_pair<uint16_t>(1, 1));
+
+	std::shared_ptr<Student> student;
+
+	for (const auto& agent : simulation.getAgents()) {
+		if (isAgentTypeof<Student>(agent)) {
+			student = castAgentTo<Student>(agent);
+			break;
+		}
+	}
+
+	// Pass student
+	while (student->getStatus() != Student::Status::Passed)
+	{
+		ASSERT_TRUE(simulation.checkStatus());
+		student->acceptExamResult(true);
+	}
+
+	ASSERT_FALSE(simulation.checkStatus());
+}
