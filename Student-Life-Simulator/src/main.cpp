@@ -12,6 +12,7 @@
 #include "Menu.h"
 
 void setupEnvPath();
+sf::Image loadImageFromResource(const std::wstring& name);
 
 int main(int argc, char* argv[]) {
 	setupEnvPath();
@@ -24,7 +25,18 @@ int main(int argc, char* argv[]) {
 	
 	sf::RenderWindow window(sf::VideoMode(1200, 1000), "Student Life Simulator", sf::Style::Close, cs);
 	window.setFramerateLimit(60);
-	
+
+	sf::Image icon;
+
+	try {
+		icon = loadImageFromResource(L"ICON_PNG");
+
+		window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+	}
+	catch (const std::exception& exception) {
+		std::cerr << "Failed to load icon of window: " << exception.what() << std::endl;
+	}
+
 	tgui::GuiSFML gui(window);
 
 	try {
@@ -71,18 +83,44 @@ int main(int argc, char* argv[]) {
 }
 
 void setupEnvPath() {
-	auto pathBuffer = new WCHAR[UINT16_MAX];
+	const auto pathBuffer = new WCHAR[UINT16_MAX];
 
 	GetEnvironmentVariable(L"PATH", pathBuffer, UINT16_MAX);
 
 	std::wstring path(pathBuffer);
-	std::wstring gnuplotPath = L"\\gnuplot";
+	const std::wstring gnuplotPath = L"\\gnuplot";
 
 	if (path.find(gnuplotPath) != std::wstring::npos) return;
 
-	std::wstring currentPath = std::filesystem::current_path().wstring();
+	const auto currentPath = std::filesystem::current_path().wstring();
 
 	path += L";" + currentPath + gnuplotPath;
 
 	SetEnvironmentVariable(L"PATH", path.c_str());
+}
+
+
+sf::Image loadImageFromResource(const std::wstring& name)
+{
+	const auto rsrcData = FindResource(nullptr, name.c_str(), RT_RCDATA);
+	if (!rsrcData)
+		throw std::runtime_error("Failed to find resource.");
+
+	const auto rsrcDataSize = SizeofResource(nullptr, rsrcData);
+	if (rsrcDataSize <= 0)
+		throw std::runtime_error("Size of resource is 0.");
+
+	const auto grsrcData = LoadResource(nullptr, rsrcData);
+	if (!grsrcData)
+		throw std::runtime_error("Failed to load resource.");
+
+	const auto firstByte = LockResource(grsrcData);
+	if (!firstByte)
+		throw std::runtime_error("Failed to lock resource.");
+
+	sf::Image image;
+	if (!image.loadFromMemory(firstByte, rsrcDataSize))
+		throw std::runtime_error("Failed to load image from memory.");
+
+	return image;
 }

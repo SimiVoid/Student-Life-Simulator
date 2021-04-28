@@ -172,6 +172,7 @@
     <ClCompile Include="src\Student.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
     <ClInclude Include="src\BoardStatus.h" />
     <ClInclude Include="src\Examiner.h" />
     <ClInclude Include="src\Agent.h" />
@@ -185,6 +186,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="resources\rcdata1.bin" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\icon.ico" />
+    <Image Include="resources\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Student-Life-Simulator.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

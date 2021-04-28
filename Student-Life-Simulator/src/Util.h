@@ -1,7 +1,7 @@
 #pragma once
 
-#include <utility>
 #include <random>
+#include <utility>
 
 static std::mt19937 generator(std::random_device{}());
 
