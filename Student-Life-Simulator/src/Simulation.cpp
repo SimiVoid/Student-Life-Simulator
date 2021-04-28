@@ -3,6 +3,7 @@
 #include <sciplot/sciplot.hpp>
 #include <fstream>
 #include <chrono>
+#include <thread>
 #include <typeinfo>
 #include <filesystem>
 #include <exception>
@@ -135,77 +136,83 @@ bool Simulation::checkStatus() const {
 }
 
 void Simulation::exportData() const {
-	if (!std::filesystem::is_directory("./output"))
-		std::filesystem::create_directory("./output");
+	std::thread csvThread([&] {
+		if (!std::filesystem::is_directory("./output"))
+			std::filesystem::create_directory("./output");
 
-	const auto& now = std::chrono::system_clock::now();
-	const auto& inTimeT = std::chrono::system_clock::to_time_t(now);
+		const auto& now = std::chrono::system_clock::now();
+		const auto& inTimeT = std::chrono::system_clock::to_time_t(now);
 
-	std::stringstream ss;
-	ss << std::put_time(std::localtime(&inTimeT), "%Y-%m-%d_%H-%M-%S_data.csv");
-	std::ofstream csvFile("./output/" + ss.str());
+		std::stringstream ss;
+		ss << std::put_time(std::localtime(&inTimeT), "%Y-%m-%d_%H-%M-%S_data.csv");
+		std::ofstream csvFile("./output/" + ss.str());
 
-	if (!csvFile.good() || !csvFile.is_open())
-		throw std::exception("Cannot save csv export!");
+		if (!csvFile.good() || !csvFile.is_open())
+			throw std::exception("Cannot save csv export!");
 
-	unsigned counter = 0;
-	csvFile << "Epoch;Studying;Drunk;Sleeping;Failed;Passed;Sem1;Sem2;Sem3;Sem4;Sem5;Sem6;Sem7" << std::endl;
-	for (const auto& record : m_boardStatusList)
-		csvFile << counter++ << ";" << record.getStudyingStudentsCount() << ";" << record.getDrunkStudentsCount() <<
-		";" << record.getSleepingStudentsCount() << ";" << record.getFailedStudentsCount() <<
-		";" << record.getPassedStudentsCount() << ";" << record.csvExportStudentsInSemester() << std::endl;
+		unsigned counter = 0;
+		csvFile << "Epoch;Studying;Drunk;Sleeping;Failed;Passed;Sem1;Sem2;Sem3;Sem4;Sem5;Sem6;Sem7" << std::endl;
+		for (const auto& record : m_boardStatusList)
+			csvFile << counter++ << ";" << record.getStudyingStudentsCount() << ";" << record.getDrunkStudentsCount() <<
+			";" << record.getSleepingStudentsCount() << ";" << record.getFailedStudentsCount() <<
+			";" << record.getPassedStudentsCount() << ";" << record.csvExportStudentsInSemester() << std::endl;
 
-	csvFile.close();
+		csvFile.close();
 
-	std::clog << "File: " << ss.str() << " save" << std::endl;
+		std::clog << "File: " << ss.str() << " save" << std::endl;
+	});
+	csvThread.detach();
 }
 
 void Simulation::generateChart() {
-	using namespace sciplot;
+	std::thread chartThread([&] {
+		using namespace sciplot;
 
-	if (!std::filesystem::is_directory("./output"))
-		std::filesystem::create_directories("./output");
+		if (!std::filesystem::is_directory("./output"))
+			std::filesystem::create_directories("./output");
 
-	const auto& now = std::chrono::system_clock::now();
-	const auto& inTimeT = std::chrono::system_clock::to_time_t(now);
+		const auto& now = std::chrono::system_clock::now();
+		const auto& inTimeT = std::chrono::system_clock::to_time_t(now);
 
-	std::stringstream ss;
-	ss << std::put_time(std::localtime(&inTimeT), "%Y-%m-%d_%H-%M-%S_chart.pdf");
+		std::stringstream ss;
+		ss << std::put_time(std::localtime(&inTimeT), "%Y-%m-%d_%H-%M-%S_chart.pdf");
 
-	Plot chart;
-	chart.palette("set2");
-	chart.size(800, 600);
+		Plot chart;
+		chart.palette("set2");
+		chart.size(800, 600);
 
-	chart.ylabel("Count");
-	chart.xlabel("Epoch");
-	if(m_boardStatusList[0].getStudyingStudentsCount() < 5)
-		chart.ytics().increment(1);
-	if (m_boardStatusList.size() < 5)
-		chart.xtics().increment(1);
-	chart.legend().atOutsideRight();
+		chart.ylabel("Count");
+		chart.xlabel("Epoch");
+		if (m_boardStatusList[0].getStudyingStudentsCount() < 5)
+			chart.ytics().increment(1);
+		if (m_boardStatusList.size() < 5)
+			chart.xtics().increment(1);
+		chart.legend().atOutsideRight();
 
-	const auto& epoch = range(0, m_boardStatusList.size() - 1);
+		const auto& epoch = range(0, m_boardStatusList.size() - 1);
 
-	std::vector<uint16_t> studyingStudents, sleepingStudent, drunkStudents, failedStudents, passedStudents;
+		std::vector<uint16_t> studyingStudents, sleepingStudent, drunkStudents, failedStudents, passedStudents;
 
-	for (const auto& record : m_boardStatusList) {
-		failedStudents.emplace_back(record.getFailedStudentsCount());
-		passedStudents.emplace_back(record.getPassedStudentsCount());
-		studyingStudents.emplace_back(record.getStudyingStudentsCount());
-		sleepingStudent.emplace_back(record.getSleepingStudentsCount());
-		drunkStudents.emplace_back(record.getDrunkStudentsCount());
-	}
+		for (const auto& record : m_boardStatusList) {
+			failedStudents.emplace_back(record.getFailedStudentsCount());
+			passedStudents.emplace_back(record.getPassedStudentsCount());
+			studyingStudents.emplace_back(record.getStudyingStudentsCount());
+			sleepingStudent.emplace_back(record.getSleepingStudentsCount());
+			drunkStudents.emplace_back(record.getDrunkStudentsCount());
+		}
 
-	chart.drawCurve(epoch, studyingStudents).label("Studying Students").lineWidth(3);
-	chart.drawCurve(epoch, failedStudents).label("Students failed").lineWidth(3);
-	chart.drawCurve(epoch, passedStudents).label("Students passed").lineWidth(3);
-	chart.drawCurve(epoch, sleepingStudent).label("Sleeping students").lineWidth(3);
-	chart.drawCurve(epoch, drunkStudents).label("Drunk students").lineWidth(3);
+		chart.drawCurve(epoch, studyingStudents).label("Studying Students").lineWidth(3);
+		chart.drawCurve(epoch, failedStudents).label("Students failed").lineWidth(3);
+		chart.drawCurve(epoch, passedStudents).label("Students passed").lineWidth(3);
+		chart.drawCurve(epoch, sleepingStudent).label("Sleeping students").lineWidth(3);
+		chart.drawCurve(epoch, drunkStudents).label("Drunk students").lineWidth(3);
 
-	chart.save("./output/" + ss.str());
-	std::clog << "File: " << ss.str() << " save" << std::endl;
+		chart.save("./output/" + ss.str());
+		std::clog << "File: " << ss.str() << " save" << std::endl;
 
-	chart.show();
+		chart.show();
+	});
+	chartThread.detach();
 }
 
 const std::unique_ptr<Board>& Simulation::getBoard() const {
