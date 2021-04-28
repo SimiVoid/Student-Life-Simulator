@@ -105,6 +105,17 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;tgui-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y $(ProjectDir)sfml-graphics-d-2.dll $(SolutionDir)Debug\
+xcopy /Y $(ProjectDir)sfml-window-d-2.dll $(SolutionDir)Debug\
+xcopy /Y $(ProjectDir)sfml-system-d-2.dll $(SolutionDir)Debug\
+xcopy /Y $(ProjectDir)tgui-d.dll $(SolutionDir)Debug\
+xcopy /Y $(ProjectDir)gnuplot\* $(SolutionDir)Debug\gnuplot\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -124,6 +135,17 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;tgui.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>xcopy /Y $(ProjectDir)sfml-graphics-2.dll $(SolutionDir)Release\
+xcopy /Y $(ProjectDir)sfml-window-2.dll $(SolutionDir)Release\
+xcopy /Y $(ProjectDir)sfml-system-2.dll $(SolutionDir)Release\
+xcopy /Y $(ProjectDir)tgui.dll $(SolutionDir)Release\
+xcopy /Y $(ProjectDir)gnuplot\* $(SolutionDir)Release\gnuplot\</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
