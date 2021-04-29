@@ -5,7 +5,7 @@
 TEST(BoardField, SetAndReadAgents) {
 	BoardField boardField;
 
-	std::set<std::shared_ptr<Agent>> agentsIn = {
+	std::vector<std::shared_ptr<Agent>> agentsIn = {
 		std::make_shared<Agent>(Agent(10)),
 		std::make_shared<Agent>(Agent(10)),
 		std::make_shared<Agent>(Agent(10)),
@@ -26,8 +26,8 @@ TEST(BoardField, SetAndReadAgents) {
 TEST(BoardField, SetAndClearAgents) {
 	BoardField boardField;
 
-	std::set<std::shared_ptr<Agent>> emptySet = {};
-	std::set<std::shared_ptr<Agent>> agentsIn = {
+	std::vector<std::shared_ptr<Agent>> emptySet = {};
+	std::vector<std::shared_ptr<Agent>> agentsIn = {
 		std::make_shared<Agent>(Agent(10)),
 		std::make_shared<Agent>(Agent(10)),
 		std::make_shared<Agent>(Agent(10)),

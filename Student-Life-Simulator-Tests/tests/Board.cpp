@@ -36,7 +36,7 @@ TEST(Board, BoardGetAndSetField) {
 
 	std::shared_ptr<Agent> agent;
 	agent = std::make_shared<Agent>(boardSize);
-	std::set<std::shared_ptr<Agent>> set{ agent };
+	std::vector<std::shared_ptr<Agent>> set{ agent };
 
 	ASSERT_NO_THROW(board.getField({ 0,0 }).addAgent(agent));
 	ASSERT_EQ(board.getField({ 0,0 }).getAgents(), set);

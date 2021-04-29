@@ -5,12 +5,12 @@
 #include "Student.h"
 #include "Examiner.h"
 
-std::set<std::shared_ptr<Agent>> BoardField::getAgents() const {
+std::vector<std::shared_ptr<Agent>> BoardField::getAgents() const {
 	return m_agentsOnField;
 }
 
 void BoardField::addAgent(const std::shared_ptr<Agent>& agent) {
-	m_agentsOnField.insert(agent);
+	m_agentsOnField.emplace_back(agent);
 }
 
 void BoardField::clearField() {
