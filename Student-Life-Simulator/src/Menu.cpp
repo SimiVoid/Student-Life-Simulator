@@ -39,7 +39,7 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Sim
 	sleepTimeEditBox->setSize(Layout2d(50, 25));
 	sleepTimeEditBox->setPosition(Layout2d(145, 825));
 	sleepTimeEditBox->setText("500");
-	sleepTimeEditBox->setInputValidator("^(1[0-9][0-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9]|[1-9])$");
+	sleepTimeEditBox->setInputValidator("^(1[0-9][0-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9]|[0-9])$");
 	gui.add(sleepTimeEditBox);
 
 	// Board size
