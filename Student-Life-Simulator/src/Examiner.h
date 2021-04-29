@@ -12,6 +12,6 @@ public:
 	explicit Examiner(const std::pair<uint16_t, uint16_t>& suspicionRange, const uint16_t& boardSize);
 	~Examiner() = default;
 	
-	[[nodiscard]] uint16_t getSuspicion() const;
-	void examinateStudent(std::shared_ptr<Student> student) const;
+	[[nodiscard]] const uint16_t& getSuspicion() const;
+	void examinateStudent(const std::shared_ptr<Student>& student) const;
 };

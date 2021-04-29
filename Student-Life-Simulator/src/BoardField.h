@@ -12,7 +12,7 @@ public:
 	explicit BoardField() = default;
 	~BoardField() = default;
 
-	[[nodiscard]] std::vector<std::shared_ptr<Agent>> getAgents() const;
+	[[nodiscard]] const std::vector<std::shared_ptr<Agent>>& getAgents() const;
 	void addAgent(const std::shared_ptr<Agent>& agent);
 	void clearField();
 	void draw(sf::RenderWindow& window);

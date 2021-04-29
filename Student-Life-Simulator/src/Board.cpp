@@ -1,6 +1,6 @@
 #include "Board.h"
 
-Board::Board(const uint16_t size)
+Board::Board(const uint16_t& size)
 	:m_size(size) {
 	if (m_size < 2)
 		throw std::invalid_argument("Board size must be at least 2");

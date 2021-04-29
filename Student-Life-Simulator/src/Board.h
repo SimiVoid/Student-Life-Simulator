@@ -14,7 +14,7 @@ class Board {
 	void checkFieldPosition(const sf::Vector2i& position) const;
 
 public:
-	explicit Board(uint16_t size);
+	explicit Board(const uint16_t& size);
 	~Board() = default;
 
 	[[nodiscard]] BoardField& getField(const sf::Vector2i& position);

@@ -5,7 +5,6 @@
 
 class Agent {
 protected:
-	uint16_t m_id;
 	sf::Vector2i m_position;
 
 	sf::RectangleShape m_singleView;
@@ -17,8 +16,7 @@ public:
 		
 	static uint16_t idCounter;
 
-	[[nodiscard]] sf::Vector2i getPosition() const;
-	[[nodiscard]] uint16_t getId() const;
+	[[nodiscard]] const sf::Vector2i& getPosition() const;
 	void draw(sf::RenderWindow& window, const bool isSingle = true);
 	virtual void move(const uint16_t& boardSize);
 };

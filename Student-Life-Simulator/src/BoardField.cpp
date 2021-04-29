@@ -5,7 +5,7 @@
 #include "Student.h"
 #include "Examiner.h"
 
-std::vector<std::shared_ptr<Agent>> BoardField::getAgents() const {
+const std::vector<std::shared_ptr<Agent>>& BoardField::getAgents() const {
 	return m_agentsOnField;
 }
 

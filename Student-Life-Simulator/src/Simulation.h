@@ -35,6 +35,6 @@ public:
 	[[nodiscard]] const std::unique_ptr<Board>& getBoard() const;
 	[[nodiscard]] const AgentsList& getAgents() const;
 	void exportData() const;
-	void generateChart();
+	void generateChart() const;
 	void updateAgentsPosition();
 };

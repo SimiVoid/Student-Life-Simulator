@@ -26,35 +26,35 @@ void Student::move(const uint16_t& boardSize) {
 	Agent::move(boardSize);
 }
 
-bool Student::isSleeping() const {
+const bool& Student::isSleeping() const {
 	return m_isSleeping;
 }
 
-uint16_t Student::getIntoxication() const {
+const uint16_t& Student::getIntoxication() const {
 	return m_intoxication;
 }
 
-uint16_t Student::getKnowledge() const {
+const uint16_t& Student::getKnowledge() const {
 	return m_knowledge;
 }
 
-uint16_t Student::getFailedExams() const {
+const uint16_t& Student::getFailedExams() const {
 	return m_failedExams;
 }
 
-uint16_t Student::getPassedExams() const {
+const uint16_t& Student::getPassedExams() const {
 	return m_passedExams;
 }
 
-uint16_t Student::getAlcoholResistance() const {
+const uint16_t& Student::getAlcoholResistance() const {
 	return m_alcoholResistance;
 }
 
-uint16_t Student::getCurrentSemester() const {
+const uint16_t& Student::getCurrentSemester() const {
 	return m_inSemester;
 }
 
-Student::Status Student::getStatus() const {
+const Student::Status& Student::getStatus() const {
 	return m_status;
 }
 

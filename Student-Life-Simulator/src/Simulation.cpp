@@ -164,7 +164,7 @@ void Simulation::exportData() const {
 	csvThread.detach();
 }
 
-void Simulation::generateChart() {
+void Simulation::generateChart() const {
 	std::thread chartThread([&] {
 		using namespace sciplot;
 

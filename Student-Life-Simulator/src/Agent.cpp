@@ -4,15 +4,10 @@
 uint16_t Agent::idCounter = 0;
 
 Agent::Agent(const uint16_t& boardSize)
-	: m_id(idCounter++)
-	, m_position(randomNumberWithinRange(0, boardSize - 1), randomNumberWithinRange(0, boardSize - 1)) {}
+	: m_position(randomNumberWithinRange(0, boardSize - 1), randomNumberWithinRange(0, boardSize - 1)) {}
 
-sf::Vector2i Agent::getPosition() const {
+const sf::Vector2i& Agent::getPosition() const {
 	return m_position;
-}
-
-uint16_t Agent::getId() const {
-	return m_id;
 }
 
 void Agent::draw(sf::RenderWindow& window, const bool isSingle) {

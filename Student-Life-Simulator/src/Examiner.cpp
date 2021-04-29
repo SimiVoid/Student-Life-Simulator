@@ -17,11 +17,11 @@ Examiner::Examiner(const std::pair<uint16_t, uint16_t>& suspicionRange, const ui
 	m_multipleView.setFillColor(sf::Color(165, 42, 42));
 }
 
-uint16_t Examiner::getSuspicion() const {
+const uint16_t& Examiner::getSuspicion() const {
 	return m_suspicion;
 }
 
-void Examiner::examinateStudent(std::shared_ptr<Student> student) const {
+void Examiner::examinateStudent(const std::shared_ptr<Student>& student) const {
 	// Examiners hate sleeping students...
 	if (student->isSleeping()) {
 		student->acceptExamResult(false);
