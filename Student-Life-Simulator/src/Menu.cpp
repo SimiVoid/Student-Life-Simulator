@@ -142,14 +142,14 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Sim
 	studentKnowledgeRangeSliderText->setHorizontalAlignment(Label::HorizontalAlignment::Center);
 	gui.add(studentKnowledgeRangeSliderText);
 
-	auto studentKnowledgeRangeSlider = RangeSlider::create(1, 101);
+	auto studentKnowledgeRangeSlider = RangeSlider::create(0, 101);
 	auto studentKnowledgeRangeEditBoxStart = EditBox::create();
 	auto studentKnowledgeRangeEditBoxEnd = EditBox::create();
 
-	studentKnowledgeRangeEditBoxStart->setText("1");
+	studentKnowledgeRangeEditBoxStart->setText("0");
 	studentKnowledgeRangeEditBoxStart->setSize(Layout2d(35, 25));
 	studentKnowledgeRangeEditBoxStart->setPosition(Layout2d(30, 395));
-	studentKnowledgeRangeEditBoxStart->setInputValidator("^(101|100|[1-9][0-9]|[1-9])$");
+	studentKnowledgeRangeEditBoxStart->setInputValidator("^(101|100|[1-9][0-9]|[0-9])$");
 	studentKnowledgeRangeEditBoxStart->onReturnOrUnfocus(editBoxOnReturnOrUnfocusRange, studentKnowledgeRangeEditBoxStart,
 		studentKnowledgeRangeEditBoxEnd, studentKnowledgeRangeSlider);
 	gui.add(studentKnowledgeRangeEditBoxStart);
@@ -161,7 +161,7 @@ void setupMenu(tgui::GuiSFML& gui, sf::RenderWindow& window, std::unique_ptr<Sim
 	studentKnowledgeRangeEditBoxEnd->setText("100");
 	studentKnowledgeRangeEditBoxEnd->setSize(Layout2d(35, 25));
 	studentKnowledgeRangeEditBoxEnd->setPosition(Layout2d(135, 395));
-	studentKnowledgeRangeEditBoxEnd->setInputValidator("^(101|100|[1-9][0-9]|[1-9])$");
+	studentKnowledgeRangeEditBoxEnd->setInputValidator("^(101|100|[1-9][0-9]|[0-9])$");
 	studentKnowledgeRangeEditBoxEnd->onReturnOrUnfocus(editBoxOnReturnOrUnfocusRange, studentKnowledgeRangeEditBoxStart,
 		studentKnowledgeRangeEditBoxEnd, studentKnowledgeRangeSlider);
 	gui.add(studentKnowledgeRangeEditBoxEnd);
