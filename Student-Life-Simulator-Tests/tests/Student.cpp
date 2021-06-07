@@ -67,11 +67,11 @@ TEST(Student, StudentSleepingMove) {
 		student.move(boardSize);
 	}
 
-	/* Student is sleeping for 4 rounds
+	/* Student is sleeping for 8 rounds
 	 * at 5th round isSleeping should change to false
 	 * and student position should change
 	 */
-	ASSERT_EQ(roundsSleeping, 4 + 1);
+	ASSERT_EQ(roundsSleeping, 8 + 1);
 	ASSERT_NE(position, student.getPosition());
 }
 

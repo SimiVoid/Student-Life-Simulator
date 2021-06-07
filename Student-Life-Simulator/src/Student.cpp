@@ -99,7 +99,7 @@ void Student::drinkBeer() {
 
 void Student::nextRound() {
 	if (m_isSleeping) {
-		if (m_sleepingRounds == 4) {
+		if (m_sleepingRounds == 8) {
 			m_isSleeping = false;
 			m_sleepingRounds = 0;
 
@@ -112,7 +112,7 @@ void Student::nextRound() {
 		return;
 	}
 
-	if (m_roundsWithoutDrinking == 4) {
+	if (m_roundsWithoutDrinking == 8) {
 		m_roundsWithoutDrinking = 0;
 		if (m_intoxication != 0) {
 			m_intoxication--;
