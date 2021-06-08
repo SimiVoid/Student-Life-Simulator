@@ -208,6 +208,8 @@ xcopy /Y $(ProjectDir)gnuplot\* $(SolutionDir)Release\gnuplot\</Command>
     <ClInclude Include="src\Util.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\docs\sample-runs.md" />
+    <None Include="..\README.md" />
     <None Include="ClassDiagram.cd" />
     <None Include="resources\rcdata1.bin" />
   </ItemGroup>
