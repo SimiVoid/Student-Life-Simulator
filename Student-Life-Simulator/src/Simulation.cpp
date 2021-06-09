@@ -87,6 +87,9 @@ void Simulation::updateBoard() {
 					const auto& student = castAgentTo<Student>(agent);
 					students.emplace_back(student);
 
+					if (student->isSleeping())
+						continue;
+
 					const auto& minKnowledgeTemp = student->getKnowledge();
 					if (minKnowledgeTemp < minimumKnowledge)
 						minimumKnowledge = minKnowledgeTemp;
@@ -107,8 +110,11 @@ void Simulation::updateBoard() {
 					 * so any number above it means they will drink
 					 */
 					if (randomNumberWithinRange<uint16_t>(1, 100) > minimumKnowledge) {
-						for (const auto& student : students)
+						for (const auto& student : students) {
+							if (student->isSleeping())
+								continue;
 							student->drinkBeer();
+						}
 					}
 				}
 			}

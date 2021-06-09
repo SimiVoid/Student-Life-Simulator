@@ -79,6 +79,9 @@ void Student::acceptExamResult(const bool& hasPassed) {
 }
 
 void Student::drinkBeer() {
+	if (m_isSleeping)
+		throw std::exception("Sleeping student can't drink more!");
+
 	// If drunk beers count exceeds alcohol resistance student goes to sleep
 	if (m_intoxication == m_alcoholResistance) {
 		m_isSleeping = true;
